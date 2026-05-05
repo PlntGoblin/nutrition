@@ -103,6 +103,73 @@ export function toggleIngredient(ingredientId: string, multiplier = 1): void {
   }
 }
 
+/**
+ * Category-aware toggle. Honors:
+ *   - `selectionType: "single"` → selecting an ingredient deselects any other
+ *     ingredient in the same category first (Protein, Cheese on Forefathers).
+ *   - `maxSelections` on multi-select categories → at-limit taps are no-ops
+ *     (Veggies max 4, Sauces max 2). Phase 2 silently ignores; Phase 5 may
+ *     surface a tooltip per the in-store menu's "UP TO 4 / UP TO 2" copy.
+ *
+ * Returns whether the click changed state (used by IngredientCard for any
+ * "blocked"-state visual feedback in later phases).
+ */
+export function toggleIngredientInCategory(ingredientId: string): boolean {
+  const data = menuData.value;
+  if (!data) return false;
+  const ing = data.ingredients.find((i) => i.id === ingredientId);
+  if (!ing) return false;
+  const category = data.categories.find((c) => c.id === ing.categoryId);
+  if (!category) return false;
+
+  const isSelected = ingredientId in selections.value;
+  if (isSelected) {
+    deselectIngredient(ingredientId);
+    return true;
+  }
+
+  if (category.selectionType === "single") {
+    const next: Record<string, Selection> = {};
+    for (const [id, sel] of Object.entries(selections.value)) {
+      const otherIng = data.ingredients.find((i) => i.id === id);
+      if (otherIng && otherIng.categoryId !== category.id) {
+        next[id] = sel;
+      }
+    }
+    next[ingredientId] = { ingredientId, portionMultiplier: 1 };
+    selections.value = next;
+    return true;
+  }
+
+  if (category.maxSelections != null) {
+    const inThisCategory = Object.keys(selections.value).filter((id) => {
+      const otherIng = data.ingredients.find((i) => i.id === id);
+      return otherIng?.categoryId === category.id;
+    });
+    if (inThisCategory.length >= category.maxSelections) {
+      return false;
+    }
+  }
+
+  selectIngredient(ingredientId);
+  return true;
+}
+
+/**
+ * Count how many ingredients in a given category are currently selected.
+ * Used by IngredientGrid to show "n/max" affordance.
+ */
+export function selectedCountInCategory(categoryId: string): number {
+  const data = menuData.value;
+  if (!data) return 0;
+  let count = 0;
+  for (const id of Object.keys(selections.value)) {
+    const ing = data.ingredients.find((i) => i.id === id);
+    if (ing?.categoryId === categoryId) count++;
+  }
+  return count;
+}
+
 export function setPortion(ingredientId: string, multiplier: number): void {
   if (multiplier === 0) {
     deselectIngredient(ingredientId);

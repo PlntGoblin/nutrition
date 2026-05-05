@@ -3,14 +3,19 @@
  * via the embed snippet (PRD §10.1).
  *
  * Imports Tailwind v4, the design tokens, and animation keyframes, then sets
- * up widget-scoped resets. All Tailwind utilities are scoped under
- * `[data-nc-root]` to prevent host-page CSS bleed (PRD §17.3 — defense
- * against PopMenu's site CSS overriding widget styles).
+ * up widget-scoped resets and Phase 2 layout. All Tailwind utilities are
+ * scoped under `[data-nc-root]` to prevent host-page CSS bleed (PRD §17.3).
+ *
+ * Phase 2 styling intent: structurally complete, visually plain. The
+ * Chipotle-grade polish (animated counters, hover lift, donut chart, %DV
+ * bars, selected-card outline animation) lands in Phase 3.
  */
 
 @import "tailwindcss";
 @import "./tokens.css";
 @import "./animations.css";
+
+/* === Root reset =========================================================== */
 
 [data-nc-root] {
   font-family: var(--font-body);
@@ -18,6 +23,7 @@
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  line-height: 1.5;
 }
 
 [data-nc-root] *,
@@ -26,9 +32,368 @@
   box-sizing: border-box;
 }
 
-[data-nc-root] .nc-stub {
+[data-nc-root] button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+[data-nc-root] button:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+[data-nc-root] img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+[data-nc-root] h1,
+[data-nc-root] h2,
+[data-nc-root] h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+[data-nc-root] ol,
+[data-nc-root] ul,
+[data-nc-root] dl {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* === Layout =============================================================== */
+
+.nc-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
   padding: 24px;
-  font-family: var(--font-body);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 900px) {
+  .nc-layout {
+    grid-template-columns: 1fr 320px;
+    align-items: start;
+  }
+  .nc-totals {
+    position: sticky;
+    top: 24px;
+  }
+}
+
+.nc-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.nc-header__title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.nc-loading,
+.nc-error {
+  padding: 48px 24px;
+  text-align: center;
   color: var(--color-muted);
+}
+
+.nc-error button {
+  margin-top: 12px;
+  background: var(--color-brand);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: var(--radius-button);
+  font-weight: 600;
+}
+
+/* === Format selector ====================================================== */
+
+.nc-format-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.nc-format-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.nc-format-card:hover {
+  border-color: var(--color-ink);
+}
+
+.nc-format-card.is-active {
+  border-color: var(--color-brand);
+  background: color-mix(in srgb, var(--color-brand) 6%, var(--color-surface));
+}
+
+.nc-format-card__name {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--color-ink);
+}
+
+.nc-format-card__cal {
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+/* === Category stepper ===================================================== */
+
+.nc-stepper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nc-stepper__item {
+  flex: 1;
+  min-width: 120px;
+}
+
+.nc-stepper__btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
   font-size: 14px;
+  transition: border-color 150ms ease;
+}
+
+.nc-stepper__btn:hover {
+  border-color: var(--color-ink);
+}
+
+.nc-stepper__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--color-border);
+  color: var(--color-ink);
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.nc-stepper__item.is-complete .nc-stepper__num {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+.nc-stepper__name {
+  font-weight: 500;
+  color: var(--color-ink);
+  flex: 1;
+}
+
+.nc-stepper__count {
+  font-size: 12px;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* === Sections ============================================================= */
+
+.nc-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.nc-section__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.nc-section__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.nc-section__help {
+  font-size: 14px;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* === Ingredient grid + cards ============================================== */
+
+.nc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.nc-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition:
+    border-color 150ms ease,
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.nc-card:hover {
+  border-color: var(--color-ink);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.nc-card.is-selected {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-brand) 20%, transparent);
+}
+
+.nc-card.is-blocked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nc-card__photo {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--color-border);
+}
+
+.nc-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nc-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+}
+
+.nc-card__name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-ink);
+}
+
+.nc-card__cal {
+  font-size: 12px;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* === Totals panel ========================================================= */
+
+.nc-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.nc-totals__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.nc-totals__eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.nc-totals__count {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.nc-totals__cal {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.nc-totals__cal-num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--color-brand);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.nc-totals__cal-label {
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.nc-totals__macros {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 12px;
+}
+
+.nc-totals__macro {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.nc-totals__macro dt {
+  color: var(--color-muted);
+}
+
+.nc-totals__macro dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
 }
