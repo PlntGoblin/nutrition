@@ -95,6 +95,21 @@ board photo). Client confirmed in writing: "their colors are red, black and whit
 
 ---
 
+## 2026-05-05: Phase 1 nutrition values are USDA-derived placeholders pending client data
+
+**Context:** Phase 1 needs realistic seed data so the math in `nutrition.ts` and the unit tests are meaningful. The client said real per-serving values from Forefathers would be available "later this evening" but Phase 1 is the unblocker for Phases 2–5.
+
+**Decision:** Populate `data/seed-ingredients.json` with USDA FoodData Central averages and published per-serving values for analogous ingredients (sliced ribeye, low-moisture mozzarella, grilled bell peppers, etc.). Mark the file's `_comment` field clearly as "estimates pending client confirmation."
+
+**Rationale:** USDA values are the FDA-recommended source per PRD §9 Phase 1 task 2. They're public, free, and accurate enough that any unit test built against them stays valid even when individual numbers are swapped — the test asserts `chicken.calories adds chicken.calories`, not the literal value, so swapping the JSON later doesn't break tests.
+
+**Consequences:**
+- Phase 6 swaps these values for the client-confirmed numbers as part of the Airtable seeding script (`scripts/seed-airtable.ts`).
+- The `LastUpdated` field on each Airtable record (PRD §6) is what guests will see in the disclaimer footer; manager-edited values are authoritative.
+- Engineering does NOT edit allergen tags after Phase 1 — only the client confirms them in writing per PRD §18.7.
+
+---
+
 ## 2026-05-05: Tailwind v4 CSS-first config; `tailwind.config.ts` retained as a stub
 
 **Context:** PRD §7 requires `tailwind.config.ts` in the file structure. Tailwind v4 deprecated JS/TS config in favor of CSS `@theme` blocks.

@@ -1,17 +1,111 @@
 /**
  * Unit tests for `src/lib/nutrition.ts`.
  *
- * Phase 0: a single smoke test so `npm test` exits 0 and the runner is wired.
- * Phase 1 fills in the real coverage per PRD §9 Phase 1 task 7:
- *   - Empty bowl returns base calories only
- *   - Adding chicken adds correct macros
- *   - Portion=Double doubles that ingredient's contribution
- *   - Multiple ingredients sum correctly
+ * Covers the four cases mandated by PRD §9 Phase 1 task 7:
+ *   1. Empty bowl returns base calories only
+ *   2. Adding chicken adds correct macros
+ *   3. Portion=Double doubles that ingredient's contribution
+ *   4. Multiple ingredients sum correctly
+ *
+ * Plus two resilience cases that align with PRD §17.1 (silent recovery):
+ *   5. Selections referencing unknown ingredient IDs are skipped
+ *   6. Selections with multiplier 0 contribute nothing
+ *
+ * Test fixtures use the actual Forefathers seed data so the math under test
+ * matches what guests will see — divergence between test fixtures and
+ * production data is a common bug source.
  */
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
+import { calculateTotals } from "../src/lib/nutrition";
+import seed from "../data/seed-ingredients.json";
+import type { Ingredient, MealFormat, Selection } from "../src/types";
 
-describe("nutrition (phase 0 placeholder)", () => {
-  it("test runner is wired", () => {
-    expect(true).toBe(true);
+const formats = seed.formats as unknown as MealFormat[];
+const ingredients = seed.ingredients as unknown as Ingredient[];
+
+const cheesesteakReg = formats.find((f) => f.id === "fmt-cheesesteak-reg")!;
+const bowl = formats.find((f) => f.id === "fmt-bowl")!;
+const chicken = ingredients.find((i) => i.id === "ing-chicken")!;
+const steak = ingredients.find((i) => i.id === "ing-steak")!;
+const provolone = ingredients.find((i) => i.id === "ing-provolone")!;
+const onions = ingredients.find((i) => i.id === "ing-onions")!;
+
+function sel(id: string, multiplier = 1): Record<string, Selection> {
+  return { [id]: { ingredientId: id, portionMultiplier: multiplier } };
+}
+
+describe("calculateTotals", () => {
+  it("returns format base nutrition when no ingredients selected", () => {
+    const totals = calculateTotals(cheesesteakReg, {}, ingredients);
+    expect(totals.calories).toBe(cheesesteakReg.baseCalories);
+    expect(totals.protein_g).toBe(cheesesteakReg.baseProtein_g);
+    expect(totals.carbs_g).toBe(cheesesteakReg.baseCarbs_g);
+    expect(totals.fat_g).toBe(cheesesteakReg.baseFat_g);
+    expect(totals.sodium_mg).toBe(cheesesteakReg.baseSodium_mg);
+    // Base nutrition for the bowl is (intentionally) lower than the cheesesteak.
+    const bowlTotals = calculateTotals(bowl, {}, ingredients);
+    expect(bowlTotals.calories).toBeLessThan(totals.calories);
+  });
+
+  it("adding grilled chicken adds chicken's macros to the format base", () => {
+    const totals = calculateTotals(cheesesteakReg, sel(chicken.id), ingredients);
+    expect(totals.calories).toBe(cheesesteakReg.baseCalories + chicken.calories);
+    expect(totals.protein_g).toBe(cheesesteakReg.baseProtein_g + chicken.protein_g);
+    expect(totals.fat_g).toBe(cheesesteakReg.baseFat_g + chicken.fat_g);
+    expect(totals.sodium_mg).toBe(cheesesteakReg.baseSodium_mg + chicken.sodium_mg);
+  });
+
+  it("portion=Double doubles that ingredient's contribution (and only that one)", () => {
+    const single = calculateTotals(cheesesteakReg, sel(steak.id, 1), ingredients);
+    const doubled = calculateTotals(cheesesteakReg, sel(steak.id, 2), ingredients);
+    // Format base contributes once in both; the steak contribution doubles.
+    expect(doubled.calories - cheesesteakReg.baseCalories).toBe(
+      (single.calories - cheesesteakReg.baseCalories) * 2,
+    );
+    expect(doubled.protein_g - cheesesteakReg.baseProtein_g).toBe(
+      (single.protein_g - cheesesteakReg.baseProtein_g) * 2,
+    );
+  });
+
+  it("multiple ingredients sum correctly (steak + provolone + onions on bowl)", () => {
+    const selections = {
+      ...sel(steak.id),
+      ...sel(provolone.id),
+      ...sel(onions.id),
+    };
+    const totals = calculateTotals(bowl, selections, ingredients);
+
+    const expectedCalories =
+      bowl.baseCalories + steak.calories + provolone.calories + onions.calories;
+    const expectedProtein =
+      bowl.baseProtein_g + steak.protein_g + provolone.protein_g + onions.protein_g;
+    const expectedSodium =
+      bowl.baseSodium_mg +
+      steak.sodium_mg +
+      provolone.sodium_mg +
+      onions.sodium_mg;
+
+    expect(totals.calories).toBeCloseTo(expectedCalories, 5);
+    expect(totals.protein_g).toBeCloseTo(expectedProtein, 5);
+    expect(totals.sodium_mg).toBeCloseTo(expectedSodium, 5);
+  });
+
+  it("skips selections referencing unknown ingredient IDs (PRD §17.1)", () => {
+    const totals = calculateTotals(
+      cheesesteakReg,
+      {
+        ...sel(chicken.id),
+        ...sel("ing-does-not-exist"),
+      },
+      ingredients,
+    );
+    // Unknown ID contributed nothing; result equals chicken-only build.
+    const chickenOnly = calculateTotals(cheesesteakReg, sel(chicken.id), ingredients);
+    expect(totals.calories).toBe(chickenOnly.calories);
+  });
+
+  it("treats portion=0 as 'not selected' and contributes nothing", () => {
+    const totals = calculateTotals(cheesesteakReg, sel(chicken.id, 0), ingredients);
+    expect(totals.calories).toBe(cheesesteakReg.baseCalories);
   });
 });

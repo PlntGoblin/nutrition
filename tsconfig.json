@@ -18,7 +18,7 @@
     "isolatedModules": true,
     "verbatimModuleSyntax": false,
     "useDefineForClassFields": true,
-    "types": ["node", "vitest/globals"],
+    "types": ["node", "vite/client", "vitest/globals"],
     "paths": {
       "react": ["./node_modules/preact/compat/"],
       "react-dom": ["./node_modules/preact/compat/"]

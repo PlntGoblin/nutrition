@@ -55,7 +55,7 @@ This project is built in eight phases (plus a 8.5 polish buffer) per PRD §9.
 Status:
 
 - [x] **Phase 0** — Setup & scaffolding
-- [ ] Phase 1 — Data layer & seed data
+- [x] **Phase 1** — Data layer & seed data
 - [ ] Phase 2 — Core builder UI
 - [ ] Phase 3 — Visual polish & theming
 - [ ] Phase 4 — Mobile UX (bottom sheet)
