@@ -27,6 +27,7 @@ import { IngredientGrid } from "./components/IngredientGrid";
 import { TotalsPanel } from "./components/TotalsPanel";
 import { DisclaimerFooter } from "./components/DisclaimerFooter";
 import { LoadingSkeleton } from "./components/LoadingSkeleton";
+import { BottomSheet } from "./components/BottomSheet";
 
 interface AppProps {
   host: HTMLElement;
@@ -123,6 +124,9 @@ export function App(_props: AppProps): JSX.Element {
           <DisclaimerFooter />
         </div>
       </main>
+
+      {/* Mobile-only sticky bottom sheet — hidden via CSS on desktop. */}
+      <BottomSheet />
     </div>
   );
 }

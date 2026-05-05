@@ -70,11 +70,14 @@ export function TotalsPanel({ variant = "hero" }: TotalsPanelProps): JSX.Element
         </span>
       </header>
 
-      <div class="nc-totals__cal">
-        <span class="nc-totals__cal-num" aria-live="polite">
-          {Math.round(animatedCal)}
-        </span>
-        <span class="nc-totals__cal-label">calories</span>
+      <div class="nc-totals__top">
+        <MacroRing />
+        <div class="nc-totals__cal">
+          <span class="nc-totals__cal-num" aria-live="polite">
+            {Math.round(animatedCal)}
+          </span>
+          <span class="nc-totals__cal-label">calories</span>
+        </div>
       </div>
 
       <dl class="nc-totals__macros">
@@ -103,6 +106,8 @@ export function TotalsPanel({ variant = "hero" }: TotalsPanelProps): JSX.Element
           <dd>{Math.round(t.sodium_mg)} mg</dd>
         </div>
       </dl>
+
+      <DailyValueBar />
     </aside>
   );
 }
