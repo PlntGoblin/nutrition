@@ -1,0 +1,9 @@
+{
+  "_comment": "Phase 0 stub. Phase 1 populates this with the Forefathers Steaks menu (2 formats, 4 categories, ~18 ingredients) keyed to PRD §6 Airtable schema. Bowl baseCalories will reflect the cabbage-kale slaw; Cheesesteak Regular/Large will reflect hoagie roll size.",
+  "lastUpdated": "1970-01-01T00:00:00Z",
+  "formats": [],
+  "categories": [],
+  "ingredients": [],
+  "portionOptions": [],
+  "presets": []
+}

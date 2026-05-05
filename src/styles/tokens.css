@@ -1,0 +1,53 @@
+/**
+ * Design tokens — the single source of truth for color, typography, spacing,
+ * radius, and shadow. Tailwind v4's `@theme` block exposes these as utility
+ * classes (e.g. `bg-brand`, `text-ink`).
+ *
+ * Defaults reflect the Forefathers Steaks brand: red, black, white. Exact
+ * brand red is inferred from the menu photo + client confirmation; refine
+ * against the official brand guide before launch (see DECISIONS.md).
+ *
+ * Per PRD §10.2, hosts can override `--nc-color-brand` and `--nc-color-accent`
+ * via `data-brand-color` / `data-accent-color` attributes on the mount node.
+ */
+
+@theme {
+  /* === Brand === */
+  --color-brand: #c8102e;        /* American steakhouse red — WCAG AA on white */
+  --color-accent: #1a1a1a;       /* Black accent */
+
+  /* === Neutrals === */
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-ink: #1a1a1a;
+  --color-muted: #6b6b6b;
+  --color-border: #e5e0d8;
+
+  /* === Semantic === */
+  --color-success: #3f8f4d;
+  --color-warning: #d97706;
+  --color-error: #b91c1c;
+  --color-allergen: #b91c1c;
+
+  /* === Shadow === */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  /* === Radius === */
+  --radius-card: 16px;
+  --radius-button: 12px;
+  --radius-chip: 999px;
+
+  /* === Typography === */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+[data-theme="dark"] {
+  --color-bg: #14110d;
+  --color-surface: #1f1b16;
+  --color-ink: #f5f1ea;
+  --color-muted: #9a938a;
+  --color-border: #2d2822;
+}

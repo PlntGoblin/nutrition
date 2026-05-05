@@ -1,0 +1,20 @@
+/**
+ * Keyframe animations and motion-related rules.
+ *
+ * Phase 0 stub. Real animations land in Phase 3 per PRD §9 — selection
+ * feedback (200 ms scale + outline), counter spring physics, donut chart
+ * pathLength transitions, etc.
+ *
+ * `prefers-reduced-motion: reduce` overrides also live here (PRD §8.5).
+ */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-nc-root] *,
+  [data-nc-root] *::before,
+  [data-nc-root] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

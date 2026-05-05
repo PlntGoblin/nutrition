@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Nutrition Calculator — Embed Test Harness</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+        background: #f7f7f7;
+        padding: 32px 16px;
+      }
+      .host {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .host h1 {
+        margin: 0 0 16px;
+        font-size: 18px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="host">
+      <h1>Forefathers Steaks — Nutrition Calculator (dev harness)</h1>
+      <!-- Widget mount node — matches the 3-line embed snippet (PRD §10.1). -->
+      <div
+        id="nutrition-calculator"
+        data-theme="auto"
+        data-brand-color="#C8102E"
+        data-accent-color="#1A1A1A"
+      ></div>
+    </div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>

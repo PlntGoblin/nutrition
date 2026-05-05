@@ -1,0 +1,34 @@
+/**
+ * Base stylesheet — bundled into `calculator.css` and loaded by the host page
+ * via the embed snippet (PRD §10.1).
+ *
+ * Imports Tailwind v4, the design tokens, and animation keyframes, then sets
+ * up widget-scoped resets. All Tailwind utilities are scoped under
+ * `[data-nc-root]` to prevent host-page CSS bleed (PRD §17.3 — defense
+ * against PopMenu's site CSS overriding widget styles).
+ */
+
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./animations.css";
+
+[data-nc-root] {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+[data-nc-root] *,
+[data-nc-root] *::before,
+[data-nc-root] *::after {
+  box-sizing: border-box;
+}
+
+[data-nc-root] .nc-stub {
+  padding: 24px;
+  font-family: var(--font-body);
+  color: var(--color-muted);
+  font-size: 14px;
+}
