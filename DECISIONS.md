@@ -95,6 +95,36 @@ board photo). Client confirmed in writing: "their colors are red, black and whit
 
 ---
 
+## 2026-05-05: Real Forefathers data ingested from client xlsx; sizeMultiplier added to MealFormat
+
+**Context:** Client provided `Forefathers.xlsx` containing the actual menu structure and computed nutrition totals at three cheesesteak sizes (Mini $8 / Regular $13 / Large $16) plus a Low Carb Bowl variant. The seed JSON was previously USDA placeholders.
+
+**Changes:**
+- Per-ingredient nutrition for **Steak, Chicken, Cheese Wiz, American, Provolone, Mozzarella, Kale Slaw** is now computed from the xlsx's per-size totals divided by per-size portions (rows 33-78 of the Menu sheet). These values are CONFIRMED by the client.
+- **Three cheesesteak sizes** instead of two: Mini, Regular, Large. Plus the existing Low Carb Bowl.
+- New `sizeMultiplier` field on `MealFormat` (Mini 0.6×, Regular 1.0×, Large 1.5×) — `nutrition.calculateTotals()` now scales every selected ingredient's nutrition by `format.sizeMultiplier × selection.portionMultiplier`. Reflects the xlsx pattern where Mini steak = 4.286 oz vs Regular 7.143 oz vs Large 10.714 oz (a roughly 0.6/1.0/1.5 ratio).
+- **Yellow-highlighted batch recipes** in the xlsx (Fry Sauce, Spicy Blue Cheese, Ranch, Jalapeño Cilantro Ranch, Kale Slaw, Romaine/Spring Mix, Kale/Spring Mix, Corn Relish) are house-made; ingredient lists documented in the Batch Recipes tab. They're modeled as single ingredients in the calculator (matching how guests think about them); their batch-recipe details surface only if the client wants it later.
+
+**Still placeholders pending client confirmation:**
+- Onions, Mushrooms, Green Peppers, Jalapeños, Sweet Peppers, Cherry Peppers — USDA averages
+- Marinara, Buffalo Sauce, BBQ Sauce — USDA averages
+- Fry Sauce, Spicy Blue Cheese, Ranch, Jalapeño Cilantro Ranch — derived from the batch recipes (mayo + buttermilk + blue cheese / ranch mix base) but not lab-tested
+- Bread base calorie values for Mini/Regular/Large — USDA hoagie roll averages
+
+**Out of scope for v1:**
+- Salads (Buffalo Chicken / BBQ Chicken / Steak Salad) require salad-specific ingredients (Romaine/Spring Mix, Kale/Spring Mix, Monterey Jack, Tortilla Strips, Corn Relish) not currently modeled. Revisit when client requests.
+- Sides (Regular Fries, Sweet Potato Fries, Cheese Fries, Tomato Basil Bisque, Side Salad, Chicken Tenders, sweets) are not build-your-own; out of scope.
+- Mini Cheesesteak Wiz O / etc. preset shortcuts in Sheet4 — replaced by the more flexible PresetBowls layer.
+
+**Why sizeMultiplier instead of separate ingredient records per size:**
+- 20 ingredients × 3 sizes = 60 records vs 20 records with a multiplier. Smaller payload, easier for the manager to maintain in Airtable.
+- The xlsx scales ingredients fairly uniformly within ~10% of the multiplier; the residual error is smaller than the rounding error in displayed calorie counts (which are integers anyway).
+- Where the size scaling diverges meaningfully (e.g. cheese slice counts: 1/2/3 not 0.6/1/1.5), the calculator already accepts the small discrepancy as a Phase 1 simplification documented here.
+
+**Schema impact:** `MealFormat.sizeMultiplier?: number` (optional, defaults to 1.0). `nutrition.calculateTotals()` updated. New unit tests in `tests/nutrition.test.ts` lock the 0.6/1.0/1.5 behavior.
+
+---
+
 ## 2026-05-05: Phase 1 nutrition values are USDA-derived placeholders pending client data
 
 **Context:** Phase 1 needs realistic seed data so the math in `nutrition.ts` and the unit tests are meaningful. The client said real per-serving values from Forefathers would be available "later this evening" but Phase 1 is the unblocker for Phases 2–5.

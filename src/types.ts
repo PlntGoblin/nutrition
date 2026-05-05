@@ -82,6 +82,14 @@ export interface MealFormat {
   baseCarbs_g: number;
   baseFat_g: number;
   baseSodium_mg: number;
+  /**
+   * Portion-size multiplier applied to every selected ingredient's nutrition
+   * (PRD §5.3 client-side math layer). For Forefathers: Mini = 0.6×, Regular
+   * = 1.0×, Large = 1.5× — pulled from the per-size portion table in the
+   * client-provided spreadsheet (Mini steak = 4.286oz vs Regular 7.143oz).
+   * Optional; defaults to 1.0 when absent.
+   */
+  sizeMultiplier?: number;
   /** IDs of categories that apply to this format. */
   includedCategoryIds: string[];
   heroImage: string;

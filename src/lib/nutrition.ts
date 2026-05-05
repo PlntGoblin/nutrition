@@ -56,11 +56,17 @@ export function calculateTotals(
     sodium_mg: format.baseSodium_mg,
   };
 
+  // Format-level size multiplier scales all ingredient contributions
+  // proportionally (Mini = 0.6×, Regular = 1.0×, Large = 1.5× for
+  // Forefathers — matches the per-size portion table in the client xlsx).
+  const sizeMul = format.sizeMultiplier ?? 1;
+
   for (const sel of Object.values(selections)) {
     const ing = ingredientById.get(sel.ingredientId);
     if (!ing) continue;
-    const m = sel.portionMultiplier;
-    if (m <= 0) continue;
+    const portionMul = sel.portionMultiplier;
+    if (portionMul <= 0) continue;
+    const m = portionMul * sizeMul;
     totals.calories += ing.calories * m;
     totals.protein_g += ing.protein_g * m;
     totals.carbs_g += ing.carbs_g * m;

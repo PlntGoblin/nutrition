@@ -108,4 +108,30 @@ describe("calculateTotals", () => {
     const totals = calculateTotals(cheesesteakReg, sel(chicken.id, 0), ingredients);
     expect(totals.calories).toBe(cheesesteakReg.baseCalories);
   });
+
+  it("Mini cheesesteak scales ingredient nutrition by sizeMultiplier (0.6×)", () => {
+    const mini = formats.find((f) => f.id === "fmt-cheesesteak-mini")!;
+    const reg = cheesesteakReg;
+    expect(mini.sizeMultiplier).toBe(0.6);
+    const miniTotals = calculateTotals(mini, sel(steak.id), ingredients);
+    const regTotals = calculateTotals(reg, sel(steak.id), ingredients);
+    // Strip out base (which differs) — compare just the ingredient contribution.
+    const miniContribution = miniTotals.calories - mini.baseCalories;
+    const regContribution = regTotals.calories - reg.baseCalories;
+    expect(miniContribution).toBeCloseTo(regContribution * 0.6, 5);
+    expect(miniTotals.protein_g - mini.baseProtein_g).toBeCloseTo(
+      (regTotals.protein_g - reg.baseProtein_g) * 0.6,
+      5,
+    );
+  });
+
+  it("Large cheesesteak scales ingredient nutrition by sizeMultiplier (1.5×)", () => {
+    const large = formats.find((f) => f.id === "fmt-cheesesteak-lg")!;
+    expect(large.sizeMultiplier).toBe(1.5);
+    const largeTotals = calculateTotals(large, sel(steak.id), ingredients);
+    const regTotals = calculateTotals(cheesesteakReg, sel(steak.id), ingredients);
+    const largeContribution = largeTotals.calories - large.baseCalories;
+    const regContribution = regTotals.calories - cheesesteakReg.baseCalories;
+    expect(largeContribution).toBeCloseTo(regContribution * 1.5, 5);
+  });
 });
