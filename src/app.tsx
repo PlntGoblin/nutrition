@@ -1,12 +1,15 @@
 /**
- * Root component — composes the Phase 2 builder UI.
+ * Root component — Phase 3 layout.
  *
- * Layout: format selector + category stepper across the top, scrollable
- * category sections in the main column, totals panel on the right (desktop)
- * stacked below on mobile. The mobile bottom-sheet split lands in Phase 4.
+ * Mirrors the structural pattern Chipotle's calculator uses (hero band with
+ * eyebrow + giant display title + inline horizontal totals; vertical
+ * typographic format list; large category sections below) and adapts it for
+ * Forefathers' brand voice — red script-style headers, deep contrast type,
+ * generous whitespace.
  *
- * Loads menu data on mount via `fetchMenu()` (returns seed JSON in dev,
- * Cloudflare Worker payload in prod).
+ * The hero is sticky at the top of the widget so guests always see their
+ * live totals as they scroll through the build steps. This replaces the
+ * Phase 2 right-rail card.
  */
 import type { JSX } from "preact";
 import { useEffect } from "preact/hooks";
@@ -22,6 +25,8 @@ import { CategoryStepper } from "./components/CategoryStepper";
 import { FormatSelector } from "./components/FormatSelector";
 import { IngredientGrid } from "./components/IngredientGrid";
 import { TotalsPanel } from "./components/TotalsPanel";
+import { DisclaimerFooter } from "./components/DisclaimerFooter";
+import { LoadingSkeleton } from "./components/LoadingSkeleton";
 
 interface AppProps {
   host: HTMLElement;
@@ -53,18 +58,45 @@ export function App(_props: AppProps): JSX.Element {
   }
 
   if (!menuData.value) {
-    return <div class="nc-loading">Loading menu…</div>;
+    return <LoadingSkeleton />;
   }
 
   const sortedCategories = [...categories.value].sort((a, b) => a.step - b.step);
 
   return (
-    <div class="nc-layout">
-      <div class="nc-main">
-        <header class="nc-header">
-          <h1 class="nc-header__title">Build your cheesesteak</h1>
-        </header>
+    <div class="nc-shell">
+      {/* Sticky hero — title on the left, live totals on the right. */}
+      <header class="nc-hero">
+        <div class="nc-hero__inner">
+          <div class="nc-hero__copy">
+            <p class="nc-eyebrow">Calculate</p>
+            <h1 class="nc-hero__title">Nutrition</h1>
+            <p class="nc-hero__lede">
+              Build your calorie, carb and nutrition information based on your
+              selected meal below using the nutrition calculator.
+            </p>
+            <a
+              href="#nc-disclaimer"
+              class="nc-hero__allergen-link"
+              onClick={(e) => {
+                e.preventDefault();
+                document
+                  .getElementById("nc-disclaimer")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              Allergen Statement
+            </a>
+          </div>
+          <div class="nc-hero__rail">
+            <TotalsPanel variant="hero" />
+          </div>
+        </div>
+      </header>
+
+      <main class="nc-body">
         <FormatSelector />
+
         <CategoryStepper />
 
         <div class="nc-sections">
@@ -76,8 +108,9 @@ export function App(_props: AppProps): JSX.Element {
               aria-labelledby={`nc-section-${cat.id}-h`}
             >
               <header class="nc-section__header">
+                <p class="nc-eyebrow">Step {cat.step}</p>
                 <h2 id={`nc-section-${cat.id}-h`} class="nc-section__title">
-                  Step {cat.step} — {cat.name}
+                  {cat.name}
                 </h2>
                 {cat.helpText && <p class="nc-section__help">{cat.helpText}</p>}
               </header>
@@ -85,9 +118,11 @@ export function App(_props: AppProps): JSX.Element {
             </section>
           ))}
         </div>
-      </div>
 
-      <TotalsPanel />
+        <div id="nc-disclaimer">
+          <DisclaimerFooter />
+        </div>
+      </main>
     </div>
   );
 }

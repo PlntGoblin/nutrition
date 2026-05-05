@@ -1,12 +1,35 @@
 /**
  * Keyframe animations and motion-related rules.
  *
- * Phase 0 stub. Real animations land in Phase 3 per PRD §9 — selection
- * feedback (200 ms scale + outline), counter spring physics, donut chart
- * pathLength transitions, etc.
- *
- * `prefers-reduced-motion: reduce` overrides also live here (PRD §8.5).
+ * `prefers-reduced-motion: reduce` overrides at the bottom (PRD §8.5):
+ * disables card hover lift, pulsing selected outline, ring transitions,
+ * and the rAF-driven calorie counter (handled in `useAnimatedNumber`).
  */
+
+/* Subtle pulse on the selected card outline — runs once per selection. */
+@keyframes nc-select-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-brand) 40%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-brand) 0%, transparent);
+  }
+}
+
+[data-nc-root] .nc-card.is-selected::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: nc-select-pulse 600ms ease-out 1;
+}
+
+[data-nc-root] .nc-card {
+  position: relative;
+}
+
+/* === Reduced motion ======================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   [data-nc-root] *,
@@ -16,5 +39,11 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  [data-nc-root] .nc-card:hover {
+    transform: none !important;
+  }
+  [data-nc-root] .nc-card:hover .nc-card__photo img {
+    transform: none !important;
   }
 }

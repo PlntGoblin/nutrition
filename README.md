@@ -56,8 +56,8 @@ Status:
 
 - [x] **Phase 0** — Setup & scaffolding
 - [x] **Phase 1** — Data layer & seed data
-- [ ] Phase 2 — Core builder UI
-- [ ] Phase 3 — Visual polish & theming
+- [x] **Phase 2** — Core builder UI
+- [x] **Phase 3** — Visual polish & theming
 - [ ] Phase 4 — Mobile UX (bottom sheet)
 - [ ] Phase 5 — Filters, allergens, share URL
 - [ ] Phase 6 — Cloudflare Worker + Airtable + Cloudinary mirror
