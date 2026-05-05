@@ -21,6 +21,20 @@ import {
   setDietFilters,
 } from "../lib/store";
 
+interface LifestylePreset {
+  id: string;
+  label: string;
+  diets: DietTag[];
+  excludeAllergens: AllergenTag[];
+}
+
+const LIFESTYLE_PRESETS: LifestylePreset[] = [
+  { id: "high-protein", label: "High Protein", diets: ["highprotein"], excludeAllergens: [] },
+  { id: "light", label: "Light", diets: ["lowcarb"], excludeAllergens: [] },
+  { id: "keto", label: "Keto", diets: ["keto"], excludeAllergens: [] },
+  { id: "vegetarian", label: "Vegetarian", diets: ["vegetarian"], excludeAllergens: [] },
+];
+
 interface DietChip {
   id: DietTag;
   label: string;
@@ -78,6 +92,34 @@ export function FilterChips(): JSX.Element {
   return (
     <section class="nc-filters" aria-labelledby="nc-filters-eyebrow">
       <p id="nc-filters-eyebrow" class="nc-eyebrow">Dietary filters</p>
+      <div class="nc-filters__group nc-filters__lifestyle" role="group" aria-label="Lifestyle presets">
+        {LIFESTYLE_PRESETS.map((preset) => {
+          const isActive =
+            preset.diets.every((d) => activeDiets.has(d)) &&
+            preset.excludeAllergens.every((a) => activeAllergens.has(a)) &&
+            activeDiets.size === preset.diets.length &&
+            activeAllergens.size === preset.excludeAllergens.length;
+          return (
+            <button
+              key={preset.id}
+              type="button"
+              class={`nc-chip nc-chip--lifestyle${isActive ? " is-active" : ""}`}
+              aria-pressed={isActive}
+              onClick={() => {
+                if (isActive) {
+                  setDietFilters([]);
+                  setAllergenExclusions([]);
+                } else {
+                  setDietFilters(preset.diets);
+                  setAllergenExclusions(preset.excludeAllergens);
+                }
+              }}
+            >
+              {preset.label}
+            </button>
+          );
+        })}
+      </div>
       <div class="nc-filters__group" role="group" aria-label="Diet">
         {DIET_CHIPS.map((chip) => {
           const isActive = activeDiets.has(chip.id);

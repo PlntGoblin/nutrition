@@ -12,6 +12,7 @@
  */
 import { render } from "preact";
 import { App } from "./app";
+import { applyTheme, readHostMode, readStoredMode } from "./lib/theme";
 import "./styles/base.css";
 
 const MOUNT_SELECTOR = "#nutrition-calculator";
@@ -25,6 +26,9 @@ function mount(): void {
     return;
   }
   host.setAttribute("data-nc-root", "");
+  // Apply theme synchronously before first render to avoid a flash.
+  const initialMode = readStoredMode() ?? readHostMode(host);
+  applyTheme(host, initialMode);
   render(<App host={host} />, host);
 }
 

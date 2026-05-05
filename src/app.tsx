@@ -30,6 +30,7 @@ import { FilterChips } from "./components/FilterChips";
 import { FormatSelector } from "./components/FormatSelector";
 import { IngredientGrid } from "./components/IngredientGrid";
 import { LoadingSkeleton } from "./components/LoadingSkeleton";
+import { PresetGallery } from "./components/PresetGallery";
 import { ShareButton } from "./components/ShareButton";
 import { TotalsPanel } from "./components/TotalsPanel";
 
@@ -139,6 +140,8 @@ export function App(_props: AppProps): JSX.Element {
 
       <main class="nc-body">
         <FormatSelector />
+
+        <PresetGallery />
 
         <FilterChips />
 

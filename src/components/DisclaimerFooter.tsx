@@ -8,6 +8,7 @@
  */
 import type { JSX } from "preact";
 import { menuData } from "../lib/store";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function DisclaimerFooter(): JSX.Element {
   const lastUpdated = menuData.value?.lastUpdated;
@@ -21,12 +22,15 @@ export function DisclaimerFooter(): JSX.Element {
 
   return (
     <footer class="nc-disclaimer">
-      <p>
-        Nutrition and allergen information is provided as a guide and may not
-        reflect ingredient changes or cross-contact during preparation. Values
-        are estimates and may vary by preparation. If you have a severe
-        allergy, please speak with a manager before ordering.
-      </p>
+      <div class="nc-disclaimer__top">
+        <p>
+          Nutrition and allergen information is provided as a guide and may not
+          reflect ingredient changes or cross-contact during preparation. Values
+          are estimates and may vary by preparation. If you have a severe
+          allergy, please speak with a manager before ordering.
+        </p>
+        <ThemeToggle />
+      </div>
       {formattedDate && (
         <p class="nc-disclaimer__updated">Last updated: {formattedDate}</p>
       )}

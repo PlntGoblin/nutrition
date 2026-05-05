@@ -16,6 +16,8 @@ import {
   selections,
   toggleIngredientInCategory,
 } from "../lib/store";
+import { track } from "../lib/analytics";
+import { PortionStepper } from "./PortionStepper";
 
 interface IngredientCardProps {
   ingredient: Ingredient;
@@ -85,7 +87,14 @@ export function IngredientCard({
   return (
     <button
       type="button"
-      onClick={() => toggleIngredientInCategory(ingredient.id)}
+      onClick={() => {
+        const wasSelected = ingredient.id in selections.value;
+        toggleIngredientInCategory(ingredient.id);
+        track(wasSelected ? "ingredient_removed" : "ingredient_added", {
+          id: ingredient.id,
+          category: ingredient.categoryId,
+        });
+      }}
       aria-pressed={isSelected}
       aria-disabled={blocked && !isSelected ? true : undefined}
       title={tooltip}
@@ -106,6 +115,7 @@ export function IngredientCard({
         <span class="nc-card__name">{ingredient.name}</span>
         <span class="nc-card__cal">{ingredient.calories} cal</span>
         <AllergenTags allergens={ingredient.allergens} />
+        {isSelected && <PortionStepper ingredient={ingredient} />}
       </div>
     </button>
   );

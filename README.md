@@ -60,8 +60,8 @@ Status:
 - [x] **Phase 3** — Visual polish & theming
 - [x] **Phase 4** — Mobile UX (bottom sheet)
 - [x] **Phase 5** — Filters, allergens, share URL
-- [ ] Phase 6 — Cloudflare Worker + Airtable + Cloudinary mirror
-- [ ] Phase 7 — Premium features (P1)
+- [ ] Phase 6 — Cloudflare Worker + Airtable + Cloudinary mirror **(needs your accounts)**
+- [x] **Phase 7** — Premium features (P1)
 - [ ] Phase 8 — Performance + accessibility + final polish
 - [ ] Phase 8.5 — Bug fix, polish & stakeholder sign-off
 

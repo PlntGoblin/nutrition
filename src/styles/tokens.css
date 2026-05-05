@@ -44,10 +44,13 @@
   --font-mono: "JetBrains Mono", monospace;
 }
 
-[data-theme="dark"] {
+[data-nc-root][data-theme="dark"],
+[data-theme="dark"] [data-nc-root] {
   --color-bg: #14110d;
   --color-surface: #1f1b16;
   --color-ink: #f5f1ea;
   --color-muted: #9a938a;
   --color-border: #2d2822;
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.45);
 }

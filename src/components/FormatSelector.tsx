@@ -7,6 +7,7 @@
  */
 import type { JSX } from "preact";
 import { formats, selectedFormatId, setFormat } from "../lib/store";
+import { track } from "../lib/analytics";
 
 export function FormatSelector(): JSX.Element {
   const list = formats.value;
@@ -28,7 +29,10 @@ export function FormatSelector(): JSX.Element {
               type="button"
               role="radio"
               aria-checked={isActive}
-              onClick={() => setFormat(fmt.id)}
+              onClick={() => {
+                setFormat(fmt.id);
+                track("format_selected", { id: fmt.id, name: fmt.name });
+              }}
               class={`nc-format-row${isActive ? " is-active" : ""}`}
             >
               <span class="nc-format-row__name">{fmt.name}</span>
