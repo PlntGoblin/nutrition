@@ -28,6 +28,8 @@ import type {
   Selection,
 } from "../types";
 import { calculateTotals, EMPTY_TOTALS } from "./nutrition";
+import { applyFilters, findAllergenViolations } from "./filters";
+import type { AllergenViolation } from "./filters";
 
 // === Raw signals ===========================================================
 
@@ -65,6 +67,20 @@ export const totals = computed<NutritionTotals>(() => {
 export const selectionCount = computed<number>(
   () => Object.keys(selections.value).length,
 );
+
+/**
+ * Allergen violations in the current build (intersection of selected
+ * ingredient allergens with active exclusion filters). Empty array when
+ * no exclusions are active or no conflicts exist.
+ */
+export const allergenViolations = computed<AllergenViolation[]>(() =>
+  findAllergenViolations(selections.value, ingredients.value, activeFilters.value),
+);
+
+/** True when an ingredient is filtered-out by the active diet/allergen filters. */
+export function isIngredientFilteredOut(ingredient: Ingredient): boolean {
+  return !applyFilters(ingredient, activeFilters.value);
+}
 
 // === Mutations =============================================================
 

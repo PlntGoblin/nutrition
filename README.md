@@ -59,7 +59,7 @@ Status:
 - [x] **Phase 2** — Core builder UI
 - [x] **Phase 3** — Visual polish & theming
 - [x] **Phase 4** — Mobile UX (bottom sheet)
-- [ ] Phase 5 — Filters, allergens, share URL
+- [x] **Phase 5** — Filters, allergens, share URL
 - [ ] Phase 6 — Cloudflare Worker + Airtable + Cloudinary mirror
 - [ ] Phase 7 — Premium features (P1)
 - [ ] Phase 8 — Performance + accessibility + final polish

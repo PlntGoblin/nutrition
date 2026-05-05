@@ -1,50 +1,90 @@
 /**
- * Root component — Phase 3 layout.
+ * Root component — Phase 5 layout.
  *
- * Mirrors the structural pattern Chipotle's calculator uses (hero band with
- * eyebrow + giant display title + inline horizontal totals; vertical
- * typographic format list; large category sections below) and adapts it for
- * Forefathers' brand voice — red script-style headers, deep contrast type,
- * generous whitespace.
+ * Adds: filter chips, allergen-violation warning, share button, URL-hash
+ * round-trip (decode on mount, debounced encode on selection change).
  *
- * The hero is sticky at the top of the widget so guests always see their
- * live totals as they scroll through the build steps. This replaces the
- * Phase 2 right-rail card.
+ * Hero structure preserved from Phase 3; format selector + filter chips
+ * + stepper + sections layered under it; bottom sheet for mobile.
  */
 import type { JSX } from "preact";
-import { useEffect } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
+import { effect } from "@preact/signals";
 import { fetchMenu } from "./lib/api";
 import {
   categories,
   isLoading,
   loadError,
   menuData,
+  selectedFormatId,
+  selections,
   setMenu,
+  setFormat,
 } from "./lib/store";
+import { writeHash, decodeBuild } from "./lib/url-state";
+import { AllergenWarning } from "./components/AllergenWarning";
+import { BottomSheet } from "./components/BottomSheet";
 import { CategoryStepper } from "./components/CategoryStepper";
+import { DisclaimerFooter } from "./components/DisclaimerFooter";
+import { FilterChips } from "./components/FilterChips";
 import { FormatSelector } from "./components/FormatSelector";
 import { IngredientGrid } from "./components/IngredientGrid";
-import { TotalsPanel } from "./components/TotalsPanel";
-import { DisclaimerFooter } from "./components/DisclaimerFooter";
 import { LoadingSkeleton } from "./components/LoadingSkeleton";
-import { BottomSheet } from "./components/BottomSheet";
+import { ShareButton } from "./components/ShareButton";
+import { TotalsPanel } from "./components/TotalsPanel";
 
 interface AppProps {
   host: HTMLElement;
 }
 
+const HASH_DEBOUNCE_MS = 500;
+
 export function App(_props: AppProps): JSX.Element {
+  // Track whether we've finished the initial "decode hash" pass; we don't
+  // want to write to the hash before that (would erase the incoming state).
+  const hasHydrated = useRef(false);
+
   useEffect(() => {
     isLoading.value = true;
     loadError.value = null;
     fetchMenu()
-      .then((data) => setMenu(data))
+      .then((data) => {
+        setMenu(data);
+        // Hydrate from URL hash if present.
+        const decoded = decodeBuild(window.location.hash, data);
+        if (decoded.formatId) {
+          setFormat(decoded.formatId);
+        }
+        if (Object.keys(decoded.selections).length > 0) {
+          selections.value = decoded.selections;
+        }
+        hasHydrated.current = true;
+      })
       .catch((err: unknown) => {
         loadError.value = err instanceof Error ? err : new Error(String(err));
       })
       .finally(() => {
         isLoading.value = false;
       });
+  }, []);
+
+  // Debounced URL-hash writes when selections or format change.
+  useEffect(() => {
+    let timer: number | null = null;
+    const dispose = effect(() => {
+      // Subscribe to both signals.
+      const fmt = selectedFormatId.value;
+      const sel = selections.value;
+      if (!hasHydrated.current) return;
+      if (timer != null) window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        writeHash({ formatId: fmt, selections: sel });
+      }, HASH_DEBOUNCE_MS);
+    });
+    return () => {
+      dispose();
+      if (timer != null) window.clearTimeout(timer);
+    };
   }, []);
 
   if (loadError.value) {
@@ -66,7 +106,6 @@ export function App(_props: AppProps): JSX.Element {
 
   return (
     <div class="nc-shell">
-      {/* Sticky hero — title on the left, live totals on the right. */}
       <header class="nc-hero">
         <div class="nc-hero__inner">
           <div class="nc-hero__copy">
@@ -76,18 +115,21 @@ export function App(_props: AppProps): JSX.Element {
               Build your calorie, carb and nutrition information based on your
               selected meal below using the nutrition calculator.
             </p>
-            <a
-              href="#nc-disclaimer"
-              class="nc-hero__allergen-link"
-              onClick={(e) => {
-                e.preventDefault();
-                document
-                  .getElementById("nc-disclaimer")
-                  ?.scrollIntoView({ behavior: "smooth" });
-              }}
-            >
-              Allergen Statement
-            </a>
+            <div class="nc-hero__actions">
+              <ShareButton />
+              <a
+                href="#nc-disclaimer"
+                class="nc-hero__allergen-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document
+                    .getElementById("nc-disclaimer")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Allergen Statement
+              </a>
+            </div>
           </div>
           <div class="nc-hero__rail">
             <TotalsPanel variant="hero" />
@@ -97,6 +139,10 @@ export function App(_props: AppProps): JSX.Element {
 
       <main class="nc-body">
         <FormatSelector />
+
+        <FilterChips />
+
+        <AllergenWarning />
 
         <CategoryStepper />
 
@@ -125,7 +171,6 @@ export function App(_props: AppProps): JSX.Element {
         </div>
       </main>
 
-      {/* Mobile-only sticky bottom sheet — hidden via CSS on desktop. */}
       <BottomSheet />
     </div>
   );

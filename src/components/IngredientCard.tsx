@@ -1,16 +1,21 @@
 /**
  * Ingredient card — photo + name + calorie count + allergen icons + tap-toggle.
  *
- * Phase 3: full visual treatment. Photo at top (1:1, lazy-loaded); name in
- * display weight; cal count muted; allergen tag row at the bottom (max 3
- * visible plus an overflow chip when there are more — PRD §8.4).
- *
- * Selected state: 2 px brand outline + soft glow (animation handled in
- * `animations.css` via the `.is-selected` class on the button).
+ * Phase 3: full visual treatment.
+ * Phase 5: filter-mismatch desaturation. When the active diet/allergen
+ *   filters mark this ingredient as not-matching, the card drops to 40%
+ *   opacity and shows a `title=` tooltip explaining why. The card stays
+ *   clickable (PRD §4.1 #7 — desaturate, don't hide) — clicking still
+ *   adds it; the allergen warning banner takes over from there.
  */
 import type { JSX } from "preact";
 import type { AllergenTag, Ingredient } from "../types";
-import { selections, toggleIngredientInCategory } from "../lib/store";
+import {
+  activeFilters,
+  isIngredientFilteredOut,
+  selections,
+  toggleIngredientInCategory,
+} from "../lib/store";
 
 interface IngredientCardProps {
   ingredient: Ingredient;
@@ -36,7 +41,10 @@ function AllergenTags({ allergens }: { allergens: AllergenTag[] }): JSX.Element 
   const visible = allergens.slice(0, MAX_VISIBLE_ALLERGENS);
   const overflow = allergens.length - visible.length;
   return (
-    <ul class="nc-card__allergens" aria-label={`Contains: ${allergens.map((a) => ALLERGEN_LABELS[a]).join(", ")}`}>
+    <ul
+      class="nc-card__allergens"
+      aria-label={`Contains: ${allergens.map((a) => ALLERGEN_LABELS[a]).join(", ")}`}
+    >
       {visible.map((a) => (
         <li key={a} class="nc-card__allergen">
           {ALLERGEN_LABELS[a]}
@@ -49,11 +57,30 @@ function AllergenTags({ allergens }: { allergens: AllergenTag[] }): JSX.Element 
   );
 }
 
+function explainFilterMismatch(ingredient: Ingredient): string {
+  // Subscribe to filters so the tooltip text refreshes when filters change.
+  const filters = activeFilters.value;
+  const conflictingAllergens = ingredient.allergens.filter((a) =>
+    filters.excludeAllergens.includes(a),
+  );
+  if (conflictingAllergens.length > 0) {
+    const labels = conflictingAllergens.map((a) => ALLERGEN_LABELS[a]).join(", ");
+    return `Contains ${labels}`;
+  }
+  const missingDiets = filters.diets.filter((d) => !ingredient.dietTags.includes(d));
+  if (missingDiets.length > 0) {
+    return `Doesn't match: ${missingDiets.join(", ")}`;
+  }
+  return "Doesn't match active filters";
+}
+
 export function IngredientCard({
   ingredient,
   blocked = false,
 }: IngredientCardProps): JSX.Element {
   const isSelected = ingredient.id in selections.value;
+  const isFilteredOut = isIngredientFilteredOut(ingredient);
+  const tooltip = isFilteredOut ? explainFilterMismatch(ingredient) : undefined;
 
   return (
     <button
@@ -61,9 +88,10 @@ export function IngredientCard({
       onClick={() => toggleIngredientInCategory(ingredient.id)}
       aria-pressed={isSelected}
       aria-disabled={blocked && !isSelected ? true : undefined}
+      title={tooltip}
       class={`nc-card${isSelected ? " is-selected" : ""}${
         blocked && !isSelected ? " is-blocked" : ""
-      }`}
+      }${isFilteredOut ? " is-filtered-out" : ""}`}
     >
       <div class="nc-card__photo">
         <img
