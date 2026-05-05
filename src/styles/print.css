@@ -1,0 +1,129 @@
+/**
+ * Print stylesheet — when a guest prints the page (Cmd/Ctrl+P), render
+ * an FDA-style nutrition label cleanly instead of the full interactive
+ * widget (PRD §9 Phase 8 task 6).
+ *
+ * Strategy: hide everything that's UI/chrome, then style the totals panel
+ * to mimic the FDA label format (heavy ink, bold rules, clear hierarchy).
+ *
+ * The print output is intentionally black on white regardless of dark
+ * mode — print-on-dark wastes ink and reduces contrast.
+ */
+
+@media print {
+  [data-nc-root] {
+    background: #fff !important;
+    color: #000 !important;
+    font-family: "Helvetica Neue", Arial, sans-serif !important;
+  }
+
+  /* Hide the parts that don't make sense on paper. */
+  [data-nc-root] .nc-hero__rail,
+  [data-nc-root] .nc-format-section,
+  [data-nc-root] .nc-filters,
+  [data-nc-root] .nc-stepper,
+  [data-nc-root] .nc-presets,
+  [data-nc-root] .nc-warning,
+  [data-nc-root] .nc-sheet,
+  [data-nc-root] .nc-sheet-backdrop,
+  [data-nc-root] .nc-share,
+  [data-nc-root] .nc-theme-toggle,
+  [data-nc-root] .nc-card.is-blocked,
+  [data-nc-root] .nc-card:not(.is-selected) {
+    display: none !important;
+  }
+
+  /* Print just the title + selected items + the FDA-style totals. */
+  [data-nc-root] .nc-hero {
+    position: static !important;
+    border: 0 !important;
+    padding: 0 !important;
+  }
+  [data-nc-root] .nc-hero__inner {
+    grid-template-columns: 1fr !important;
+    padding: 0 !important;
+    gap: 8px !important;
+  }
+  [data-nc-root] .nc-hero__inner::before {
+    display: none !important;
+  }
+  [data-nc-root] .nc-hero__title {
+    font-size: 32px !important;
+    color: #000 !important;
+  }
+  [data-nc-root] .nc-hero__lede,
+  [data-nc-root] .nc-hero__allergen-link,
+  [data-nc-root] .nc-eyebrow {
+    color: #000 !important;
+  }
+
+  [data-nc-root] .nc-body {
+    padding: 0 !important;
+  }
+
+  [data-nc-root] .nc-section__header {
+    margin-bottom: 8px !important;
+  }
+  [data-nc-root] .nc-section__title {
+    font-size: 18px !important;
+    text-transform: none !important;
+    color: #000 !important;
+  }
+  [data-nc-root] .nc-section__help {
+    display: none !important;
+  }
+
+  /* Selected ingredient cards become a clean printable list. */
+  [data-nc-root] .nc-grid {
+    display: block !important;
+  }
+  [data-nc-root] .nc-card.is-selected {
+    display: block !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 4px 0 !important;
+    page-break-inside: avoid;
+  }
+  [data-nc-root] .nc-card__photo {
+    display: none !important;
+  }
+  [data-nc-root] .nc-card__body {
+    padding: 0 !important;
+  }
+  [data-nc-root] .nc-card__name {
+    font-weight: 700 !important;
+    font-size: 13px !important;
+  }
+  [data-nc-root] .nc-card__cal {
+    color: #000 !important;
+  }
+  [data-nc-root] .nc-card__allergens,
+  [data-nc-root] .nc-portion {
+    display: none !important;
+  }
+
+  /* Totals as an FDA-style label box. */
+  [data-nc-root] .nc-disclaimer {
+    margin-top: 16px !important;
+    border-top: 2px solid #000 !important;
+    padding-top: 8px !important;
+    color: #000 !important;
+  }
+  [data-nc-root] .nc-disclaimer__top {
+    display: block !important;
+  }
+
+  /* Avoid orphan headers. */
+  [data-nc-root] .nc-section,
+  [data-nc-root] .nc-hero {
+    page-break-inside: avoid;
+  }
+
+  /* No animations on paper. */
+  [data-nc-root] *,
+  [data-nc-root] *::before,
+  [data-nc-root] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
