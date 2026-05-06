@@ -6,8 +6,10 @@ interface PortionStepperProps {
   ingredient: Ingredient;
 }
 
-const SHOWN_MULTIPLIERS = new Set([0.5, 1, 2]);
-const SLAW_MULTIPLIERS  = new Set([1, 0.01]);
+// IDs that belong exclusively to the Low Carb Bowl slaw toggle
+const SLAW_IDS     = new Set(["port-with-slaw", "port-extra-slaw", "port-no-slaw"]);
+// Multipliers used by the standard Light / Normal / Double stepper
+const STANDARD_MULTIPLIERS = new Set([0.5, 1, 2]);
 
 export function PortionStepper({ ingredient }: PortionStepperProps): JSX.Element | null {
   if (!ingredient.allowsExtra) return null;
@@ -15,10 +17,13 @@ export function PortionStepper({ ingredient }: PortionStepperProps): JSX.Element
   if (!sel) return null;
 
   const isSlawIngredient = ingredient.id === "ing-kale-slaw-base";
-  const allowed = isSlawIngredient ? SLAW_MULTIPLIERS : SHOWN_MULTIPLIERS;
 
   const options = [...portionOptions.value]
-    .filter(o => allowed.has(o.multiplier))
+    .filter(o =>
+      isSlawIngredient
+        ? SLAW_IDS.has(o.id)                                          // bowl: only slaw options
+        : STANDARD_MULTIPLIERS.has(o.multiplier) && !SLAW_IDS.has(o.id) // others: standard, no slaw
+    )
     .sort((a, b) => a.sortOrder - b.sortOrder);
   if (options.length === 0) return null;
 

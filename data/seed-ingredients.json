@@ -1890,6 +1890,13 @@
       "name": "No Slaw",
       "multiplier": 0.01,
       "isDefault": false,
+      "sortOrder": 8
+    },
+    {
+      "id": "port-extra-slaw",
+      "name": "Extra Slaw",
+      "multiplier": 2.0,
+      "isDefault": false,
       "sortOrder": 7
     }
   ],
