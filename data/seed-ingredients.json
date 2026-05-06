@@ -1,5 +1,5 @@
 {
-  "_comment": "Forefathers Steaks menu data. Per-ingredient nutrition values for Steak, Chicken, Cheese Wiz, American, Provolone, Mozzarella, and Kale Slaw are computed from the client-provided spreadsheet (Forefathers.xlsx, Menu sheet, rows 33-78) \u2014 these are CONFIRMED. Other ingredients (veggies, sauces, bread base) are USDA FoodData Central estimates pending client confirmation; flagged in DECISIONS.md. Formats use sizeMultiplier (Mini 0.6\u00d7, Regular 1.0\u00d7, Large 1.5\u00d7) to scale ingredient portions per the spreadsheet's per-size portion table. Yellow-highlighted ingredients in the xlsx (Fry Sauce, Spicy Blue Cheese, Ranch, Jalape\u00f1o Cilantro Ranch, Kale Slaw, Romaine/Spring Mix, Kale/Spring Mix, Corn Relish) are batch recipes documented in the Batch Recipes tab.",
+  "_comment": "Forefathers Steaks menu data. Per-ingredient nutrition values for Steak, Chicken, Cheese Wiz, American, Provolone, Mozzarella, and Kale Slaw are computed from the client-provided spreadsheet (Forefathers.xlsx, Menu sheet, rows 33-78) — these are CONFIRMED. Other ingredients (veggies, sauces, bread base) are USDA FoodData Central estimates pending client confirmation; flagged in DECISIONS.md. Formats use sizeMultiplier (Mini 0.6×, Regular 1.0×, Large 1.5×) to scale ingredient portions per the spreadsheet's per-size portion table. Yellow-highlighted ingredients in the xlsx (Fry Sauce, Spicy Blue Cheese, Ranch, Jalapeño Cilantro Ranch, Kale Slaw, Romaine/Spring Mix, Kale/Spring Mix, Corn Relish) are batch recipes documented in the Batch Recipes tab.",
   "lastUpdated": "2026-05-06T02:30:00Z",
   "formats": [
     {
@@ -168,7 +168,7 @@
       "selectionType": "single",
       "maxSelections": 1,
       "icon": "bread",
-      "helpText": "Choose your base. Go low carb \u2014 skip the bread.",
+      "helpText": "Choose your base. Go low carb — skip the bread.",
       "required": true
     },
     {
@@ -297,7 +297,7 @@
       "id": "ing-hoagie-roll",
       "name": "Hoagie Roll",
       "categoryId": "cat-cheesesteak-base",
-      "photoCDN": "https://placehold.co/480x480/c8a96e/1a1a1a?text=Hoagie+Roll",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082909/Screenshot_2026-05-06_at_8.54.08_AM_hgq998.png",
       "description": "Classic Amoroso-style hoagie roll.",
       "calories": 265,
       "protein_g": 10,
@@ -351,7 +351,7 @@
       "id": "ing-steak",
       "name": "Grilled Steak",
       "categoryId": "cat-protein",
-      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041491/9771bd8f-739f-47d1-95ff-edd086da59bd_bnewdy.webp",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.52.06_AM_tn33me.png",
       "description": "Shaved ribeye, grilled.",
       "calories": 232,
       "protein_g": 25,
@@ -379,7 +379,7 @@
       "id": "ing-chicken",
       "name": "Grilled Chicken",
       "categoryId": "cat-protein",
-      "photoCDN": "https://placehold.co/480x480/c8102e/ffffff?text=Chicken",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.54.52_AM_fwldkw.png",
       "description": "Shaved chicken breast, grilled.",
       "calories": 271,
       "protein_g": 30,
@@ -461,7 +461,7 @@
       "id": "ing-provolone",
       "name": "Provolone",
       "categoryId": "cat-cheese",
-      "photoCDN": "https://placehold.co/480x480/f5f1ea/c8102e?text=Provolone",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082909/Screenshot_2026-05-06_at_8.53.17_AM_bcwrti.png",
       "description": "Sliced provolone.",
       "calories": 150,
       "protein_g": 11.14,
@@ -572,7 +572,7 @@
       "id": "ing-mushrooms",
       "name": "Grilled Mushrooms",
       "categoryId": "cat-veggies",
-      "photoCDN": "https://placehold.co/480x480/c8102e/ffffff?text=Mushrooms",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082908/Screenshot_2026-05-06_at_8.53.33_AM_hlmwab.png",
       "description": "Grilled white mushrooms.",
       "calories": 9,
       "protein_g": 1,
@@ -601,7 +601,7 @@
       "id": "ing-greenpep",
       "name": "Grilled Green Peppers",
       "categoryId": "cat-veggies",
-      "photoCDN": "https://placehold.co/480x480/c8102e/ffffff?text=Green+Peppers",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082909/Screenshot_2026-05-06_at_8.53.41_AM_vvjrxf.png",
       "description": "Grilled green bell peppers.",
       "calories": 8,
       "protein_g": 0.5,
@@ -628,10 +628,10 @@
     },
     {
       "id": "ing-jalapeno",
-      "name": "Jalape\u00f1o Peppers",
+      "name": "Jalapeño Peppers",
       "categoryId": "cat-veggies",
-      "photoCDN": "https://placehold.co/480x480/c8102e/ffffff?text=Jalapeno",
-      "description": "Sliced jalape\u00f1os.",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082908/Screenshot_2026-05-06_at_8.52.35_AM_zzdpql.png",
+      "description": "Sliced jalapeños.",
       "calories": 7,
       "protein_g": 0.3,
       "carbs_g": 1.5,
@@ -903,10 +903,10 @@
     },
     {
       "id": "ing-cilantroranch",
-      "name": "Jalape\u00f1o Cilantro Ranch",
+      "name": "Jalapeño Cilantro Ranch",
       "categoryId": "cat-sauces",
       "photoCDN": "https://placehold.co/480x480/f5f1ea/c8102e?text=Cilantro+Ranch",
-      "description": "Ranch with jalape\u00f1o + cilantro.",
+      "description": "Ranch with jalapeño + cilantro.",
       "calories": 75,
       "protein_g": 0,
       "carbs_g": 1.5,
@@ -986,7 +986,7 @@
       "id": "ing-salad-steak",
       "name": "Grilled Steak",
       "categoryId": "cat-salad-protein",
-      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041491/9771bd8f-739f-47d1-95ff-edd086da59bd_bnewdy.webp",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.52.06_AM_tn33me.png",
       "description": "Shaved ribeye, grilled.",
       "calories": 232,
       "protein_g": 25,
@@ -1014,7 +1014,7 @@
       "id": "ing-salad-chicken",
       "name": "Grilled Chicken",
       "categoryId": "cat-salad-protein",
-      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Grilled+Chicken",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.54.52_AM_fwldkw.png",
       "description": "Shaved chicken breast, grilled.",
       "calories": 271,
       "protein_g": 30,
@@ -1042,7 +1042,7 @@
       "id": "ing-salad-bbq-chicken",
       "name": "BBQ Chicken",
       "categoryId": "cat-salad-protein",
-      "photoCDN": "https://placehold.co/480x480/8B4513/ffffff?text=BBQ+Chicken",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.54.52_AM_fwldkw.png",
       "description": "Grilled chicken tossed in smoky BBQ sauce.",
       "calories": 310,
       "protein_g": 29,
@@ -1067,7 +1067,7 @@
       "id": "ing-salad-buffalo-chicken",
       "name": "Buffalo Chicken",
       "categoryId": "cat-salad-protein",
-      "photoCDN": "https://placehold.co/480x480/C8102E/ffffff?text=Buffalo+Chicken",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.54.52_AM_fwldkw.png",
       "description": "Grilled chicken tossed in tangy buffalo sauce.",
       "calories": 296,
       "protein_g": 30,
@@ -1168,7 +1168,7 @@
       "id": "ing-salad-mushrooms",
       "name": "Grilled Mushrooms",
       "categoryId": "cat-salad-toppings",
-      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Grilled+Mushrooms",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082908/Screenshot_2026-05-06_at_8.53.33_AM_hlmwab.png",
       "description": "Grilled mushrooms.",
       "calories": 20,
       "protein_g": 2,
@@ -1574,7 +1574,7 @@
       "id": "ing-salad-rawmushroom",
       "name": "Mushrooms",
       "categoryId": "cat-salad-toppings",
-      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Mushrooms",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082908/Screenshot_2026-05-06_at_8.53.33_AM_hlmwab.png",
       "description": "Fresh sliced mushrooms.",
       "calories": 6,
       "protein_g": 0.9,
@@ -1652,7 +1652,7 @@
       "id": "ing-salad-jalapeno",
       "name": "Jalapeño Peppers",
       "categoryId": "cat-salad-toppings",
-      "photoCDN": "https://placehold.co/480x480/2A7A40/ffffff?text=Jalapeño",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082908/Screenshot_2026-05-06_at_8.52.35_AM_zzdpql.png",
       "description": "Sliced jalapeño peppers.",
       "calories": 5,
       "protein_g": 0.2,
@@ -1680,7 +1680,7 @@
       "id": "ing-salad-greenpep",
       "name": "Grilled Green Peppers",
       "categoryId": "cat-salad-toppings",
-      "photoCDN": "https://placehold.co/480x480/2A7A40/ffffff?text=Green+Peppers",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082909/Screenshot_2026-05-06_at_8.53.41_AM_vvjrxf.png",
       "description": "Grilled green bell peppers.",
       "calories": 15,
       "protein_g": 0.5,
@@ -1731,10 +1731,10 @@
     },
     {
       "id": "ing-salad-cilranch",
-      "name": "Jalape\u00f1o Cilantro Ranch",
+      "name": "Jalapeño Cilantro Ranch",
       "categoryId": "cat-salad-dressing",
-      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Jalape\u00f1o+Cilantro+Ranch",
-      "description": "House jalape\u00f1o cilantro ranch.",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Jalapeño+Cilantro+Ranch",
+      "description": "House jalapeño cilantro ranch.",
       "calories": 130,
       "protein_g": 1,
       "carbs_g": 2,
@@ -1761,7 +1761,7 @@
       "name": "Chocolate Chunk Cookie",
       "categoryId": "cat-desserts",
       "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041286/2d9819a0-6ddd-44a9-808f-7d8c83a8b101_bgt3sg.webp",
-      "description": "Sandy's Amazing Chocolate Chunk Manifesto\u00ae Cookie. Individually wrapped. MANUFACTURED IN A FACILITY THAT PROCESSES PEANUTS/NUTS.",
+      "description": "Sandy's Amazing Chocolate Chunk Manifesto® Cookie. Individually wrapped. MANUFACTURED IN A FACILITY THAT PROCESSES PEANUTS/NUTS.",
       "calories": 360,
       "protein_g": 4,
       "carbs_g": 49,
@@ -1789,7 +1789,7 @@
       "name": "Salted Caramel Cookie",
       "categoryId": "cat-desserts",
       "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041287/c90633de-66d1-4e94-9f1d-dae019fc41f0_m1bsit.webp",
-      "description": "Salted Caramel Manifesto\u00ae Cookie. Individually wrapped. MANUFACTURED IN A FACILITY THAT PROCESSES PEANUTS/NUTS.",
+      "description": "Salted Caramel Manifesto® Cookie. Individually wrapped. MANUFACTURED IN A FACILITY THAT PROCESSES PEANUTS/NUTS.",
       "calories": 370,
       "protein_g": 4,
       "carbs_g": 52,
@@ -1818,7 +1818,7 @@
       "name": "Peruvian Chocolate Brownie",
       "categoryId": "cat-desserts",
       "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041286/5d299ef0-90cc-4d44-871e-a85f60473424_i9ourh.webp",
-      "description": "Peruvian Chocolate Manifesto\u00ae Brownie. Individually wrapped. MANUFACTURED IN A FACILITY THAT PROCESSES PEANUTS/NUTS.",
+      "description": "Peruvian Chocolate Manifesto® Brownie. Individually wrapped. MANUFACTURED IN A FACILITY THAT PROCESSES PEANUTS/NUTS.",
       "calories": 410,
       "protein_g": 5,
       "carbs_g": 55,
@@ -1897,7 +1897,7 @@
     {
       "id": "pre-classic",
       "name": "The Classic",
-      "description": "Steak, Cheese Wiz, grilled onions \u2014 the Philly gold standard.",
+      "description": "Steak, Cheese Wiz, grilled onions — the Philly gold standard.",
       "formatId": "fmt-cheesesteak-reg",
       "ingredients": [
         {
@@ -1990,14 +1990,31 @@
       "description": "BBQ chicken over romaine with corn relish and tortilla strips.",
       "formatId": "fmt-salad",
       "ingredients": [
-        { "ingredientId": "ing-salad-romaine",       "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-bbq-chicken",   "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-corn",          "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-tortilla",      "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-bbq",           "portionMultiplier": 1 }
+        {
+          "ingredientId": "ing-salad-romaine",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-bbq-chicken",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-corn",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-tortilla",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-bbq",
+          "portionMultiplier": 1
+        }
       ],
       "image": "https://placehold.co/480x480/8B4513/ffffff?text=BBQ+Chicken+Salad",
-      "tags": ["popular"],
+      "tags": [
+        "popular"
+      ],
       "isActive": true,
       "sortOrder": 4
     },
@@ -2007,13 +2024,28 @@
       "description": "Spicy buffalo chicken over romaine with Monterey Jack.",
       "formatId": "fmt-salad",
       "ingredients": [
-        { "ingredientId": "ing-salad-romaine",          "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-buffalo-chicken",  "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-mj",               "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-buffalo",          "portionMultiplier": 1 }
+        {
+          "ingredientId": "ing-salad-romaine",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-buffalo-chicken",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-mj",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-buffalo",
+          "portionMultiplier": 1
+        }
       ],
       "image": "https://placehold.co/480x480/C8102E/ffffff?text=Buffalo+Chicken+Salad",
-      "tags": ["popular", "spicy"],
+      "tags": [
+        "popular",
+        "spicy"
+      ],
       "isActive": true,
       "sortOrder": 5
     },
@@ -2023,13 +2055,28 @@
       "description": "Grilled steak over romaine with ranch dressing.",
       "formatId": "fmt-salad",
       "ingredients": [
-        { "ingredientId": "ing-salad-romaine",   "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-steak",     "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-mushrooms", "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-ranch",     "portionMultiplier": 1 }
+        {
+          "ingredientId": "ing-salad-romaine",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-steak",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-mushrooms",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-ranch",
+          "portionMultiplier": 1
+        }
       ],
       "image": "https://placehold.co/480x480/4A4A4A/ffffff?text=Steak+Salad",
-      "tags": ["popular", "chef-pick"],
+      "tags": [
+        "popular",
+        "chef-pick"
+      ],
       "isActive": true,
       "sortOrder": 6
     },
@@ -2039,12 +2086,23 @@
       "description": "Grilled chicken over romaine. Choose your dressing on the side.",
       "formatId": "fmt-salad",
       "ingredients": [
-        { "ingredientId": "ing-salad-romaine",  "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-chicken",  "portionMultiplier": 1 },
-        { "ingredientId": "ing-salad-ranch",    "portionMultiplier": 1 }
+        {
+          "ingredientId": "ing-salad-romaine",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-chicken",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-salad-ranch",
+          "portionMultiplier": 1
+        }
       ],
       "image": "https://placehold.co/480x480/888888/ffffff?text=Chicken+Salad",
-      "tags": ["highprotein"],
+      "tags": [
+        "highprotein"
+      ],
       "isActive": true,
       "sortOrder": 7
     }

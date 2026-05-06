@@ -72,6 +72,28 @@ async function patchAirtable(tableId: string, recordId: string, fields: Record<s
   });
 }
 
+// ── Photo overrides ───────────────────────────────────────────────────────────
+// Applied after every Airtable fetch so correct photos survive KV refreshes.
+// Remove an entry once Airtable's PhotoCDN field is updated for that ingredient.
+
+const PHOTO_OVERRIDES: Record<string, string> = {
+  "ing-hoagie-roll":          "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082909/Screenshot_2026-05-06_at_8.54.08_AM_hgq998.png",
+  "ing-steak":                "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.52.06_AM_tn33me.png",
+  "ing-chicken":              "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.54.52_AM_fwldkw.png",
+  "ing-provolone":            "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082909/Screenshot_2026-05-06_at_8.53.17_AM_bcwrti.png",
+  "ing-mushrooms":            "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082908/Screenshot_2026-05-06_at_8.53.33_AM_hlmwab.png",
+  "ing-jalapeno":             "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082908/Screenshot_2026-05-06_at_8.52.35_AM_zzdpql.png",
+  "ing-greenpep":             "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082909/Screenshot_2026-05-06_at_8.53.41_AM_vvjrxf.png",
+  "ing-salad-steak":          "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.52.06_AM_tn33me.png",
+  "ing-salad-chicken":        "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.54.52_AM_fwldkw.png",
+  "ing-salad-bbq-chicken":    "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.54.52_AM_fwldkw.png",
+  "ing-salad-buffalo-chicken":"https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082910/Screenshot_2026-05-06_at_8.54.52_AM_fwldkw.png",
+  "ing-salad-mushrooms":      "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082908/Screenshot_2026-05-06_at_8.53.33_AM_hlmwab.png",
+  "ing-salad-rawmushroom":    "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082908/Screenshot_2026-05-06_at_8.53.33_AM_hlmwab.png",
+  "ing-salad-jalapeno":       "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082908/Screenshot_2026-05-06_at_8.52.35_AM_zzdpql.png",
+  "ing-salad-greenpep":       "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778082909/Screenshot_2026-05-06_at_8.53.41_AM_vvjrxf.png",
+};
+
 // ── Menu builder ─────────────────────────────────────────────────────────────
 
 async function buildMenu(env: Env) {
@@ -130,7 +152,9 @@ async function buildMenu(env: Env) {
       isAvailable: true,
       sortOrder:   Number(i.SortOrder) || 0,
       allowsExtra: Boolean(i.AllowsExtra),
-    })).filter(i => i.id);
+    }))
+    .filter(i => i.id)
+    .map(i => ({ ...i, photoCDN: PHOTO_OVERRIDES[i.id] ?? i.photoCDN }));
 
   const portionOptions = ports.map((p) => ({
     id:         s(p.PortionId),
