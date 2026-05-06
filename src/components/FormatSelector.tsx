@@ -35,8 +35,10 @@ const LANDING_ITEMS: LandingItem[] = [
     calLabel: "",
     cycleFormatId: "fmt-tenders",
     subItems: [
-      { label: "Chicken Tenders", formatId: "fmt-tenders", representativeCal: 800, calLabel: "4 strips" },
-      { label: "Fries",           formatId: "fmt-fries",   representativeCal: 330, calLabel: "regular"  },
+      { label: "Chicken Tenders",   formatId: "fmt-tenders",         representativeCal: 800, calLabel: "4 strips" },
+      { label: "Fries",             formatId: "fmt-fries",           representativeCal: 330, calLabel: "regular"  },
+      { label: "Sweet Potato Fries",formatId: "fmt-sweet-potato-fries", representativeCal: 340, calLabel: "regular" },
+      { label: "50/50 Fries",       formatId: "fmt-5050-fries",      representativeCal: 335, calLabel: "regular"  },
     ],
   },
   { label: "Desserts", formatId: "fmt-desserts", available: true, representativeCal: 0, calLabel: "" },
@@ -131,31 +133,33 @@ export function FormatSelector({ onSelect }: Props): JSX.Element {
                   </button>
 
                   <div class={`nc-format-sublist${sidesOpen ? " is-open" : ""}`} aria-hidden={!sidesOpen}>
-                    {item.subItems.map(sub => {
-                      const isActive = sub.formatId === displayId;
-                      return (
-                        <button
-                          key={sub.label}
-                          type="button"
-                          role="radio"
-                          aria-checked={isActive}
-                          class={`nc-format-row nc-format-row--sub${isActive ? " is-active" : ""}`}
-                          onMouseEnter={() => handleEnter(sub.formatId)}
-                          onClick={() => {
-                            track("format_selected", { id: sub.formatId, name: sub.label });
-                            onSelect(sub.formatId);
-                          }}
-                        >
-                          <span class="nc-format-row__name">{sub.label}</span>
-                          {sub.representativeCal > 0 && (
-                            <span class="nc-format-row__cal">
-                              {sub.representativeCal} cal
-                              {sub.calLabel && <span class="nc-format-row__cal-sub"> · {sub.calLabel}</span>}
-                            </span>
-                          )}
-                        </button>
-                      );
-                    })}
+                    <div class="nc-format-sublist__inner">
+                      {item.subItems.map(sub => {
+                        const isActive = sub.formatId === displayId;
+                        return (
+                          <button
+                            key={sub.label}
+                            type="button"
+                            role="radio"
+                            aria-checked={isActive}
+                            class={`nc-format-row nc-format-row--sub${isActive ? " is-active" : ""}`}
+                            onMouseEnter={() => handleEnter(sub.formatId)}
+                            onClick={() => {
+                              track("format_selected", { id: sub.formatId, name: sub.label });
+                              onSelect(sub.formatId);
+                            }}
+                          >
+                            <span class="nc-format-row__name">{sub.label}</span>
+                            {sub.representativeCal > 0 && (
+                              <span class="nc-format-row__cal">
+                                {sub.representativeCal} cal
+                                {sub.calLabel && <span class="nc-format-row__cal-sub"> · {sub.calLabel}</span>}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               );

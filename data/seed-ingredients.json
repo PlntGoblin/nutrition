@@ -158,6 +158,38 @@
       ],
       "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041286/2d9819a0-6ddd-44a9-808f-7d8c83a8b101_bgt3sg.webp",
       "sortOrder": 8
+    },
+    {
+      "id": "fmt-sweet-potato-fries",
+      "name": "Sweet Potato Fries",
+      "baseCalories": 0,
+      "baseProtein_g": 0,
+      "baseCarbs_g": 0,
+      "baseFat_g": 0,
+      "baseSodium_mg": 0,
+      "sizeMultiplier": 1.0,
+      "includedCategoryIds": [
+        "cat-fries-style",
+        "cat-fries-sauce"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040859/e650c4ee-b340-451d-a769-395730234679_kqacmv.webp",
+      "sortOrder": 8
+    },
+    {
+      "id": "fmt-5050-fries",
+      "name": "50/50 Fries",
+      "baseCalories": 0,
+      "baseProtein_g": 0,
+      "baseCarbs_g": 0,
+      "baseFat_g": 0,
+      "baseSodium_mg": 0,
+      "sizeMultiplier": 1.0,
+      "includedCategoryIds": [
+        "cat-fries-style",
+        "cat-fries-sauce"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040859/e650c4ee-b340-451d-a769-395730234679_kqacmv.webp",
+      "sortOrder": 9
     }
   ],
   "categories": [

@@ -863,7 +863,7 @@
   grid-template-rows: 1fr;
 }
 
-.nc-format-sublist > * {
+.nc-format-sublist__inner {
   overflow: hidden;
 }
 
