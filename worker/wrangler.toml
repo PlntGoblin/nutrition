@@ -1,21 +1,10 @@
-# Cloudflare Worker config for the nutrition-calculator API proxy.
-# Phase 0 stub — real bindings (KV, secrets, cron triggers, routes) populated
-# in Phase 6 per PRD §9.
-#
-# Required secrets (set via `wrangler secret put`):
-#   AIRTABLE_PAT
-#   AIRTABLE_BASE_ID
-#   CLOUDINARY_CLOUD_NAME
-#   CLOUDINARY_API_KEY
-#   CLOUDINARY_API_SECRET
-#   ALLOWED_ORIGINS
-#
-# KV binding (Phase 6):
-#   MENU_CACHE — last-known-good Airtable response (PRD §17.1)
-#
-# Cron trigger (Phase 6):
-#   "0 3 * * *" — nightly Cloudinary image mirror (PRD §6.5)
-
-name = "forefathers-nutrition-api"
-main = "src/index.ts"
+name               = "forefathers-nutrition-api"
+main               = "src/index.ts"
 compatibility_date = "2026-05-01"
+
+[[kv_namespaces]]
+binding = "MENU_CACHE"
+id      = "59df5dda46494a80a6c18180147a3e02"
+
+[triggers]
+crons = ["0 3 * * *"]

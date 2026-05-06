@@ -1,44 +1,62 @@
 {
-  "_comment": "Forefathers Steaks menu data. Per-ingredient nutrition values for Steak, Chicken, Cheese Wiz, American, Provolone, Mozzarella, and Kale Slaw are computed from the client-provided spreadsheet (Forefathers.xlsx, Menu sheet, rows 33-78) — these are CONFIRMED. Other ingredients (veggies, sauces, bread base) are USDA FoodData Central estimates pending client confirmation; flagged in DECISIONS.md. Formats use sizeMultiplier (Mini 0.6×, Regular 1.0×, Large 1.5×) to scale ingredient portions per the spreadsheet's per-size portion table. Yellow-highlighted ingredients in the xlsx (Fry Sauce, Spicy Blue Cheese, Ranch, Jalapeño Cilantro Ranch, Kale Slaw, Romaine/Spring Mix, Kale/Spring Mix, Corn Relish) are batch recipes documented in the Batch Recipes tab.",
-  "lastUpdated": "2026-05-05T22:00:00Z",
+  "_comment": "Forefathers Steaks menu data. Per-ingredient nutrition values for Steak, Chicken, Cheese Wiz, American, Provolone, Mozzarella, and Kale Slaw are computed from the client-provided spreadsheet (Forefathers.xlsx, Menu sheet, rows 33-78) \u2014 these are CONFIRMED. Other ingredients (veggies, sauces, bread base) are USDA FoodData Central estimates pending client confirmation; flagged in DECISIONS.md. Formats use sizeMultiplier (Mini 0.6\u00d7, Regular 1.0\u00d7, Large 1.5\u00d7) to scale ingredient portions per the spreadsheet's per-size portion table. Yellow-highlighted ingredients in the xlsx (Fry Sauce, Spicy Blue Cheese, Ranch, Jalape\u00f1o Cilantro Ranch, Kale Slaw, Romaine/Spring Mix, Kale/Spring Mix, Corn Relish) are batch recipes documented in the Batch Recipes tab.",
+  "lastUpdated": "2026-05-06T02:30:00Z",
   "formats": [
     {
       "id": "fmt-cheesesteak-mini",
       "name": "Mini Cheesesteak",
-      "baseCalories": 165,
-      "baseProtein_g": 6,
-      "baseCarbs_g": 32,
-      "baseFat_g": 2,
-      "baseSodium_mg": 320,
+      "baseCalories": 0,
+      "baseProtein_g": 0,
+      "baseCarbs_g": 0,
+      "baseFat_g": 0,
+      "baseSodium_mg": 0,
       "sizeMultiplier": 0.6,
-      "includedCategoryIds": ["cat-protein", "cat-cheese", "cat-veggies", "cat-sauces"],
-      "heroImage": "https://placehold.co/480x480/c8102e/ffffff?text=Mini+Cheesesteak",
+      "includedCategoryIds": [
+        "cat-cheesesteak-base",
+        "cat-protein",
+        "cat-cheese",
+        "cat-veggies",
+        "cat-sauces"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041490/5bc3ae18-2d2e-4d63-afae-28488ff9bed2_bhbn47.webp",
       "sortOrder": 1
     },
     {
       "id": "fmt-cheesesteak-reg",
       "name": "Regular Cheesesteak",
-      "baseCalories": 265,
-      "baseProtein_g": 10,
-      "baseCarbs_g": 53,
-      "baseFat_g": 3,
-      "baseSodium_mg": 540,
+      "baseCalories": 0,
+      "baseProtein_g": 0,
+      "baseCarbs_g": 0,
+      "baseFat_g": 0,
+      "baseSodium_mg": 0,
       "sizeMultiplier": 1.0,
-      "includedCategoryIds": ["cat-protein", "cat-cheese", "cat-veggies", "cat-sauces"],
-      "heroImage": "https://placehold.co/480x480/c8102e/ffffff?text=Regular",
+      "includedCategoryIds": [
+        "cat-cheesesteak-base",
+        "cat-protein",
+        "cat-cheese",
+        "cat-veggies",
+        "cat-sauces"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040860/f1194b73-e385-4bcb-b9b8-732a8720aa73_eoxt1x.webp",
       "sortOrder": 2
     },
     {
       "id": "fmt-cheesesteak-lg",
       "name": "Large Cheesesteak",
-      "baseCalories": 330,
-      "baseProtein_g": 11,
-      "baseCarbs_g": 65,
-      "baseFat_g": 4,
-      "baseSodium_mg": 670,
+      "baseCalories": 0,
+      "baseProtein_g": 0,
+      "baseCarbs_g": 0,
+      "baseFat_g": 0,
+      "baseSodium_mg": 0,
       "sizeMultiplier": 1.5,
-      "includedCategoryIds": ["cat-protein", "cat-cheese", "cat-veggies", "cat-sauces"],
-      "heroImage": "https://placehold.co/480x480/c8102e/ffffff?text=Large",
+      "includedCategoryIds": [
+        "cat-cheesesteak-base",
+        "cat-protein",
+        "cat-cheese",
+        "cat-veggies",
+        "cat-sauces"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041491/9771bd8f-739f-47d1-95ff-edd086da59bd_bnewdy.webp",
       "sortOrder": 3
     },
     {
@@ -50,16 +68,113 @@
       "baseFat_g": 0,
       "baseSodium_mg": 35,
       "sizeMultiplier": 1.0,
-      "includedCategoryIds": ["cat-protein", "cat-cheese", "cat-veggies", "cat-sauces"],
+      "includedCategoryIds": [
+        "cat-protein",
+        "cat-cheese",
+        "cat-veggies",
+        "cat-sauces"
+      ],
       "heroImage": "https://placehold.co/480x480/1a1a1a/ffffff?text=Low+Carb+Bowl",
       "sortOrder": 4
+    },
+    {
+      "id": "fmt-salad-half",
+      "name": "Half Salad",
+      "baseCalories": 0,
+      "baseProtein_g": 0,
+      "baseCarbs_g": 0,
+      "baseFat_g": 0,
+      "baseSodium_mg": 0,
+      "sizeMultiplier": 0.5,
+      "includedCategoryIds": [
+        "cat-salad-base",
+        "cat-salad-protein",
+        "cat-salad-toppings",
+        "cat-salad-dressing"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040889/9a2f6c01-1963-4037-8dca-f846d3d48484_ddd1c3.webp",
+      "sortOrder": 5
+    },
+    {
+      "id": "fmt-salad",
+      "name": "Salad",
+      "baseCalories": 0,
+      "baseProtein_g": 0,
+      "baseCarbs_g": 0,
+      "baseFat_g": 0,
+      "baseSodium_mg": 0,
+      "sizeMultiplier": 1.0,
+      "includedCategoryIds": [
+        "cat-salad-base",
+        "cat-salad-protein",
+        "cat-salad-toppings",
+        "cat-salad-dressing"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040889/9a2f6c01-1963-4037-8dca-f846d3d48484_ddd1c3.webp",
+      "sortOrder": 6
+    },
+    {
+      "id": "fmt-tenders",
+      "name": "Chicken Tenders",
+      "baseCalories": 800,
+      "baseProtein_g": 52,
+      "baseCarbs_g": 60,
+      "baseFat_g": 36,
+      "baseSodium_mg": 1640,
+      "sizeMultiplier": 1.0,
+      "includedCategoryIds": [
+        "cat-tenders-sauce"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040817/3733afe2-35d4-4d01-a06c-d314ecd67812_fqm14q.webp",
+      "sortOrder": 6
+    },
+    {
+      "id": "fmt-fries",
+      "name": "Fries",
+      "baseCalories": 0,
+      "baseProtein_g": 0,
+      "baseCarbs_g": 0,
+      "baseFat_g": 0,
+      "baseSodium_mg": 0,
+      "sizeMultiplier": 1.0,
+      "includedCategoryIds": [
+        "cat-fries-style",
+        "cat-fries-sauce"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040859/e650c4ee-b340-451d-a769-395730234679_kqacmv.webp",
+      "sortOrder": 7
+    },
+    {
+      "id": "fmt-desserts",
+      "name": "Desserts",
+      "baseCalories": 0,
+      "baseProtein_g": 0,
+      "baseCarbs_g": 0,
+      "baseFat_g": 0,
+      "baseSodium_mg": 0,
+      "sizeMultiplier": 1.0,
+      "includedCategoryIds": [
+        "cat-desserts"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041286/2d9819a0-6ddd-44a9-808f-7d8c83a8b101_bgt3sg.webp",
+      "sortOrder": 8
     }
   ],
   "categories": [
     {
+      "id": "cat-cheesesteak-base",
+      "name": "Base",
+      "step": 1,
+      "selectionType": "single",
+      "maxSelections": 1,
+      "icon": "bread",
+      "helpText": "Choose your base. Go low carb \u2014 skip the bread.",
+      "required": true
+    },
+    {
       "id": "cat-protein",
       "name": "Protein",
-      "step": 1,
+      "step": 2,
       "selectionType": "single",
       "maxSelections": 1,
       "icon": "drumstick",
@@ -69,17 +184,17 @@
     {
       "id": "cat-cheese",
       "name": "Cheese",
-      "step": 2,
-      "selectionType": "single",
-      "maxSelections": 1,
+      "step": 3,
+      "selectionType": "multi",
+      "maxSelections": null,
       "icon": "milk",
-      "helpText": "Pick your cheese (optional). Tap Double for an extra portion (+$1).",
+      "helpText": "Pick your cheese(s). Tap Double for an extra portion (+$1).",
       "required": false
     },
     {
       "id": "cat-veggies",
       "name": "Veggies",
-      "step": 3,
+      "step": 4,
       "selectionType": "multi",
       "maxSelections": 4,
       "icon": "salad",
@@ -89,20 +204,154 @@
     {
       "id": "cat-sauces",
       "name": "Sauces",
-      "step": 4,
+      "step": 5,
       "selectionType": "multi",
       "maxSelections": 2,
       "icon": "droplet",
       "helpText": "Up to 2 sauces.",
       "required": false
+    },
+    {
+      "id": "cat-salad-base",
+      "name": "Greens",
+      "step": 1,
+      "selectionType": "single",
+      "maxSelections": 1,
+      "icon": "salad",
+      "helpText": "Choose your base.",
+      "required": true
+    },
+    {
+      "id": "cat-salad-protein",
+      "name": "Protein",
+      "step": 2,
+      "selectionType": "single",
+      "maxSelections": 1,
+      "icon": "drumstick",
+      "helpText": "Pick your protein (optional).",
+      "required": false
+    },
+    {
+      "id": "cat-salad-toppings",
+      "name": "Toppings",
+      "step": 3,
+      "selectionType": "multi",
+      "maxSelections": null,
+      "icon": "plus",
+      "helpText": "Up to 4 toppings.",
+      "required": false
+    },
+    {
+      "id": "cat-salad-dressing",
+      "name": "Dressing",
+      "step": 4,
+      "selectionType": "single",
+      "maxSelections": 1,
+      "icon": "droplet",
+      "helpText": "Choose your dressing.",
+      "required": false
+    },
+    {
+      "id": "cat-tenders-sauce",
+      "name": "Dipping Sauce",
+      "step": 1,
+      "selectionType": "single",
+      "maxSelections": 1,
+      "icon": "droplet",
+      "helpText": "Choose a dipping sauce.",
+      "required": false
+    },
+    {
+      "id": "cat-fries-style",
+      "name": "Style",
+      "step": 1,
+      "selectionType": "single",
+      "maxSelections": 1,
+      "icon": "flame",
+      "helpText": "Choose your fry style.",
+      "required": true
+    },
+    {
+      "id": "cat-fries-sauce",
+      "name": "Sauce",
+      "step": 2,
+      "selectionType": "single",
+      "maxSelections": 1,
+      "icon": "droplet",
+      "helpText": "Add a dipping sauce.",
+      "required": false
+    },
+    {
+      "id": "cat-desserts",
+      "name": "Choose Your Dessert",
+      "step": 1,
+      "selectionType": "single",
+      "maxSelections": 1,
+      "icon": "cake",
+      "helpText": "Each dessert is individually wrapped.",
+      "required": true
     }
   ],
   "ingredients": [
     {
+      "id": "ing-hoagie-roll",
+      "name": "Hoagie Roll",
+      "categoryId": "cat-cheesesteak-base",
+      "photoCDN": "https://placehold.co/480x480/c8a96e/1a1a1a?text=Hoagie+Roll",
+      "description": "Classic Amoroso-style hoagie roll.",
+      "calories": 265,
+      "protein_g": 10,
+      "carbs_g": 53,
+      "fat_g": 3,
+      "satFat_g": 0.5,
+      "fiber_g": 2,
+      "sugar_g": 4,
+      "sodium_mg": 540,
+      "servingSize": "1 roll (Regular)",
+      "allergens": [
+        "gluten",
+        "wheat"
+      ],
+      "dietTags": [
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 1,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-kale-slaw-base",
+      "name": "Low Carb Bowl",
+      "categoryId": "cat-cheesesteak-base",
+      "photoCDN": "https://placehold.co/480x480/2A7A40/ffffff?text=Low+Carb+Bowl",
+      "description": "Kale slaw base instead of bread. No gluten, big savings.",
+      "calories": 16,
+      "protein_g": 1,
+      "carbs_g": 4,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 1.5,
+      "sugar_g": 1,
+      "sodium_mg": 35,
+      "servingSize": "1 bowl",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "keto",
+        "lowcarb",
+        "vegan",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 2,
+      "allowsExtra": true
+    },
+    {
       "id": "ing-steak",
       "name": "Grilled Steak",
       "categoryId": "cat-protein",
-      "photoCDN": "https://placehold.co/480x480/c8102e/ffffff?text=Steak",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041491/9771bd8f-739f-47d1-95ff-edd086da59bd_bnewdy.webp",
       "description": "Shaved ribeye, grilled.",
       "calories": 232,
       "protein_g": 25,
@@ -114,7 +363,14 @@
       "sodium_mg": 540,
       "servingSize": "7.14 oz (Regular)",
       "allergens": [],
-      "dietTags": ["glutenfree", "dairyfree", "keto", "lowcarb", "highprotein", "paleo"],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "keto",
+        "lowcarb",
+        "highprotein",
+        "paleo"
+      ],
       "isAvailable": true,
       "sortOrder": 1,
       "allowsExtra": true
@@ -135,7 +391,14 @@
       "sodium_mg": 720,
       "servingSize": "7.14 oz (Regular)",
       "allergens": [],
-      "dietTags": ["glutenfree", "dairyfree", "keto", "lowcarb", "highprotein", "paleo"],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "keto",
+        "lowcarb",
+        "highprotein",
+        "paleo"
+      ],
       "isAvailable": true,
       "sortOrder": 2,
       "allowsExtra": true
@@ -155,8 +418,13 @@
       "sugar_g": 1,
       "sodium_mg": 670,
       "servingSize": "1.76 oz (Regular)",
-      "allergens": ["dairy"],
-      "dietTags": ["glutenfree", "vegetarian"],
+      "allergens": [
+        "dairy"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
       "isAvailable": true,
       "sortOrder": 1,
       "allowsExtra": true
@@ -176,8 +444,15 @@
       "sugar_g": 1,
       "sodium_mg": 760,
       "servingSize": "2 slices (Regular)",
-      "allergens": ["dairy"],
-      "dietTags": ["glutenfree", "vegetarian", "keto", "lowcarb"],
+      "allergens": [
+        "dairy"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian",
+        "keto",
+        "lowcarb"
+      ],
       "isAvailable": true,
       "sortOrder": 2,
       "allowsExtra": true
@@ -197,8 +472,15 @@
       "sugar_g": 0,
       "sodium_mg": 525,
       "servingSize": "3 slices (Regular)",
-      "allergens": ["dairy"],
-      "dietTags": ["glutenfree", "vegetarian", "keto", "lowcarb"],
+      "allergens": [
+        "dairy"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian",
+        "keto",
+        "lowcarb"
+      ],
       "isAvailable": true,
       "sortOrder": 3,
       "allowsExtra": true
@@ -218,11 +500,46 @@
       "sugar_g": 0,
       "sodium_mg": 350,
       "servingSize": "2 slices (Regular)",
-      "allergens": ["dairy"],
-      "dietTags": ["glutenfree", "vegetarian", "keto", "lowcarb"],
+      "allergens": [
+        "dairy"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian",
+        "keto",
+        "lowcarb"
+      ],
       "isAvailable": true,
       "sortOrder": 4,
       "allowsExtra": true
+    },
+    {
+      "id": "ing-no-cheese",
+      "name": "No Cheese",
+      "categoryId": "cat-cheese",
+      "photoCDN": "https://placehold.co/480x480/f5f1ea/6b6b6b?text=No+Cheese",
+      "description": "Skip the cheese.",
+      "calories": 0,
+      "protein_g": 0,
+      "carbs_g": 0,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 0,
+      "sugar_g": 0,
+      "sodium_mg": 0,
+      "servingSize": "—",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "vegan",
+        "vegetarian",
+        "keto",
+        "lowcarb",
+        "highprotein"
+      ],
+      "isAvailable": true,
+      "sortOrder": 5,
+      "allowsExtra": false
     },
     {
       "id": "ing-onions",
@@ -240,7 +557,13 @@
       "sodium_mg": 5,
       "servingSize": "1.25 oz (Regular)",
       "allergens": [],
-      "dietTags": ["vegan", "vegetarian", "glutenfree", "dairyfree", "paleo"],
+      "dietTags": [
+        "vegan",
+        "vegetarian",
+        "glutenfree",
+        "dairyfree",
+        "paleo"
+      ],
       "isAvailable": true,
       "sortOrder": 1,
       "allowsExtra": false
@@ -261,7 +584,15 @@
       "sodium_mg": 5,
       "servingSize": "1.25 oz (Regular)",
       "allergens": [],
-      "dietTags": ["vegan", "vegetarian", "glutenfree", "dairyfree", "keto", "lowcarb", "paleo"],
+      "dietTags": [
+        "vegan",
+        "vegetarian",
+        "glutenfree",
+        "dairyfree",
+        "keto",
+        "lowcarb",
+        "paleo"
+      ],
       "isAvailable": true,
       "sortOrder": 2,
       "allowsExtra": false
@@ -282,17 +613,25 @@
       "sodium_mg": 2,
       "servingSize": "1.25 oz (Regular)",
       "allergens": [],
-      "dietTags": ["vegan", "vegetarian", "glutenfree", "dairyfree", "keto", "lowcarb", "paleo"],
+      "dietTags": [
+        "vegan",
+        "vegetarian",
+        "glutenfree",
+        "dairyfree",
+        "keto",
+        "lowcarb",
+        "paleo"
+      ],
       "isAvailable": true,
       "sortOrder": 3,
       "allowsExtra": false
     },
     {
       "id": "ing-jalapeno",
-      "name": "Jalapeño Peppers",
+      "name": "Jalape\u00f1o Peppers",
       "categoryId": "cat-veggies",
       "photoCDN": "https://placehold.co/480x480/c8102e/ffffff?text=Jalapeno",
-      "description": "Sliced jalapeños.",
+      "description": "Sliced jalape\u00f1os.",
       "calories": 7,
       "protein_g": 0.3,
       "carbs_g": 1.5,
@@ -303,7 +642,15 @@
       "sodium_mg": 2,
       "servingSize": "1 oz (Regular)",
       "allergens": [],
-      "dietTags": ["vegan", "vegetarian", "glutenfree", "dairyfree", "keto", "lowcarb", "paleo"],
+      "dietTags": [
+        "vegan",
+        "vegetarian",
+        "glutenfree",
+        "dairyfree",
+        "keto",
+        "lowcarb",
+        "paleo"
+      ],
       "isAvailable": true,
       "sortOrder": 4,
       "allowsExtra": false
@@ -324,7 +671,13 @@
       "sodium_mg": 2,
       "servingSize": "1 oz (Regular)",
       "allergens": [],
-      "dietTags": ["vegan", "vegetarian", "glutenfree", "dairyfree", "paleo"],
+      "dietTags": [
+        "vegan",
+        "vegetarian",
+        "glutenfree",
+        "dairyfree",
+        "paleo"
+      ],
       "isAvailable": true,
       "sortOrder": 5,
       "allowsExtra": false
@@ -345,7 +698,14 @@
       "sodium_mg": 200,
       "servingSize": "1 oz (Regular)",
       "allergens": [],
-      "dietTags": ["vegan", "vegetarian", "glutenfree", "dairyfree", "keto", "lowcarb"],
+      "dietTags": [
+        "vegan",
+        "vegetarian",
+        "glutenfree",
+        "dairyfree",
+        "keto",
+        "lowcarb"
+      ],
       "isAvailable": true,
       "sortOrder": 6,
       "allowsExtra": false
@@ -366,7 +726,13 @@
       "sodium_mg": 180,
       "servingSize": "1 oz (Regular)",
       "allergens": [],
-      "dietTags": ["glutenfree", "vegan", "vegetarian", "dairyfree", "paleo"],
+      "dietTags": [
+        "glutenfree",
+        "vegan",
+        "vegetarian",
+        "dairyfree",
+        "paleo"
+      ],
       "isAvailable": true,
       "sortOrder": 1,
       "allowsExtra": false
@@ -380,14 +746,19 @@
       "calories": 91,
       "protein_g": 5.07,
       "carbs_g": 2.03,
-      "fat_g": 7.10,
+      "fat_g": 7.1,
       "satFat_g": 4,
       "fiber_g": 0,
       "sugar_g": 1,
       "sodium_mg": 446,
       "servingSize": "1.18 oz (Regular)",
-      "allergens": ["dairy"],
-      "dietTags": ["glutenfree", "vegetarian"],
+      "allergens": [
+        "dairy"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
       "isAvailable": true,
       "sortOrder": 2,
       "allowsExtra": false
@@ -408,7 +779,14 @@
       "sodium_mg": 380,
       "servingSize": "1 oz (Regular)",
       "allergens": [],
-      "dietTags": ["glutenfree", "vegan", "vegetarian", "dairyfree", "keto", "lowcarb"],
+      "dietTags": [
+        "glutenfree",
+        "vegan",
+        "vegetarian",
+        "dairyfree",
+        "keto",
+        "lowcarb"
+      ],
       "isAvailable": true,
       "sortOrder": 3,
       "allowsExtra": false
@@ -429,7 +807,12 @@
       "sodium_mg": 280,
       "servingSize": "1 oz (Regular)",
       "allergens": [],
-      "dietTags": ["glutenfree", "vegan", "vegetarian", "dairyfree"],
+      "dietTags": [
+        "glutenfree",
+        "vegan",
+        "vegetarian",
+        "dairyfree"
+      ],
       "isAvailable": true,
       "sortOrder": 4,
       "allowsExtra": false
@@ -449,8 +832,13 @@
       "sugar_g": 3,
       "sodium_mg": 220,
       "servingSize": "1 oz (Regular)",
-      "allergens": ["eggs"],
-      "dietTags": ["glutenfree", "vegetarian"],
+      "allergens": [
+        "eggs"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
       "isAvailable": true,
       "sortOrder": 5,
       "allowsExtra": false
@@ -470,8 +858,16 @@
       "sugar_g": 0,
       "sodium_mg": 230,
       "servingSize": "1 oz (Regular)",
-      "allergens": ["dairy", "eggs"],
-      "dietTags": ["glutenfree", "vegetarian", "keto", "lowcarb"],
+      "allergens": [
+        "dairy",
+        "eggs"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian",
+        "keto",
+        "lowcarb"
+      ],
       "isAvailable": true,
       "sortOrder": 6,
       "allowsExtra": false
@@ -491,18 +887,26 @@
       "sugar_g": 1,
       "sodium_mg": 130,
       "servingSize": "1 oz (Regular)",
-      "allergens": ["dairy", "eggs"],
-      "dietTags": ["glutenfree", "vegetarian", "keto", "lowcarb"],
+      "allergens": [
+        "dairy",
+        "eggs"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian",
+        "keto",
+        "lowcarb"
+      ],
       "isAvailable": true,
       "sortOrder": 7,
       "allowsExtra": false
     },
     {
       "id": "ing-cilantroranch",
-      "name": "Jalapeño Cilantro Ranch",
+      "name": "Jalape\u00f1o Cilantro Ranch",
       "categoryId": "cat-sauces",
       "photoCDN": "https://placehold.co/480x480/f5f1ea/c8102e?text=Cilantro+Ranch",
-      "description": "Ranch with jalapeño + cilantro.",
+      "description": "Ranch with jalape\u00f1o + cilantro.",
       "calories": 75,
       "protein_g": 0,
       "carbs_g": 1.5,
@@ -512,33 +916,1008 @@
       "sugar_g": 1,
       "sodium_mg": 135,
       "servingSize": "1 oz (Regular)",
-      "allergens": ["dairy", "eggs"],
-      "dietTags": ["glutenfree", "vegetarian", "keto", "lowcarb"],
+      "allergens": [
+        "dairy",
+        "eggs"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian",
+        "keto",
+        "lowcarb"
+      ],
       "isAvailable": true,
       "sortOrder": 8,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-romaine",
+      "name": "Romaine",
+      "categoryId": "cat-salad-base",
+      "photoCDN": "https://placehold.co/480x480/2A7A40/ffffff?text=Romaine",
+      "description": "Romaine & mixed greens.",
+      "calories": 25,
+      "protein_g": 2,
+      "carbs_g": 4,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 1.5,
+      "sugar_g": 1,
+      "sodium_mg": 55,
+      "servingSize": "3.3 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 1,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-kale",
+      "name": "Kale & Spinach",
+      "categoryId": "cat-salad-base",
+      "photoCDN": "https://placehold.co/480x480/2A7A40/ffffff?text=Kale+%26+Spinach",
+      "description": "Kale mixed with spinach.",
+      "calories": 35,
+      "protein_g": 2,
+      "carbs_g": 6,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 2,
+      "sugar_g": 1,
+      "sodium_mg": 60,
+      "servingSize": "1.75 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 2,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-steak",
+      "name": "Grilled Steak",
+      "categoryId": "cat-salad-protein",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041491/9771bd8f-739f-47d1-95ff-edd086da59bd_bnewdy.webp",
+      "description": "Shaved ribeye, grilled.",
+      "calories": 232,
+      "protein_g": 25,
+      "carbs_g": 7.14,
+      "fat_g": 12.5,
+      "satFat_g": 5,
+      "fiber_g": 0,
+      "sugar_g": 0,
+      "sodium_mg": 540,
+      "servingSize": "7.14 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "keto",
+        "lowcarb",
+        "highprotein",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 1,
+      "allowsExtra": true
+    },
+    {
+      "id": "ing-salad-chicken",
+      "name": "Grilled Chicken",
+      "categoryId": "cat-salad-protein",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Grilled+Chicken",
+      "description": "Shaved chicken breast, grilled.",
+      "calories": 271,
+      "protein_g": 30,
+      "carbs_g": 5.71,
+      "fat_g": 14.29,
+      "satFat_g": 4,
+      "fiber_g": 0,
+      "sugar_g": 0,
+      "sodium_mg": 720,
+      "servingSize": "7.14 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "keto",
+        "lowcarb",
+        "highprotein",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 2,
+      "allowsExtra": true
+    },
+    {
+      "id": "ing-salad-bbq-chicken",
+      "name": "BBQ Chicken",
+      "categoryId": "cat-salad-protein",
+      "photoCDN": "https://placehold.co/480x480/8B4513/ffffff?text=BBQ+Chicken",
+      "description": "Grilled chicken tossed in smoky BBQ sauce.",
+      "calories": 310,
+      "protein_g": 29,
+      "carbs_g": 16,
+      "fat_g": 14,
+      "satFat_g": 4,
+      "fiber_g": 0,
+      "sugar_g": 10,
+      "sodium_mg": 820,
+      "servingSize": "7.14 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "highprotein"
+      ],
+      "isAvailable": true,
+      "sortOrder": 3,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-buffalo-chicken",
+      "name": "Buffalo Chicken",
+      "categoryId": "cat-salad-protein",
+      "photoCDN": "https://placehold.co/480x480/C8102E/ffffff?text=Buffalo+Chicken",
+      "description": "Grilled chicken tossed in tangy buffalo sauce.",
+      "calories": 296,
+      "protein_g": 30,
+      "carbs_g": 6,
+      "fat_g": 16,
+      "satFat_g": 4.5,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "sodium_mg": 1100,
+      "servingSize": "7.14 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "highprotein",
+        "keto",
+        "lowcarb"
+      ],
+      "isAvailable": true,
+      "sortOrder": 4,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-corn",
+      "name": "Corn Relish",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Corn+Relish",
+      "description": "House corn & sweet pepper relish.",
+      "calories": 45,
+      "protein_g": 1,
+      "carbs_g": 10,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 1,
+      "sugar_g": 4,
+      "sodium_mg": 130,
+      "servingSize": "1.5 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan"
+      ],
+      "isAvailable": true,
+      "sortOrder": 1,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-mj",
+      "name": "Monterey Jack",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Monterey+Jack",
+      "description": "Shredded Monterey Jack.",
+      "calories": 65,
+      "protein_g": 4.2,
+      "carbs_g": 0.1,
+      "fat_g": 5.5,
+      "satFat_g": 3.5,
+      "fiber_g": 0,
+      "sugar_g": 0,
+      "sodium_mg": 95,
+      "servingSize": "0.6 oz",
+      "allergens": [
+        "dairy"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 2,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-tortilla",
+      "name": "Tortilla Strips",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Tortilla+Strips",
+      "description": "Crispy tortilla strips.",
+      "calories": 33,
+      "protein_g": 1,
+      "carbs_g": 4.5,
+      "fat_g": 1.5,
+      "satFat_g": 0.2,
+      "fiber_g": 0.3,
+      "sugar_g": 0,
+      "sodium_mg": 55,
+      "servingSize": "0.25 oz",
+      "allergens": [
+        "gluten"
+      ],
+      "dietTags": [],
+      "isAvailable": true,
+      "sortOrder": 3,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-mushrooms",
+      "name": "Grilled Mushrooms",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Grilled+Mushrooms",
+      "description": "Grilled mushrooms.",
+      "calories": 20,
+      "protein_g": 2,
+      "carbs_g": 3,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 0.5,
+      "sugar_g": 1,
+      "sodium_mg": 5,
+      "servingSize": "1.25 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 4,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-ranch",
+      "name": "Ranch",
+      "categoryId": "cat-salad-dressing",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Ranch",
+      "description": "House ranch dressing.",
+      "calories": 130,
+      "protein_g": 1,
+      "carbs_g": 2,
+      "fat_g": 13,
+      "satFat_g": 2,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "sodium_mg": 260,
+      "servingSize": "1.7 oz",
+      "allergens": [
+        "dairy",
+        "egg"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 1,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-buffalo",
+      "name": "Buffalo Sauce",
+      "categoryId": "cat-salad-dressing",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Buffalo+Sauce",
+      "description": "Tangy buffalo sauce.",
+      "calories": 25,
+      "protein_g": 0,
+      "carbs_g": 1,
+      "fat_g": 2.5,
+      "satFat_g": 0.5,
+      "fiber_g": 0,
+      "sugar_g": 0,
+      "sodium_mg": 480,
+      "servingSize": "1 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan"
+      ],
+      "isAvailable": true,
+      "sortOrder": 2,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-bbq",
+      "name": "BBQ Sauce",
+      "categoryId": "cat-salad-dressing",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=BBQ+Sauce",
+      "description": "Smoky BBQ sauce.",
+      "calories": 50,
+      "protein_g": 0,
+      "carbs_g": 12,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 0,
+      "sugar_g": 8,
+      "sodium_mg": 230,
+      "servingSize": "1.11 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan"
+      ],
+      "isAvailable": true,
+      "sortOrder": 3,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-tenders-ranch",
+      "name": "Ranch",
+      "categoryId": "cat-tenders-sauce",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Ranch",
+      "description": "House ranch.",
+      "calories": 80,
+      "protein_g": 1,
+      "carbs_g": 2,
+      "fat_g": 8,
+      "satFat_g": 1.5,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "sodium_mg": 200,
+      "servingSize": "1 oz",
+      "allergens": [
+        "dairy",
+        "egg"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 1,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-tenders-buffalo",
+      "name": "Buffalo Sauce",
+      "categoryId": "cat-tenders-sauce",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Buffalo+Sauce",
+      "description": "Tangy buffalo.",
+      "calories": 25,
+      "protein_g": 0,
+      "carbs_g": 1,
+      "fat_g": 2.5,
+      "satFat_g": 0.5,
+      "fiber_g": 0,
+      "sugar_g": 0,
+      "sodium_mg": 480,
+      "servingSize": "1 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan"
+      ],
+      "isAvailable": true,
+      "sortOrder": 2,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-tenders-bbq",
+      "name": "BBQ Sauce",
+      "categoryId": "cat-tenders-sauce",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=BBQ+Sauce",
+      "description": "Smoky BBQ.",
+      "calories": 45,
+      "protein_g": 0,
+      "carbs_g": 11,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 0,
+      "sugar_g": 8,
+      "sodium_mg": 210,
+      "servingSize": "1 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan"
+      ],
+      "isAvailable": true,
+      "sortOrder": 3,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-tenders-frysauce",
+      "name": "Fry Sauce",
+      "categoryId": "cat-tenders-sauce",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Fry+Sauce",
+      "description": "House fry sauce (mayo + ketchup).",
+      "calories": 90,
+      "protein_g": 0,
+      "carbs_g": 4,
+      "fat_g": 9,
+      "satFat_g": 1.5,
+      "fiber_g": 0,
+      "sugar_g": 2,
+      "sodium_mg": 195,
+      "servingSize": "1 oz",
+      "allergens": [
+        "egg"
+      ],
+      "dietTags": [
+        "glutenfree"
+      ],
+      "isAvailable": true,
+      "sortOrder": 4,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-reg-fries",
+      "name": "Regular Fries",
+      "categoryId": "cat-fries-style",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040859/e650c4ee-b340-451d-a769-395730234679_kqacmv.webp",
+      "description": "Classic seasoned fries.",
+      "calories": 330,
+      "protein_g": 5,
+      "carbs_g": 45,
+      "fat_g": 13,
+      "satFat_g": 2,
+      "fiber_g": 4,
+      "sugar_g": 0,
+      "sodium_mg": 450,
+      "servingSize": "7.53 oz",
+      "allergens": [
+        "gluten"
+      ],
+      "dietTags": [],
+      "isAvailable": true,
+      "sortOrder": 1,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-sweet-fries",
+      "name": "Sweet Potato Fries",
+      "categoryId": "cat-fries-style",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040791/ad73af82-4e8e-4ee4-a337-f70a3e931ec8_squpmi.webp",
+      "description": "Seasoned sweet potato fries.",
+      "calories": 295,
+      "protein_g": 3,
+      "carbs_g": 48,
+      "fat_g": 11,
+      "satFat_g": 1.5,
+      "fiber_g": 5,
+      "sugar_g": 8,
+      "sodium_mg": 410,
+      "servingSize": "6.81 oz",
+      "allergens": [
+        "gluten"
+      ],
+      "dietTags": [],
+      "isAvailable": true,
+      "sortOrder": 2,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-fries-frysauce",
+      "name": "Fry Sauce",
+      "categoryId": "cat-fries-sauce",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Fry+Sauce",
+      "description": "House fry sauce (mayo + ketchup).",
+      "calories": 90,
+      "protein_g": 0,
+      "carbs_g": 4,
+      "fat_g": 9,
+      "satFat_g": 1.5,
+      "fiber_g": 0,
+      "sugar_g": 2,
+      "sodium_mg": 195,
+      "servingSize": "1 oz",
+      "allergens": [
+        "egg"
+      ],
+      "dietTags": [
+        "glutenfree"
+      ],
+      "isAvailable": true,
+      "sortOrder": 1,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-fries-ranch",
+      "name": "Ranch",
+      "categoryId": "cat-fries-sauce",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Ranch",
+      "description": "House ranch.",
+      "calories": 80,
+      "protein_g": 1,
+      "carbs_g": 2,
+      "fat_g": 8,
+      "satFat_g": 1.5,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "sodium_mg": 200,
+      "servingSize": "1 oz",
+      "allergens": [
+        "dairy",
+        "egg"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 2,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-fries-buffalo",
+      "name": "Buffalo Sauce",
+      "categoryId": "cat-fries-sauce",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Buffalo+Sauce",
+      "description": "Tangy buffalo.",
+      "calories": 25,
+      "protein_g": 0,
+      "carbs_g": 1,
+      "fat_g": 2.5,
+      "satFat_g": 0.5,
+      "fiber_g": 0,
+      "sugar_g": 0,
+      "sodium_mg": 480,
+      "servingSize": "1 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan"
+      ],
+      "isAvailable": true,
+      "sortOrder": 3,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-fries-cheezewiz",
+      "name": "Add Cheese Wiz",
+      "categoryId": "cat-fries-sauce",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Add+Cheese+Wiz",
+      "description": "Classic Philly cheese sauce on fries.",
+      "calories": 240,
+      "protein_g": 13,
+      "carbs_g": 5,
+      "fat_g": 18,
+      "satFat_g": 10,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "sodium_mg": 1100,
+      "servingSize": "2.94 oz",
+      "allergens": [
+        "dairy"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 4,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-rawonion",
+      "name": "Raw Onions",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Raw+Onions",
+      "description": "Fresh sliced onions.",
+      "calories": 11,
+      "protein_g": 0.3,
+      "carbs_g": 2.5,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 0.3,
+      "sugar_g": 1.1,
+      "sodium_mg": 1,
+      "servingSize": "1 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 5,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-rawgreenpep",
+      "name": "Raw Green Peppers",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Raw+Green+Peppers",
+      "description": "Fresh sliced green peppers.",
+      "calories": 6,
+      "protein_g": 0.3,
+      "carbs_g": 1.4,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 0.5,
+      "sugar_g": 0.7,
+      "sodium_mg": 1,
+      "servingSize": "1 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 6,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-rawmushroom",
+      "name": "Mushrooms",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Mushrooms",
+      "description": "Fresh sliced mushrooms.",
+      "calories": 6,
+      "protein_g": 0.9,
+      "carbs_g": 1,
+      "fat_g": 0.1,
+      "satFat_g": 0,
+      "fiber_g": 0.3,
+      "sugar_g": 0.6,
+      "sodium_mg": 1,
+      "servingSize": "1 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 7,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-sweetpep",
+      "name": "Sweet Peppers",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/FFA500/ffffff?text=Sweet+Peppers",
+      "description": "Grilled sweet peppers.",
+      "calories": 25,
+      "protein_g": 0.5,
+      "carbs_g": 5,
+      "fat_g": 0.5,
+      "satFat_g": 0,
+      "fiber_g": 1,
+      "sugar_g": 3,
+      "sodium_mg": 5,
+      "servingSize": "1 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 8,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-cherrypep",
+      "name": "Cherry Peppers",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/C8102E/ffffff?text=Cherry+Peppers",
+      "description": "Hot cherry peppers.",
+      "calories": 15,
+      "protein_g": 0.5,
+      "carbs_g": 3,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 0.5,
+      "sugar_g": 1,
+      "sodium_mg": 360,
+      "servingSize": "1 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 9,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-jalapeno",
+      "name": "Jalapeño Peppers",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/2A7A40/ffffff?text=Jalapeño",
+      "description": "Sliced jalapeño peppers.",
+      "calories": 5,
+      "protein_g": 0.2,
+      "carbs_g": 1,
+      "fat_g": 0,
+      "satFat_g": 0,
+      "fiber_g": 0.4,
+      "sugar_g": 0.5,
+      "sodium_mg": 150,
+      "servingSize": "0.5 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan",
+        "paleo",
+        "keto",
+        "lowcarb"
+      ],
+      "isAvailable": true,
+      "sortOrder": 10,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-greenpep",
+      "name": "Grilled Green Peppers",
+      "categoryId": "cat-salad-toppings",
+      "photoCDN": "https://placehold.co/480x480/2A7A40/ffffff?text=Green+Peppers",
+      "description": "Grilled green bell peppers.",
+      "calories": 15,
+      "protein_g": 0.5,
+      "carbs_g": 3.5,
+      "fat_g": 0.1,
+      "satFat_g": 0,
+      "fiber_g": 1,
+      "sugar_g": 1.5,
+      "sodium_mg": 2,
+      "servingSize": "1 oz",
+      "allergens": [],
+      "dietTags": [
+        "glutenfree",
+        "dairyfree",
+        "vegan",
+        "paleo"
+      ],
+      "isAvailable": true,
+      "sortOrder": 11,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-bluecheese",
+      "name": "Spicy Blue Cheese",
+      "categoryId": "cat-salad-dressing",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Spicy+Blue+Cheese",
+      "description": "House spicy blue cheese dressing.",
+      "calories": 130,
+      "protein_g": 2,
+      "carbs_g": 2,
+      "fat_g": 13,
+      "satFat_g": 3,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "sodium_mg": 320,
+      "servingSize": "1.7 oz",
+      "allergens": [
+        "dairy",
+        "egg"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 4,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-salad-cilranch",
+      "name": "Jalape\u00f1o Cilantro Ranch",
+      "categoryId": "cat-salad-dressing",
+      "photoCDN": "https://placehold.co/480x480/888888/ffffff?text=Jalape\u00f1o+Cilantro+Ranch",
+      "description": "House jalape\u00f1o cilantro ranch.",
+      "calories": 130,
+      "protein_g": 1,
+      "carbs_g": 2,
+      "fat_g": 13,
+      "satFat_g": 2,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "sodium_mg": 280,
+      "servingSize": "1.7 oz",
+      "allergens": [
+        "dairy",
+        "egg"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 5,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-cookie-choc",
+      "name": "Chocolate Chunk Cookie",
+      "categoryId": "cat-desserts",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041286/2d9819a0-6ddd-44a9-808f-7d8c83a8b101_bgt3sg.webp",
+      "description": "Sandy's Amazing Chocolate Chunk Manifesto\u00ae Cookie. Individually wrapped. MANUFACTURED IN A FACILITY THAT PROCESSES PEANUTS/NUTS.",
+      "calories": 360,
+      "protein_g": 4,
+      "carbs_g": 49,
+      "fat_g": 18,
+      "satFat_g": 10,
+      "fiber_g": 2,
+      "sugar_g": 32,
+      "sodium_mg": 280,
+      "servingSize": "1 cookie (2.8 oz)",
+      "allergens": [
+        "egg",
+        "milk",
+        "soy",
+        "wheat"
+      ],
+      "dietTags": [
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 1,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-cookie-caramel",
+      "name": "Salted Caramel Cookie",
+      "categoryId": "cat-desserts",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041287/c90633de-66d1-4e94-9f1d-dae019fc41f0_m1bsit.webp",
+      "description": "Salted Caramel Manifesto\u00ae Cookie. Individually wrapped. MANUFACTURED IN A FACILITY THAT PROCESSES PEANUTS/NUTS.",
+      "calories": 370,
+      "protein_g": 4,
+      "carbs_g": 52,
+      "fat_g": 17,
+      "satFat_g": 9,
+      "fiber_g": 1,
+      "sugar_g": 36,
+      "sodium_mg": 310,
+      "servingSize": "1 cookie (2.8 oz)",
+      "allergens": [
+        "egg",
+        "milk",
+        "soy",
+        "wheat",
+        "tree nuts"
+      ],
+      "dietTags": [
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 2,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-brownie-choc",
+      "name": "Peruvian Chocolate Brownie",
+      "categoryId": "cat-desserts",
+      "photoCDN": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041286/5d299ef0-90cc-4d44-871e-a85f60473424_i9ourh.webp",
+      "description": "Peruvian Chocolate Manifesto\u00ae Brownie. Individually wrapped. MANUFACTURED IN A FACILITY THAT PROCESSES PEANUTS/NUTS.",
+      "calories": 410,
+      "protein_g": 5,
+      "carbs_g": 55,
+      "fat_g": 20,
+      "satFat_g": 11,
+      "fiber_g": 3,
+      "sugar_g": 40,
+      "sodium_mg": 220,
+      "servingSize": "1 brownie (3.5 oz)",
+      "allergens": [
+        "egg",
+        "milk",
+        "soy",
+        "wheat"
+      ],
+      "dietTags": [
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "sortOrder": 3,
       "allowsExtra": false
     }
   ],
   "portionOptions": [
-    { "id": "port-none", "name": "None", "multiplier": 0, "isDefault": false, "sortOrder": 1 },
-    { "id": "port-light", "name": "Light", "multiplier": 0.5, "isDefault": false, "sortOrder": 2 },
-    { "id": "port-regular", "name": "Regular", "multiplier": 1, "isDefault": true, "sortOrder": 3 },
-    { "id": "port-extra", "name": "Extra", "multiplier": 1.5, "isDefault": false, "sortOrder": 4 },
-    { "id": "port-double", "name": "Double", "multiplier": 2, "isDefault": false, "sortOrder": 5 }
+    {
+      "id": "port-none",
+      "name": "None",
+      "multiplier": 0,
+      "isDefault": false,
+      "sortOrder": 1
+    },
+    {
+      "id": "port-light",
+      "name": "Light",
+      "multiplier": 0.5,
+      "isDefault": false,
+      "sortOrder": 2
+    },
+    {
+      "id": "port-regular",
+      "name": "Normal",
+      "multiplier": 1,
+      "isDefault": true,
+      "sortOrder": 3
+    },
+    {
+      "id": "port-extra",
+      "name": "Extra",
+      "multiplier": 1.5,
+      "isDefault": false,
+      "sortOrder": 4
+    },
+    {
+      "id": "port-double",
+      "name": "Double",
+      "multiplier": 2,
+      "isDefault": false,
+      "sortOrder": 5
+    },
+    {
+      "id": "port-with-slaw",
+      "name": "With Slaw",
+      "multiplier": 1,
+      "isDefault": true,
+      "sortOrder": 6
+    },
+    {
+      "id": "port-no-slaw",
+      "name": "No Slaw",
+      "multiplier": 0.01,
+      "isDefault": false,
+      "sortOrder": 7
+    }
   ],
   "presets": [
     {
       "id": "pre-classic",
       "name": "The Classic",
-      "description": "Steak, Cheese Wiz, grilled onions — the Philly gold standard.",
+      "description": "Steak, Cheese Wiz, grilled onions \u2014 the Philly gold standard.",
       "formatId": "fmt-cheesesteak-reg",
       "ingredients": [
-        { "ingredientId": "ing-steak", "portionMultiplier": 1 },
-        { "ingredientId": "ing-wiz", "portionMultiplier": 1 },
-        { "ingredientId": "ing-onions", "portionMultiplier": 1 }
+        {
+          "ingredientId": "ing-steak",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-wiz",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-onions",
+          "portionMultiplier": 1
+        }
       ],
       "image": "https://placehold.co/480x480/c8102e/ffffff?text=The+Classic",
-      "tags": ["popular", "chef-pick"],
+      "tags": [
+        "popular",
+        "chef-pick"
+      ],
       "isActive": true,
       "sortOrder": 1
     },
@@ -548,13 +1927,28 @@
       "description": "Chicken, White American, hot cherry peppers, buffalo sauce.",
       "formatId": "fmt-cheesesteak-reg",
       "ingredients": [
-        { "ingredientId": "ing-chicken", "portionMultiplier": 1 },
-        { "ingredientId": "ing-american", "portionMultiplier": 1 },
-        { "ingredientId": "ing-cherrypep", "portionMultiplier": 1 },
-        { "ingredientId": "ing-buffalo", "portionMultiplier": 1 }
+        {
+          "ingredientId": "ing-chicken",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-american",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-cherrypep",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-buffalo",
+          "portionMultiplier": 1
+        }
       ],
       "image": "https://placehold.co/480x480/c8102e/ffffff?text=Spicy+Buffalo",
-      "tags": ["popular", "spicy"],
+      "tags": [
+        "popular",
+        "spicy"
+      ],
       "isActive": true,
       "sortOrder": 2
     },
@@ -564,15 +1958,95 @@
       "description": "Steak + Provolone + mushrooms + onions over kale slaw.",
       "formatId": "fmt-bowl",
       "ingredients": [
-        { "ingredientId": "ing-steak", "portionMultiplier": 1 },
-        { "ingredientId": "ing-provolone", "portionMultiplier": 1 },
-        { "ingredientId": "ing-mushrooms", "portionMultiplier": 1 },
-        { "ingredientId": "ing-onions", "portionMultiplier": 1 }
+        {
+          "ingredientId": "ing-steak",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-provolone",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-mushrooms",
+          "portionMultiplier": 1
+        },
+        {
+          "ingredientId": "ing-onions",
+          "portionMultiplier": 1
+        }
       ],
       "image": "https://placehold.co/480x480/1a1a1a/ffffff?text=Steak+Lovers",
-      "tags": ["chef-pick", "high-protein", "lowcarb"],
+      "tags": [
+        "chef-pick",
+        "high-protein",
+        "lowcarb"
+      ],
       "isActive": true,
       "sortOrder": 3
+    },
+    {
+      "id": "pre-salad-bbq-chicken",
+      "name": "BBQ Chicken Salad",
+      "description": "BBQ chicken over romaine with corn relish and tortilla strips.",
+      "formatId": "fmt-salad",
+      "ingredients": [
+        { "ingredientId": "ing-salad-romaine",       "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-bbq-chicken",   "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-corn",          "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-tortilla",      "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-bbq",           "portionMultiplier": 1 }
+      ],
+      "image": "https://placehold.co/480x480/8B4513/ffffff?text=BBQ+Chicken+Salad",
+      "tags": ["popular"],
+      "isActive": true,
+      "sortOrder": 4
+    },
+    {
+      "id": "pre-salad-buffalo-chicken",
+      "name": "Buffalo Chicken Salad",
+      "description": "Spicy buffalo chicken over romaine with Monterey Jack.",
+      "formatId": "fmt-salad",
+      "ingredients": [
+        { "ingredientId": "ing-salad-romaine",          "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-buffalo-chicken",  "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-mj",               "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-buffalo",          "portionMultiplier": 1 }
+      ],
+      "image": "https://placehold.co/480x480/C8102E/ffffff?text=Buffalo+Chicken+Salad",
+      "tags": ["popular", "spicy"],
+      "isActive": true,
+      "sortOrder": 5
+    },
+    {
+      "id": "pre-salad-steak",
+      "name": "Steak Salad",
+      "description": "Grilled steak over romaine with ranch dressing.",
+      "formatId": "fmt-salad",
+      "ingredients": [
+        { "ingredientId": "ing-salad-romaine",   "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-steak",     "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-mushrooms", "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-ranch",     "portionMultiplier": 1 }
+      ],
+      "image": "https://placehold.co/480x480/4A4A4A/ffffff?text=Steak+Salad",
+      "tags": ["popular", "chef-pick"],
+      "isActive": true,
+      "sortOrder": 6
+    },
+    {
+      "id": "pre-salad-chicken",
+      "name": "Chicken Salad",
+      "description": "Grilled chicken over romaine. Choose your dressing on the side.",
+      "formatId": "fmt-salad",
+      "ingredients": [
+        { "ingredientId": "ing-salad-romaine",  "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-chicken",  "portionMultiplier": 1 },
+        { "ingredientId": "ing-salad-ranch",    "portionMultiplier": 1 }
+      ],
+      "image": "https://placehold.co/480x480/888888/ffffff?text=Chicken+Salad",
+      "tags": ["highprotein"],
+      "isActive": true,
+      "sortOrder": 7
     }
   ]
 }

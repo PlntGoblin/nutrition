@@ -1,0 +1,62 @@
+import type { JSX } from "preact";
+import { selectedFormatId, setFormat } from "../lib/store";
+import { track } from "../lib/analytics";
+
+const CHEESESTEAK_SIZES = [
+  { label: "Mini",    desc: "4½ Inch", id: "fmt-cheesesteak-mini", initial: "M", bg: "#6B6B6B" },
+  { label: "Regular", desc: "7 Inch",  id: "fmt-cheesesteak-reg",  initial: "R", bg: "#C8102E" },
+  { label: "Large",   desc: "10 Inch", id: "fmt-cheesesteak-lg",   initial: "L", bg: "#4A4A4A" },
+] as const;
+
+const SALAD_SIZES = [
+  { label: "Half",  desc: "Half Portion", id: "fmt-salad-half",  initial: "½", bg: "#2A7A40" },
+  { label: "Whole", desc: "Full Portion", id: "fmt-salad",       initial: "W", bg: "#2A7A40" },
+] as const;
+
+const ALL_SIZES = [...CHEESESTEAK_SIZES, ...SALAD_SIZES];
+const SIZE_IDS  = new Set(ALL_SIZES.map(s => s.id));
+
+export function SizePicker(): JSX.Element | null {
+  const fmtId = selectedFormatId.value;
+  if (!fmtId || !SIZE_IDS.has(fmtId)) return null;
+
+  const isCheeseteak = CHEESESTEAK_SIZES.some(s => s.id === fmtId);
+  const sizes = isCheeseteak ? CHEESESTEAK_SIZES : SALAD_SIZES;
+
+  return (
+    <section class="nc-section" aria-labelledby="nc-size-title">
+      <header class="nc-section__header">
+        <h2 id="nc-size-title" class="nc-section__title">Choose Your Size</h2>
+      </header>
+      <div class="nc-list nc-list--size" role="radiogroup" aria-label="Size selection">
+        {sizes.map(size => {
+          const isActive = fmtId === size.id;
+          return (
+            <button
+              key={size.id}
+              type="button"
+              role="radio"
+              aria-checked={isActive}
+              class={`nc-row${isActive ? " is-selected" : ""}`}
+              onClick={() => {
+                setFormat(size.id);
+                track("size_selected", { id: size.id, label: size.label });
+              }}
+            >
+              <span class="nc-row__select" aria-hidden="true">
+                <span class="nc-row__select-check">✓</span>
+              </span>
+              <div class="nc-row__photo" style={`background:${size.bg}`}>
+                <span class="nc-row__initial">{size.initial}</span>
+              </div>
+              <div class="nc-row__info">
+                <span class="nc-row__name">{size.label}</span>
+                <span class="nc-row__allergens">{size.desc}</span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}

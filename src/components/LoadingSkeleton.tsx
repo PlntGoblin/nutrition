@@ -53,13 +53,16 @@ export function LoadingSkeleton(): JSX.Element {
                 <Block width="60px" height="12px" />
                 <Block width="220px" height="48px" />
               </div>
-              <div class="nc-grid">
-                {Array.from({ length: 6 }, (_, i) => (
-                  <div key={i} class="nc-card">
-                    <Block width="100%" height="180px" />
-                    <div class="nc-card__body">
-                      <Block width="70%" height="14px" />
-                      <Block width="40%" height="12px" />
+              <div class="nc-list">
+                {Array.from({ length: 4 }, (_, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: "16px", padding: "14px 0", borderBottom: "1px solid var(--color-border)" }}>
+                    <Block width="48px" height="48px" style={{ borderRadius: "50%", flexShrink: "0" }} />
+                    <Block width="38%" height="16px" />
+                    <div style={{ marginLeft: "auto", display: "flex", gap: "12px" }}>
+                      <Block width="36px" height="18px" />
+                      <Block width="28px" height="12px" />
+                      <Block width="28px" height="12px" />
+                      <Block width="28px" height="12px" />
                     </div>
                   </div>
                 ))}

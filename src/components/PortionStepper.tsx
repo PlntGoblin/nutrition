@@ -1,18 +1,3 @@
-/**
- * Per-ingredient portion stepper (Sweetgreen pattern, PRD §4.2 #15).
- *
- * Renders inline inside the IngredientCard body when the ingredient is
- * selected AND `allowsExtra: true`. For Forefathers that's primarily
- * the Cheese category (matches the menu's "Double Cheese for Additional
- * $1.00") plus the proteins.
- *
- * Buttons read PortionOptions from the loaded menu so the multipliers
- * stay data-driven (Airtable manager can extend the stepper without a
- * code change).
- *
- * Tap behavior: clicking the active option leaves it selected; clicking
- * "None" deselects the ingredient entirely (delegated to the store).
- */
 import type { JSX } from "preact";
 import type { Ingredient } from "../types";
 import { portionOptions, selections, setPortion } from "../lib/store";
@@ -21,12 +6,20 @@ interface PortionStepperProps {
   ingredient: Ingredient;
 }
 
+const SHOWN_MULTIPLIERS = new Set([0.5, 1, 2]);
+const SLAW_MULTIPLIERS  = new Set([1, 0.01]);
+
 export function PortionStepper({ ingredient }: PortionStepperProps): JSX.Element | null {
   if (!ingredient.allowsExtra) return null;
   const sel = selections.value[ingredient.id];
   if (!sel) return null;
 
-  const options = [...portionOptions.value].sort((a, b) => a.sortOrder - b.sortOrder);
+  const isSlawIngredient = ingredient.id === "ing-kale-slaw-base";
+  const allowed = isSlawIngredient ? SLAW_MULTIPLIERS : SHOWN_MULTIPLIERS;
+
+  const options = [...portionOptions.value]
+    .filter(o => allowed.has(o.multiplier))
+    .sort((a, b) => a.sortOrder - b.sortOrder);
   if (options.length === 0) return null;
 
   return (
@@ -44,12 +37,13 @@ export function PortionStepper({ ingredient }: PortionStepperProps): JSX.Element
             type="button"
             role="radio"
             aria-checked={isActive}
-            class={`nc-portion__btn${isActive ? " is-active" : ""}`}
+            class={`nc-portion__opt${isActive ? " is-active" : ""}`}
             onClick={(e) => {
               e.stopPropagation();
               setPortion(ingredient.id, opt.multiplier);
             }}
           >
+            <span class="nc-portion__radio" aria-hidden="true" />
             {opt.name}
           </button>
         );
