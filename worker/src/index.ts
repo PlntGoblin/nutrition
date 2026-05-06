@@ -247,6 +247,7 @@ function allowedOrigins(env: Env): Set<string> {
     'https://forefathers-nutrition.pages.dev',
     'https://forefatherssteaks.com',
     'https://www.forefatherssteaks.com',
+    'https://nutrition.forefatherssteaks.com',
     'http://localhost:5173',
     'http://localhost:4173',
   ];
