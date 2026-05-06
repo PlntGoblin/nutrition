@@ -5,75 +5,53 @@ import { track } from "../lib/analytics";
 
 interface Props {
   onSelect: (id: string) => void;
-}
-
-interface SubItem {
-  label: string;
-  formatId: string;
-  representativeCal: number;
-  calLabel: string;
+  onSidesOpen: () => void;
 }
 
 interface LandingItem {
   label: string;
-  formatId: string | null;
+  formatId: string | null; // null = group (no builder)
   available: boolean;
   representativeCal: number;
   calLabel: string;
-  subItems?: SubItem[];
-  cycleFormatId?: string; // photo shown when this group is active in the cycle
+  isSides?: boolean;
 }
 
 const LANDING_ITEMS: LandingItem[] = [
   { label: "Cheesesteak", formatId: "fmt-cheesesteak-reg", available: true, representativeCal: 0, calLabel: "" },
   { label: "Salad",       formatId: "fmt-salad",           available: true, representativeCal: 0, calLabel: "" },
-  {
-    label: "Sides",
-    formatId: null,
-    available: true,
-    representativeCal: 0,
-    calLabel: "",
-    cycleFormatId: "fmt-tenders",
-    subItems: [
-      { label: "Chicken Tenders",   formatId: "fmt-tenders",         representativeCal: 800, calLabel: "4 strips" },
-      { label: "Fries",             formatId: "fmt-fries",           representativeCal: 330, calLabel: "regular"  },
-      { label: "Sweet Potato Fries",formatId: "fmt-sweet-potato-fries", representativeCal: 340, calLabel: "regular" },
-      { label: "50/50 Fries",       formatId: "fmt-5050-fries",      representativeCal: 335, calLabel: "regular"  },
-    ],
-  },
-  { label: "Desserts", formatId: "fmt-desserts", available: true, representativeCal: 0, calLabel: "" },
+  { label: "Sides",       formatId: null,                  available: true, representativeCal: 0, calLabel: "", isSides: true },
+  { label: "Desserts",    formatId: "fmt-desserts",        available: true, representativeCal: 0, calLabel: "" },
 ];
 
-// Flat list used for the auto-cycling hero image — groups contribute their cycleFormatId
-const CYCLE_ITEMS = LANDING_ITEMS
-  .filter(i => i.available && (i.formatId || i.cycleFormatId))
-  .map(i => ({ label: i.label, formatId: (i.formatId ?? i.cycleFormatId)! }));
+// Items that have a hero image to cycle through (exclude Sides — no direct format)
+const CYCLE_ITEMS = [
+  { label: "Cheesesteak", formatId: "fmt-cheesesteak-reg" },
+  { label: "Salad",       formatId: "fmt-salad"           },
+  { label: "Sides",       formatId: "fmt-tenders"         }, // show tenders photo for Sides
+  { label: "Desserts",    formatId: "fmt-desserts"        },
+];
 
 const CYCLE_MS = 8000;
 
-export function FormatSelector({ onSelect }: Props): JSX.Element {
-  const [hoveredId,   setHoveredId]   = useState<string | null>(null);
-  const [cycleIdx,    setCycleIdx]    = useState(0);
-  const [sidesOpen,   setSidesOpen]   = useState(false);
+export function FormatSelector({ onSelect, onSidesOpen }: Props): JSX.Element {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [cycleIdx,  setCycleIdx]  = useState(0);
   const isHovering  = useRef(false);
   const cycleIdxRef = useRef(0);
   const fmtList     = formats.value;
 
-  // Initialise hero to cheesesteak on mount
   useEffect(() => {
-    const first = CYCLE_ITEMS[0];
-    if (first?.formatId) selectedFormatId.value = first.formatId;
+    selectedFormatId.value = CYCLE_ITEMS[0].formatId;
   }, []);
 
-  // Auto-advance hero image while not hovering
   useEffect(() => {
     const id = setInterval(() => {
       if (isHovering.current) return;
       const next = (cycleIdxRef.current + 1) % CYCLE_ITEMS.length;
       cycleIdxRef.current = next;
       setCycleIdx(next);
-      const item = CYCLE_ITEMS[next];
-      if (item?.formatId) selectedFormatId.value = item.formatId;
+      selectedFormatId.value = CYCLE_ITEMS[next].formatId;
     }, CYCLE_MS);
     return () => clearInterval(id);
   }, []);
@@ -89,8 +67,7 @@ export function FormatSelector({ onSelect }: Props): JSX.Element {
   const handleLeave = () => {
     isHovering.current = false;
     setHoveredId(null);
-    const item = CYCLE_ITEMS[cycleIdxRef.current];
-    if (item?.formatId) selectedFormatId.value = item.formatId;
+    selectedFormatId.value = CYCLE_ITEMS[cycleIdxRef.current].formatId;
   };
 
   return (
@@ -106,7 +83,6 @@ export function FormatSelector({ onSelect }: Props): JSX.Element {
           onMouseLeave={handleLeave}
         >
           {LANDING_ITEMS.map((item) => {
-            // ── Unavailable item ──────────────────────────────────────────
             if (!item.available) {
               return (
                 <div key={item.label} class="nc-format-row nc-format-row--soon" aria-disabled="true">
@@ -116,56 +92,27 @@ export function FormatSelector({ onSelect }: Props): JSX.Element {
               );
             }
 
-            // ── Group item (Sides) ────────────────────────────────────────
-            if (item.subItems) {
-              const groupActive = item.subItems.some(s => s.formatId === displayId);
+            // Sides — navigates to sub-landing, not a builder
+            if (item.isSides) {
+              const sidesActive = displayId === "fmt-tenders";
               return (
-                <div key={item.label} class="nc-format-group">
-                  <button
-                    type="button"
-                    class={`nc-format-row nc-format-row--group${groupActive ? " is-active" : ""}`}
-                    aria-expanded={sidesOpen}
-                    onMouseEnter={() => handleEnter(item.cycleFormatId!)}
-                    onClick={() => setSidesOpen(o => !o)}
-                  >
-                    <span class="nc-format-row__name">{item.label}</span>
-                    <span class={`nc-format-row__chevron${sidesOpen ? " is-open" : ""}`} aria-hidden="true">›</span>
-                  </button>
-
-                  <div class={`nc-format-sublist${sidesOpen ? " is-open" : ""}`} aria-hidden={!sidesOpen}>
-                    <div class="nc-format-sublist__inner">
-                      {item.subItems.map(sub => {
-                        const isActive = sub.formatId === displayId;
-                        return (
-                          <button
-                            key={sub.label}
-                            type="button"
-                            role="radio"
-                            aria-checked={isActive}
-                            class={`nc-format-row nc-format-row--sub${isActive ? " is-active" : ""}`}
-                            onMouseEnter={() => handleEnter(sub.formatId)}
-                            onClick={() => {
-                              track("format_selected", { id: sub.formatId, name: sub.label });
-                              onSelect(sub.formatId);
-                            }}
-                          >
-                            <span class="nc-format-row__name">{sub.label}</span>
-                            {sub.representativeCal > 0 && (
-                              <span class="nc-format-row__cal">
-                                {sub.representativeCal} cal
-                                {sub.calLabel && <span class="nc-format-row__cal-sub"> · {sub.calLabel}</span>}
-                              </span>
-                            )}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
+                <button
+                  key={item.label}
+                  type="button"
+                  class={`nc-format-row nc-format-row--group${sidesActive ? " is-active" : ""}`}
+                  onMouseEnter={() => handleEnter("fmt-tenders")}
+                  onClick={() => {
+                    track("sides_opened", {});
+                    onSidesOpen();
+                  }}
+                >
+                  <span class="nc-format-row__name">{item.label}</span>
+                  <span class="nc-format-row__chevron" aria-hidden="true">›</span>
+                </button>
               );
             }
 
-            // ── Regular item ─────────────────────────────────────────────
+            // Regular item
             const isActive = item.formatId === displayId;
             return (
               <button
@@ -181,12 +128,6 @@ export function FormatSelector({ onSelect }: Props): JSX.Element {
                 }}
               >
                 <span class="nc-format-row__name">{item.label}</span>
-                {item.representativeCal > 0 && (
-                  <span class="nc-format-row__cal">
-                    {item.representativeCal} cal
-                    {item.calLabel && <span class="nc-format-row__cal-sub"> · {item.calLabel}</span>}
-                  </span>
-                )}
               </button>
             );
           })}

@@ -19,6 +19,7 @@ import { AllergenWarning } from "./components/AllergenWarning";
 import { BottomSheet } from "./components/BottomSheet";
 import { DisclaimerFooter } from "./components/DisclaimerFooter";
 import { FormatSelector } from "./components/FormatSelector";
+import { SidesSelector } from "./components/SidesSelector";
 import { IngredientGrid } from "./components/IngredientGrid";
 import { LoadingSkeleton } from "./components/LoadingSkeleton";
 import { NutritionPrefsModal } from "./components/NutritionPrefsModal";
@@ -34,6 +35,7 @@ const HASH_DEBOUNCE_MS = 500;
 export function App(_props: AppProps): JSX.Element {
   const hasHydrated   = useRef(false);
   const [builderOpen, setBuilderOpen] = useState(false);
+  const [sidesOpen,   setSidesOpen]   = useState(false);
   const [prefsOpen,   setPrefsOpen]   = useState(false);
 
   const openBuilder = (formatId?: string) => {
@@ -45,6 +47,16 @@ export function App(_props: AppProps): JSX.Element {
 
   const closeBuilder = () => {
     setBuilderOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const openSides = () => {
+    setSidesOpen(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const closeSides = () => {
+    setSidesOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -181,6 +193,31 @@ export function App(_props: AppProps): JSX.Element {
     );
   }
 
+  // ── Sides landing view ────────────────────────────────────────────────────
+  if (sidesOpen) {
+    return (
+      <div class="nc-shell">
+        <header class="nc-hero">
+          <div class="nc-hero__inner">
+            <div class="nc-hero__copy">
+              <button type="button" class="nc-back-btn" onClick={closeSides}>
+                ← All Meals
+              </button>
+              <h1 class="nc-hero__title">Sides</h1>
+            </div>
+          </div>
+        </header>
+        <main class="nc-body">
+          <SidesSelector
+            onSelect={(id) => { closeSides(); openBuilder(id); }}
+            onBack={closeSides}
+          />
+          <div id="nc-disclaimer"><DisclaimerFooter /></div>
+        </main>
+      </div>
+    );
+  }
+
   // ── Landing view ──────────────────────────────────────────────────────────
   return (
     <div class="nc-shell">
@@ -211,7 +248,7 @@ export function App(_props: AppProps): JSX.Element {
       </header>
 
       <main class="nc-body">
-        <FormatSelector onSelect={(id) => openBuilder(id)} />
+        <FormatSelector onSelect={(id) => openBuilder(id)} onSidesOpen={openSides} />
         <div id="nc-disclaimer"><DisclaimerFooter /></div>
       </main>
     </div>
