@@ -222,6 +222,7 @@
   animation: nc-cal-pop 180ms ease-out;
   display: inline-block;
   min-width: 4ch;
+  text-align: right;
 }
 
 @keyframes nc-cal-pop {

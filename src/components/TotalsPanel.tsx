@@ -33,6 +33,16 @@ export function TotalsPanel({ variant = "hero", animationDuration = 400 }: Total
           {expanded ? "×" : "+"}
         </button>
         <div class="nc-hero-totals__row">
+          <div class="nc-hero-totals__cal">
+            <span
+              key={Math.round(t.calories)}
+              class="nc-hero-totals__cal-num"
+              aria-live="polite"
+            >
+              {Math.round(t.calories)}
+            </span>
+            <span class="nc-hero-totals__cal-unit">cal</span>
+          </div>
           <ul class="nc-hero-totals__macros">
             <li>
               <span class="nc-hero-totals__macro-num nc-hero-totals__macro-num--fat">{fmt(t.fat_g)}g</span>
@@ -47,16 +57,6 @@ export function TotalsPanel({ variant = "hero", animationDuration = 400 }: Total
               <span class="nc-hero-totals__macro-label">Carbs</span>
             </li>
           </ul>
-          <div class="nc-hero-totals__cal">
-            <span
-              key={Math.round(t.calories)}
-              class="nc-hero-totals__cal-num"
-              aria-live="polite"
-            >
-              {Math.round(t.calories)}
-            </span>
-            <span class="nc-hero-totals__cal-unit">cal</span>
-          </div>
         </div>
 
         {expanded && (
