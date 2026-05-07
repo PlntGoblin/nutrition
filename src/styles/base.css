@@ -1953,10 +1953,10 @@
     font-size: 10px;
   }
 
-  /* Expand button — visible on mobile, vertically centred in the header */
+  /* Expand button — fixed offset so it stays put when breakdown opens */
   .nc-hero-totals__expand-btn {
-    top: 50%;
-    transform: translateY(-50%);
+    top: 18px;   /* (64px header − 28px button) / 2 = 18px */
+    transform: none;
     width: 28px;
     height: 28px;
     font-size: 18px;
