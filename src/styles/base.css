@@ -827,66 +827,6 @@
   white-space: nowrap;
 }
 
-/* === Format group (Sides) ================================================= */
-
-.nc-format-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.nc-format-row--group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nc-format-row__chevron {
-  font-size: 20px;
-  line-height: 1;
-  color: var(--color-muted);
-  transform: rotate(0deg);
-  transition: transform 220ms ease, color 180ms ease;
-  margin-right: 2px;
-}
-
-.nc-format-row__chevron.is-open {
-  transform: rotate(90deg);
-  color: var(--color-ink);
-}
-
-.nc-format-sublist {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 240ms ease;
-}
-
-.nc-format-sublist.is-open {
-  grid-template-rows: 1fr;
-}
-
-.nc-format-sublist__inner {
-  overflow: hidden;
-}
-
-.nc-format-row--sub {
-  padding-left: 28px;
-  font-size: 0.9em;
-  opacity: 0.85;
-}
-
-.nc-format-row--sub.is-active {
-  opacity: 1;
-}
-
-.nc-format-row--sub::before {
-  background: var(--color-accent);
-  opacity: 0.5;
-}
-
-.nc-format-row--sub.is-active::before {
-  opacity: 1;
-}
-
 /* === Category stepper ===================================================== */
 
 .nc-stepper {
