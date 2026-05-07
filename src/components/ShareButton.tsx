@@ -14,15 +14,17 @@
  */
 import type { JSX } from "preact";
 import { useState } from "preact/hooks";
+import { selectedFormat } from "../lib/store";
 
 export function ShareButton(): JSX.Element {
   const [toast, setToast] = useState<string | null>(null);
 
   async function handleShare(): Promise<void> {
     const url = typeof window !== "undefined" ? window.location.href : "";
+    const formatName = selectedFormat.value?.name ?? "meal";
     const shareData = {
       title: "My nutrition build",
-      text: "Check out the nutrition info for the cheesesteak I built.",
+      text: `Check out the nutrition info for the ${formatName} I built at Forefathers.`,
       url,
     };
 

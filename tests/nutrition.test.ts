@@ -42,9 +42,9 @@ describe("calculateTotals", () => {
     expect(totals.carbs_g).toBe(cheesesteakReg.baseCarbs_g);
     expect(totals.fat_g).toBe(cheesesteakReg.baseFat_g);
     expect(totals.sodium_mg).toBe(cheesesteakReg.baseSodium_mg);
-    // Base nutrition for the bowl is (intentionally) lower than the cheesesteak.
+    // Bowl base calories should equal exactly what the format declares.
     const bowlTotals = calculateTotals(bowl, {}, ingredients);
-    expect(bowlTotals.calories).toBeLessThan(totals.calories);
+    expect(bowlTotals.calories).toBe(bowl.baseCalories);
   });
 
   it("adding grilled chicken adds chicken's macros to the format base", () => {

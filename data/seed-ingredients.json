@@ -62,7 +62,7 @@
     {
       "id": "fmt-bowl",
       "name": "Low Carb Bowl",
-      "baseCalories": 16,
+      "baseCalories": 0,
       "baseProtein_g": 1,
       "baseCarbs_g": 4,
       "baseFat_g": 0,

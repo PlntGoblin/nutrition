@@ -24,7 +24,7 @@ export default defineConfig({
   build: {
     target: "es2020",
     cssCodeSplit: false,
-    sourcemap: true,
+    sourcemap: process.env.NODE_ENV !== "production",
     // Library mode: emit a single ESM bundle (calculator.js) + extracted CSS
     // (calculator.css). The widget mounts itself on import — no host-side
     // bootstrapping required (PRD §10.1).

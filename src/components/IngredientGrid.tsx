@@ -10,8 +10,6 @@ import { IngredientCard } from "./IngredientCard";
 interface Props { categoryId: string; }
 
 export function IngredientGrid({ categoryId }: Props): JSX.Element {
-  void selections.value;
-
   const category = categories.value.find(c => c.id === categoryId);
   const items = ingredients.value
     .filter(i => i.categoryId === categoryId && i.isAvailable)

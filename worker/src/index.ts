@@ -173,7 +173,13 @@ async function buildMenu(env: Env) {
     .filter(p => p.IsActive !== false)
     .map((p) => {
       let ingredientList: unknown[] = [];
-      try { ingredientList = JSON.parse(p.Ingredients as string ?? '[]'); } catch {}
+      try {
+        const parsed = JSON.parse(p.Ingredients as string ?? '[]');
+        if (Array.isArray(parsed)) ingredientList = parsed;
+        else console.warn(`Preset ${p.PresetId}: Ingredients field is not an array`);
+      } catch (e) {
+        console.warn(`Preset ${p.PresetId}: Invalid JSON in Ingredients field`, e);
+      }
       return {
         id:          s(p.PresetId),
         name:        s(p.Name),
@@ -235,7 +241,10 @@ async function mirrorPhotos(env: Env) {
     formData.append('signature', sig);
 
     const uploadRes = await fetch(uploadUrl, { method: 'POST', body: formData });
-    if (!uploadRes.ok) continue;
+    if (!uploadRes.ok) {
+      console.warn(`mirrorPhotos: Cloudinary upload failed for ${IngredientId} (${uploadRes.status})`);
+      continue;
+    }
 
     const uploaded = await uploadRes.json() as { secure_url: string };
     const cdnUrl = `https://res.cloudinary.com/${env.CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto,w_480/${publicId}`;
@@ -296,7 +305,7 @@ export default {
     try {
       // Try fresh KV cache first
       const cached = await env.MENU_CACHE.getWithMetadata<{ ts: number }>(CACHE_KEY, 'text');
-      if (cached.value && cached.metadata) {
+      if (cached.value && cached.metadata && typeof cached.metadata.ts === 'number') {
         const age = (Date.now() - cached.metadata.ts) / 1000;
         if (age < CACHE_FRESH_SECS) {
           return new Response(cached.value, {
