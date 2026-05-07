@@ -342,8 +342,8 @@
       "id": "cat-sides-type",
       "name": "Choose Your Side",
       "step": 1,
-      "selectionType": "single",
-      "maxSelections": 1,
+      "selectionType": "multi",
+      "maxSelections": null,
       "icon": "utensils",
       "helpText": "Pick one",
       "required": true
