@@ -1,6 +1,6 @@
 import type { JSX } from "preact";
 import type { Ingredient } from "../types";
-import { portionOptions, selections, setPortion } from "../lib/store";
+import { canSetPortion, portionOptions, selections, setPortion } from "../lib/store";
 
 interface PortionStepperProps {
   ingredient: Ingredient;
@@ -42,7 +42,8 @@ export function PortionStepper({ ingredient }: PortionStepperProps): JSX.Element
             type="button"
             role="radio"
             aria-checked={isActive}
-            class={`nc-portion__opt${isActive ? " is-active" : ""}`}
+            disabled={!isActive && !canSetPortion(ingredient.id, opt.multiplier)}
+            class={`nc-portion__opt${isActive ? " is-active" : ""}${!isActive && !canSetPortion(ingredient.id, opt.multiplier) ? " is-capped" : ""}`}
             onClick={(e) => {
               e.stopPropagation();
               setPortion(ingredient.id, opt.multiplier);

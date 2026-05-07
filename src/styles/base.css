@@ -1470,6 +1470,17 @@
   box-shadow: inset 0 0 0 3px var(--color-bg);
 }
 
+/* Portion option that would exceed a slot cap (e.g. cheese at 4/4) */
+.nc-portion__opt.is-capped,
+.nc-portion__opt:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.nc-portion__opt.is-capped:hover,
+.nc-portion__opt:disabled:hover {
+  color: var(--color-muted);
+}
+
 /* === Popular builds (preset gallery) ====================================== */
 
 .nc-presets {

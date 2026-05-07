@@ -82,6 +82,16 @@ export function isIngredientFilteredOut(ingredient: Ingredient): boolean {
   return !applyFilters(ingredient, activeFilters.value);
 }
 
+/**
+ * Categories where maxSelections is enforced as total *portion slots* rather
+ * than a simple distinct-ingredient count. Adding an ingredient costs 1 slot;
+ * a Double portion costs 2 slots.
+ *
+ * "cat-cheese" (max 4): Wiz×2 + American×1 + Provolone×1 = 4 slots → full.
+ * You cannot add Mozzarella or double Provolone at that point.
+ */
+const SLOT_CAPPED_CATEGORIES = new Set(["cat-cheese"]);
+
 // === Mutations =============================================================
 
 export function setMenu(data: MenuData): void {
@@ -158,12 +168,19 @@ export function toggleIngredientInCategory(ingredientId: string): boolean {
   }
 
   if (category.maxSelections != null) {
-    const inThisCategory = Object.keys(selections.value).filter((id) => {
-      const otherIng = data.ingredients.find((i) => i.id === id);
-      return otherIng?.categoryId === category.id;
-    });
-    if (inThisCategory.length >= category.maxSelections) {
-      return false;
+    if (SLOT_CAPPED_CATEGORIES.has(category.id)) {
+      // Adding a new ingredient always costs 1 slot at first.
+      if (selectedSlotsInCategory(category.id) + 1 > category.maxSelections) {
+        return false;
+      }
+    } else {
+      const inThisCategory = Object.keys(selections.value).filter((id) => {
+        const otherIng = data.ingredients.find((i) => i.id === id);
+        return otherIng?.categoryId === category.id;
+      });
+      if (inThisCategory.length >= category.maxSelections) {
+        return false;
+      }
     }
   }
 
@@ -172,10 +189,27 @@ export function toggleIngredientInCategory(ingredientId: string): boolean {
 }
 
 /**
+ * Sum of portionMultiplier values for all selected ingredients in a category.
+ * For slot-capped categories this is what's checked against maxSelections.
+ */
+export function selectedSlotsInCategory(categoryId: string): number {
+  const data = menuData.value;
+  if (!data) return 0;
+  let slots = 0;
+  for (const [id, sel] of Object.entries(selections.value)) {
+    const ing = data.ingredients.find((i) => i.id === id);
+    if (ing?.categoryId === categoryId) slots += sel.portionMultiplier;
+  }
+  return slots;
+}
+
+/**
  * Count how many ingredients in a given category are currently selected.
- * Used by IngredientGrid to show "n/max" affordance.
+ * For slot-capped categories (e.g. cheese) returns total portion slots so
+ * that IngredientGrid's atLimit check respects doubled portions automatically.
  */
 export function selectedCountInCategory(categoryId: string): number {
+  if (SLOT_CAPPED_CATEGORIES.has(categoryId)) return selectedSlotsInCategory(categoryId);
   const data = menuData.value;
   if (!data) return 0;
   let count = 0;
@@ -186,15 +220,33 @@ export function selectedCountInCategory(categoryId: string): number {
   return count;
 }
 
-export function setPortion(ingredientId: string, multiplier: number): void {
+/**
+ * Returns true if setting ingredientId to the given portionMultiplier is
+ * within the category's slot cap.  Always true for non-slot-capped categories.
+ */
+export function canSetPortion(ingredientId: string, multiplier: number): boolean {
+  if (multiplier === 0) return true;
+  const data = menuData.value;
+  if (!data) return true;
+  const ing = data.ingredients.find((i) => i.id === ingredientId);
+  if (!ing) return true;
+  const cat = data.categories.find((c) => c.id === ing.categoryId);
+  if (!cat || cat.maxSelections == null || !SLOT_CAPPED_CATEGORIES.has(cat.id)) return true;
+  const currentMult = selections.value[ingredientId]?.portionMultiplier ?? 0;
+  return selectedSlotsInCategory(cat.id) - currentMult + multiplier <= cat.maxSelections;
+}
+
+export function setPortion(ingredientId: string, multiplier: number): boolean {
   if (multiplier === 0) {
     deselectIngredient(ingredientId);
-    return;
+    return true;
   }
+  if (!canSetPortion(ingredientId, multiplier)) return false;
   selections.value = {
     ...selections.value,
     [ingredientId]: { ingredientId, portionMultiplier: multiplier },
   };
+  return true;
 }
 
 export function clearSelections(): void {

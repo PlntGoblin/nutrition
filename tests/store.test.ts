@@ -31,6 +31,8 @@ import {
   setPortion,
   clearSelections,
   selectedCountInCategory,
+  selectedSlotsInCategory,
+  canSetPortion,
 } from "../src/lib/store";
 import seed from "../data/seed-ingredients.json";
 import type { MenuData } from "../src/types";
@@ -169,26 +171,86 @@ describe("toggleIngredientInCategory — multi-select capped at 2 (Sauces)", () 
   });
 });
 
-describe("toggleIngredientInCategory — multi-select capped at 4 (Cheese)", () => {
+describe("toggleIngredientInCategory — slot-capped (Cheese, max 4 slots)", () => {
   beforeEach(() => setMenu(menu));
 
-  it("allows selecting all 4 real cheese types simultaneously", () => {
-    // Exclude ing-no-cheese — that's a choice slot, not a cheese type
-    const realCheeses = menu.ingredients.filter(
+  const getCheeses = () =>
+    menu.ingredients.filter(
       i => i.categoryId === "cat-cheese" && i.isAvailable && i.id !== "ing-no-cheese"
     );
-    expect(realCheeses.length).toBe(4); // Wiz, American, Provolone, Mozzarella
-    realCheeses.forEach(c => expect(toggleIngredientInCategory(c.id)).toBe(true));
+
+  it("allows selecting all 4 real cheese types simultaneously (4 × 1 slot)", () => {
+    const cheeses = getCheeses();
+    expect(cheeses.length).toBe(4); // Wiz, American, Provolone, Mozzarella
+    cheeses.forEach(c => expect(toggleIngredientInCategory(c.id)).toBe(true));
     expect(selectedCountInCategory("cat-cheese")).toBe(4);
+    expect(selectedSlotsInCategory("cat-cheese")).toBe(4);
   });
 
-  it("blocks a 5th selection (maxSelections = 4)", () => {
+  it("blocks a 5th distinct cheese when all 4 slots are taken", () => {
     const allCheeses = menu.ingredients.filter(i => i.categoryId === "cat-cheese" && i.isAvailable);
     allCheeses.slice(0, 4).forEach(c => toggleIngredientInCategory(c.id));
     const fifth = allCheeses[4];
     if (fifth) {
       expect(toggleIngredientInCategory(fifth.id)).toBe(false);
     }
+  });
+
+  it("double cheese costs 2 slots: Wiz×2 + American×1 + Provolone×1 = 4 slots → full", () => {
+    const [wiz, american, provolone, mozzarella] = getCheeses();
+    toggleIngredientInCategory(wiz!.id);
+    setPortion(wiz!.id, 2);           // Wiz now uses 2 slots
+    toggleIngredientInCategory(american!.id);
+    toggleIngredientInCategory(provolone!.id);
+    expect(selectedSlotsInCategory("cat-cheese")).toBe(4);
+    // Adding Mozzarella would push to 5 slots → blocked
+    expect(toggleIngredientInCategory(mozzarella!.id)).toBe(false);
+  });
+
+  it("selectedCountInCategory reflects slots, not distinct count, for cheese", () => {
+    const [wiz] = getCheeses();
+    toggleIngredientInCategory(wiz!.id);
+    setPortion(wiz!.id, 2);
+    // 1 ingredient but 2 slots
+    expect(selectedSlotsInCategory("cat-cheese")).toBe(2);
+    expect(selectedCountInCategory("cat-cheese")).toBe(2); // slot-based
+  });
+
+  it("setPortion to double is blocked when it would exceed the 4-slot cap", () => {
+    const [wiz, american, provolone] = getCheeses();
+    toggleIngredientInCategory(wiz!.id);
+    toggleIngredientInCategory(american!.id);
+    toggleIngredientInCategory(provolone!.id);
+    // 3 slots used; doubling provolone would go to 4 slots — allowed
+    expect(setPortion(provolone!.id, 2)).toBe(true);
+    expect(selectedSlotsInCategory("cat-cheese")).toBe(4);
+    // Now doubling American would push to 5 — blocked
+    expect(setPortion(american!.id, 2)).toBe(false);
+    expect(selections.value[american!.id]?.portionMultiplier).toBe(1);
+  });
+
+  it("canSetPortion returns false for a portion that would exceed the cap", () => {
+    const [wiz, american, provolone, mozzarella] = getCheeses();
+    toggleIngredientInCategory(wiz!.id);
+    setPortion(wiz!.id, 2); // 2 slots
+    toggleIngredientInCategory(american!.id); // 3 slots
+    toggleIngredientInCategory(provolone!.id); // 4 slots — full
+    // Can't double american (would need 5 slots)
+    expect(canSetPortion(american!.id, 2)).toBe(false);
+    // Can't add mozzarella at all
+    expect(canSetPortion(mozzarella!.id, 1)).toBe(false);
+    // But setting american back to 1 (no change) is fine
+    expect(canSetPortion(american!.id, 1)).toBe(true);
+  });
+
+  it("freeing a slot by deselecting allows adding another cheese", () => {
+    const [wiz, american, provolone, mozzarella] = getCheeses();
+    [wiz!, american!, provolone!, mozzarella!].forEach(c => toggleIngredientInCategory(c.id));
+    expect(selectedSlotsInCategory("cat-cheese")).toBe(4);
+    toggleIngredientInCategory(wiz!.id); // deselect
+    expect(selectedSlotsInCategory("cat-cheese")).toBe(3);
+    // Now we can re-add Wiz (or double something)
+    expect(toggleIngredientInCategory(wiz!.id)).toBe(true);
   });
 });
 
