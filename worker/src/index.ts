@@ -95,7 +95,7 @@ const PHOTO_OVERRIDES: Record<string, string> = {
   // Sides builder ingredient cards
   "ing-sides-tenders":        "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040817/3733afe2-35d4-4d01-a06c-d314ecd67812_fqm14q.webp",
   "ing-sides-fries":          "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040859/e650c4ee-b340-451d-a769-395730234679_kqacmv.webp",
-  "ing-sides-sweet-potato":   "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040859/e650c4ee-b340-451d-a769-395730234679_kqacmv.webp",
+  "ing-sides-sweet-potato":   "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040791/ad73af82-4e8e-4ee4-a337-f70a3e931ec8_squpmi.webp",
 };
 
 // ── Menu builder ─────────────────────────────────────────────────────────────
