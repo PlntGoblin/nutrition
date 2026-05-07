@@ -1817,32 +1817,101 @@
     background: transparent;
   }
 
-  /* Compact hero band — single row: back btn + title, no actions clutter */
+  /* ── Mobile hero: arrow + live nutrition totals, no title ── */
   .nc-hero__inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     padding: 0 16px;
-    gap: 0;
+    gap: 12px;
+    min-height: 64px;
   }
 
   .nc-hero__copy {
     flex-direction: row;
     align-items: center;
-    gap: 12px;
-    min-height: 52px;
+    gap: 0;
+    min-height: auto;
     max-width: none;
+    flex-shrink: 0;
   }
 
-  .nc-hero__title {
-    font-size: 16px;
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  /* Hide secondary hero content on mobile — allergen link + share in body */
+  /* Hide title + secondary actions — totals live in the rail */
+  .nc-hero__title,
   .nc-hero__actions,
   .nc-hero__lede {
     display: none;
+  }
+
+  /* Back button: just the arrow, no label */
+  .nc-back-btn {
+    font-size: 22px;
+    margin-bottom: 0;
+    padding: 8px 4px;
+    color: var(--color-ink);
+    flex-shrink: 0;
+  }
+
+  /* Show totals rail in the header, fill remaining width */
+  .nc-hero__rail {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-end;
+  }
+
+  /* Scale hero totals down to fit compact header */
+  .nc-hero-totals {
+    width: 100%;
+  }
+
+  .nc-hero-totals__row {
+    gap: 12px;
+    padding-right: 0;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+  }
+
+  .nc-hero-totals__cal-num {
+    font-size: 24px;
+    min-width: 3ch;
+  }
+
+  .nc-hero-totals__cal-unit {
+    font-size: 12px;
+  }
+
+  .nc-hero-totals__macros {
+    gap: 14px;
+  }
+
+  .nc-hero-totals__macros li {
+    min-width: 0;
+    gap: 1px;
+  }
+
+  .nc-hero-totals__macro-num {
+    font-size: 16px;
+  }
+
+  .nc-hero-totals__macro-label {
+    font-size: 10px;
+  }
+
+  /* Hide the +/× expand button — no room in mobile header */
+  .nc-hero-totals__expand-btn {
+    display: none;
+  }
+
+  /* Bottom sheet not needed — totals are in the header */
+  .nc-sheet,
+  .nc-sheet-backdrop {
+    display: none !important;
+  }
+
+  /* Remove bottom padding that was compensating for the peek bar */
+  .nc-body {
+    padding-bottom: 32px;
   }
 }
 

@@ -114,8 +114,8 @@ export function App(_props: AppProps): JSX.Element {
         <header class="nc-hero">
           <div class="nc-hero__inner">
             <div class="nc-hero__copy">
-              <button type="button" class="nc-back-btn" onClick={closeBuilder}>
-                ← All Meals
+              <button type="button" class="nc-back-btn" aria-label="Back to all meals" onClick={closeBuilder}>
+                ←
               </button>
               <h1 class="nc-hero__title">{fmt?.name ?? "Your Build"}</h1>
               <div class="nc-hero__actions">
