@@ -1363,11 +1363,17 @@
   box-shadow: none;
 }
 
-/* Allergen footer link — bottom right of landing page above disclaimer */
+/* Allergen footer link — mobile only, bottom right above disclaimer */
 .nc-allergen-footer {
   display: flex;
   justify-content: flex-end;
   padding: 10px 0 6px;
+}
+
+@media (min-width: 720px) {
+  .nc-allergen-footer {
+    display: none;
+  }
 }
 
 .nc-allergen-footer__link {
