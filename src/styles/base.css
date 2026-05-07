@@ -1518,6 +1518,16 @@
   box-shadow: inset 0 0 0 3px var(--color-bg);
 }
 
+/* Portion stepper: 2-column grid on mobile so options don't overflow the row */
+@media (max-width: 719px) {
+  .nc-portion {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 4px;
+    margin-top: 8px;
+  }
+}
+
 /* Portion option that would exceed a slot cap (e.g. cheese at 4/4) */
 .nc-portion__opt.is-capped,
 .nc-portion__opt:disabled {
@@ -1943,9 +1953,26 @@
     font-size: 10px;
   }
 
-  /* Hide the +/× expand button — no room in mobile header */
+  /* Expand button — visible on mobile, vertically centred in the header */
   .nc-hero-totals__expand-btn {
-    display: none;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+
+  /* Restore right padding so row content clears the absolute expand button */
+  .nc-hero-totals__row {
+    padding-right: 40px;
+  }
+
+  /* Breakdown panel sits below the cal/macro row inside the sticky header */
+  .nc-hero-totals__breakdown {
+    margin-top: 12px;
+    padding-top: 12px;
+    min-width: 0;
+    width: 100%;
   }
 
   /* Bottom sheet not needed — totals are in the header */
