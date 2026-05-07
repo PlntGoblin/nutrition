@@ -1347,6 +1347,43 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
 }
 
+/* Dark mode: outline-only chips — cream bg + light text = invisible on dark modal */
+[data-nc-root][data-theme="dark"] .nc-pref-chip,
+[data-theme="dark"] [data-nc-root] .nc-pref-chip {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.38);
+  color: var(--color-ink);
+  box-shadow: none;
+}
+
+[data-nc-root][data-theme="dark"] .nc-pref-chip:hover:not(.is-active),
+[data-theme="dark"] [data-nc-root] .nc-pref-chip:hover:not(.is-active) {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.65);
+  box-shadow: none;
+}
+
+/* Allergen footer link — bottom right of landing page above disclaimer */
+.nc-allergen-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0 6px;
+}
+
+.nc-allergen-footer__link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 150ms;
+}
+
+.nc-allergen-footer__link:hover {
+  color: var(--color-brand);
+}
+
 .nc-modal__footer {
   padding: 16px 24px 24px;
   border-top: 1px solid var(--color-border);
@@ -1836,10 +1873,12 @@
     flex-shrink: 0;
   }
 
-  /* Hide title + secondary actions — totals live in the rail */
+  /* Hide all hero copy except back button — totals live in the rail */
   .nc-hero__title,
   .nc-hero__actions,
-  .nc-hero__lede {
+  .nc-hero__lede,
+  .nc-hero .nc-eyebrow,
+  .nc-hero .nc-hero__allergen-link {
     display: none;
   }
 

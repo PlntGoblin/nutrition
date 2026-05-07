@@ -213,6 +213,18 @@ export function App(_props: AppProps): JSX.Element {
 
       <main class="nc-body">
         <FormatSelector onSelect={(id) => openBuilder(id)} />
+        <div class="nc-allergen-footer">
+          <a
+            href="#nc-disclaimer"
+            class="nc-allergen-footer__link"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById("nc-disclaimer")?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            Allergen Statement
+          </a>
+        </div>
         <div id="nc-disclaimer"><DisclaimerFooter /></div>
       </main>
     </div>
