@@ -29,7 +29,7 @@
       "baseCarbs_g": 0,
       "baseFat_g": 0,
       "baseSodium_mg": 0,
-      "sizeMultiplier": 1.0,
+      "sizeMultiplier": 1,
       "includedCategoryIds": [
         "cat-cheesesteak-base",
         "cat-protein",
@@ -67,7 +67,7 @@
       "baseCarbs_g": 4,
       "baseFat_g": 0,
       "baseSodium_mg": 35,
-      "sizeMultiplier": 1.0,
+      "sizeMultiplier": 1,
       "includedCategoryIds": [
         "cat-protein",
         "cat-cheese",
@@ -103,7 +103,7 @@
       "baseCarbs_g": 0,
       "baseFat_g": 0,
       "baseSodium_mg": 0,
-      "sizeMultiplier": 1.0,
+      "sizeMultiplier": 1,
       "includedCategoryIds": [
         "cat-salad-base",
         "cat-salad-protein",
@@ -121,7 +121,7 @@
       "baseCarbs_g": 60,
       "baseFat_g": 36,
       "baseSodium_mg": 1640,
-      "sizeMultiplier": 1.0,
+      "sizeMultiplier": 1,
       "includedCategoryIds": [
         "cat-tenders-sauce"
       ],
@@ -136,13 +136,28 @@
       "baseCarbs_g": 0,
       "baseFat_g": 0,
       "baseSodium_mg": 0,
-      "sizeMultiplier": 1.0,
+      "sizeMultiplier": 1,
       "includedCategoryIds": [
         "cat-fries-style",
         "cat-fries-sauce"
       ],
       "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040859/e650c4ee-b340-451d-a769-395730234679_kqacmv.webp",
       "sortOrder": 7
+    },
+    {
+      "id": "fmt-sides",
+      "name": "Sides",
+      "baseCalories": 0,
+      "baseProtein_g": 0,
+      "baseCarbs_g": 0,
+      "baseFat_g": 0,
+      "baseSodium_mg": 0,
+      "includedCategoryIds": [
+        "cat-sides-type",
+        "cat-sides-sauce"
+      ],
+      "heroImage": "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040817/3733afe2-35d4-4d01-a06c-d314ecd67812_fqm14q.webp",
+      "sortOrder": 30
     },
     {
       "id": "fmt-desserts",
@@ -152,7 +167,7 @@
       "baseCarbs_g": 0,
       "baseFat_g": 0,
       "baseSodium_mg": 0,
-      "sizeMultiplier": 1.0,
+      "sizeMultiplier": 1,
       "includedCategoryIds": [
         "cat-desserts"
       ],
@@ -167,7 +182,7 @@
       "baseCarbs_g": 0,
       "baseFat_g": 0,
       "baseSodium_mg": 0,
-      "sizeMultiplier": 1.0,
+      "sizeMultiplier": 1,
       "includedCategoryIds": [
         "cat-fries-style",
         "cat-fries-sauce"
@@ -183,7 +198,7 @@
       "baseCarbs_g": 0,
       "baseFat_g": 0,
       "baseSodium_mg": 0,
-      "sizeMultiplier": 1.0,
+      "sizeMultiplier": 1,
       "includedCategoryIds": [
         "cat-fries-style",
         "cat-fries-sauce"
@@ -322,6 +337,26 @@
       "icon": "cake",
       "helpText": "Each dessert is individually wrapped.",
       "required": true
+    },
+    {
+      "id": "cat-sides-type",
+      "name": "Choose Your Side",
+      "step": 1,
+      "selectionType": "single",
+      "maxSelections": 1,
+      "icon": "utensils",
+      "helpText": "Pick one",
+      "required": true
+    },
+    {
+      "id": "cat-sides-sauce",
+      "name": "Add a Sauce",
+      "step": 2,
+      "selectionType": "optional",
+      "maxSelections": 1,
+      "icon": "droplets",
+      "helpText": "",
+      "required": false
     }
   ],
   "ingredients": [
@@ -1872,6 +1907,233 @@
       "isAvailable": true,
       "sortOrder": 3,
       "allowsExtra": false
+    },
+    {
+      "id": "ing-sides-tenders",
+      "name": "Chicken Tenders",
+      "calories": 800,
+      "protein_g": 50,
+      "carbs_g": 45,
+      "fat_g": 40,
+      "sodium_mg": 1800,
+      "servingSize": "4 strips",
+      "sortOrder": 1,
+      "categoryId": "cat-sides-type",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Chicken%20Tenders",
+      "description": "",
+      "satFat_g": 0,
+      "fiber_g": 1,
+      "sugar_g": 0,
+      "allergens": [
+        "gluten"
+      ],
+      "dietTags": [],
+      "isAvailable": true,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-sides-fries",
+      "name": "Fries",
+      "calories": 330,
+      "protein_g": 5,
+      "carbs_g": 45,
+      "fat_g": 16,
+      "sodium_mg": 480,
+      "servingSize": "regular",
+      "sortOrder": 2,
+      "categoryId": "cat-sides-type",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Fries",
+      "description": "",
+      "satFat_g": 0,
+      "fiber_g": 1,
+      "sugar_g": 0,
+      "allergens": [
+        "gluten"
+      ],
+      "dietTags": [],
+      "isAvailable": true,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-sides-sweet-potato",
+      "name": "Sweet Potato Fries",
+      "calories": 340,
+      "protein_g": 4,
+      "carbs_g": 52,
+      "fat_g": 14,
+      "sodium_mg": 460,
+      "servingSize": "regular",
+      "sortOrder": 3,
+      "categoryId": "cat-sides-type",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Sweet%20Potato%20Fries",
+      "description": "",
+      "satFat_g": 0,
+      "fiber_g": 1,
+      "sugar_g": 0,
+      "allergens": [
+        "gluten"
+      ],
+      "dietTags": [],
+      "isAvailable": true,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-sides-5050",
+      "name": "50/50 Fries",
+      "calories": 335,
+      "protein_g": 5,
+      "carbs_g": 49,
+      "fat_g": 15,
+      "sodium_mg": 470,
+      "servingSize": "regular",
+      "sortOrder": 4,
+      "categoryId": "cat-sides-type",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=50%2F50%20Fries",
+      "description": "",
+      "satFat_g": 0,
+      "fiber_g": 1,
+      "sugar_g": 0,
+      "allergens": [
+        "gluten"
+      ],
+      "dietTags": [],
+      "isAvailable": true,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-sides-salad",
+      "name": "Side Salad",
+      "calories": 70,
+      "protein_g": 3,
+      "carbs_g": 8,
+      "fat_g": 3,
+      "sodium_mg": 80,
+      "servingSize": "1 serving",
+      "sortOrder": 5,
+      "categoryId": "cat-sides-type",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Side%20Salad",
+      "description": "",
+      "satFat_g": 0,
+      "fiber_g": 1,
+      "sugar_g": 0,
+      "allergens": [],
+      "dietTags": [
+        "vegan",
+        "vegetarian",
+        "glutenfree"
+      ],
+      "isAvailable": true,
+      "allowsExtra": false
+    },
+    {
+      "id": "ing-sides-ranch",
+      "name": "Ranch",
+      "calories": 80,
+      "protein_g": 0,
+      "carbs_g": 2,
+      "fat_g": 8,
+      "sodium_mg": 150,
+      "categoryId": "cat-sides-sauce",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Ranch",
+      "description": "",
+      "satFat_g": 0,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "allergens": [
+        "dairy",
+        "eggs"
+      ],
+      "dietTags": [],
+      "isAvailable": true,
+      "allowsExtra": false,
+      "sortOrder": 1,
+      "servingSize": "2 oz"
+    },
+    {
+      "id": "ing-sides-buffalo",
+      "name": "Buffalo Sauce",
+      "calories": 25,
+      "protein_g": 0,
+      "carbs_g": 2,
+      "fat_g": 2,
+      "sodium_mg": 480,
+      "categoryId": "cat-sides-sauce",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Buffalo%20Sauce",
+      "description": "",
+      "satFat_g": 0,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "allergens": [],
+      "dietTags": [],
+      "isAvailable": true,
+      "allowsExtra": false,
+      "sortOrder": 2,
+      "servingSize": "2 oz"
+    },
+    {
+      "id": "ing-sides-bbq",
+      "name": "BBQ Sauce",
+      "calories": 45,
+      "protein_g": 0,
+      "carbs_g": 11,
+      "fat_g": 0,
+      "sodium_mg": 360,
+      "categoryId": "cat-sides-sauce",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=BBQ%20Sauce",
+      "description": "",
+      "satFat_g": 0,
+      "fiber_g": 0,
+      "sugar_g": 9,
+      "allergens": [],
+      "dietTags": [],
+      "isAvailable": true,
+      "allowsExtra": false,
+      "sortOrder": 3,
+      "servingSize": "2 oz"
+    },
+    {
+      "id": "ing-sides-frysauce",
+      "name": "Fry Sauce",
+      "calories": 90,
+      "protein_g": 0,
+      "carbs_g": 3,
+      "fat_g": 9,
+      "sodium_mg": 180,
+      "categoryId": "cat-sides-sauce",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Fry%20Sauce",
+      "description": "",
+      "satFat_g": 0,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "allergens": [],
+      "dietTags": [],
+      "isAvailable": true,
+      "allowsExtra": false,
+      "sortOrder": 4,
+      "servingSize": "2 oz"
+    },
+    {
+      "id": "ing-sides-cheezewiz",
+      "name": "Add Cheese Wiz",
+      "calories": 240,
+      "protein_g": 6,
+      "carbs_g": 8,
+      "fat_g": 20,
+      "sodium_mg": 620,
+      "categoryId": "cat-sides-sauce",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Add%20Cheese%20Wiz",
+      "description": "",
+      "satFat_g": 0,
+      "fiber_g": 0,
+      "sugar_g": 1,
+      "allergens": [
+        "dairy"
+      ],
+      "dietTags": [],
+      "isAvailable": true,
+      "allowsExtra": false,
+      "sortOrder": 5,
+      "servingSize": "2 oz"
     }
   ],
   "portionOptions": [
@@ -1927,7 +2189,7 @@
     {
       "id": "port-extra-slaw",
       "name": "Extra Slaw",
-      "multiplier": 2.0,
+      "multiplier": 2,
       "isDefault": false,
       "sortOrder": 7
     }

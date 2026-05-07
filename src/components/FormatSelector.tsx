@@ -5,36 +5,31 @@ import { track } from "../lib/analytics";
 
 interface Props {
   onSelect: (id: string) => void;
-  onSidesOpen: () => void;
 }
 
 interface LandingItem {
   label: string;
-  formatId: string | null; // null = group (no builder)
+  formatId: string;
   available: boolean;
-  representativeCal: number;
-  calLabel: string;
-  isSides?: boolean;
 }
 
 const LANDING_ITEMS: LandingItem[] = [
-  { label: "Cheesesteak", formatId: "fmt-cheesesteak-reg", available: true, representativeCal: 0, calLabel: "" },
-  { label: "Salad",       formatId: "fmt-salad",           available: true, representativeCal: 0, calLabel: "" },
-  { label: "Sides",       formatId: null,                  available: true, representativeCal: 0, calLabel: "", isSides: true },
-  { label: "Desserts",    formatId: "fmt-desserts",        available: true, representativeCal: 0, calLabel: "" },
+  { label: "Cheesesteak", formatId: "fmt-cheesesteak-reg", available: true },
+  { label: "Salad",       formatId: "fmt-salad",           available: true },
+  { label: "Sides",       formatId: "fmt-sides",           available: true },
+  { label: "Desserts",    formatId: "fmt-desserts",        available: true },
 ];
 
-// Items that have a hero image to cycle through (exclude Sides — no direct format)
 const CYCLE_ITEMS = [
   { label: "Cheesesteak", formatId: "fmt-cheesesteak-reg" },
   { label: "Salad",       formatId: "fmt-salad"           },
-  { label: "Sides",       formatId: "fmt-tenders"         }, // show tenders photo for Sides
+  { label: "Sides",       formatId: "fmt-sides"           },
   { label: "Desserts",    formatId: "fmt-desserts"        },
 ];
 
 const CYCLE_MS = 8000;
 
-export function FormatSelector({ onSelect, onSidesOpen }: Props): JSX.Element {
+export function FormatSelector({ onSelect }: Props): JSX.Element {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [cycleIdx,  setCycleIdx]  = useState(0);
   const isHovering  = useRef(false);
@@ -92,27 +87,6 @@ export function FormatSelector({ onSelect, onSidesOpen }: Props): JSX.Element {
               );
             }
 
-            // Sides — navigates to sub-landing, not a builder
-            if (item.isSides) {
-              const sidesActive = displayId === "fmt-tenders";
-              return (
-                <button
-                  key={item.label}
-                  type="button"
-                  class={`nc-format-row nc-format-row--group${sidesActive ? " is-active" : ""}`}
-                  onMouseEnter={() => handleEnter("fmt-tenders")}
-                  onClick={() => {
-                    track("sides_opened", {});
-                    onSidesOpen();
-                  }}
-                >
-                  <span class="nc-format-row__name">{item.label}</span>
-                  <span class="nc-format-row__chevron" aria-hidden="true">›</span>
-                </button>
-              );
-            }
-
-            // Regular item
             const isActive = item.formatId === displayId;
             return (
               <button
@@ -121,10 +95,10 @@ export function FormatSelector({ onSelect, onSidesOpen }: Props): JSX.Element {
                 role="radio"
                 aria-checked={isActive}
                 class={`nc-format-row${isActive ? " is-active" : ""}`}
-                onMouseEnter={() => handleEnter(item.formatId!)}
+                onMouseEnter={() => handleEnter(item.formatId)}
                 onClick={() => {
-                  track("format_selected", { id: item.formatId!, name: item.label });
-                  onSelect(item.formatId!);
+                  track("format_selected", { id: item.formatId, name: item.label });
+                  onSelect(item.formatId);
                 }}
               >
                 <span class="nc-format-row__name">{item.label}</span>
