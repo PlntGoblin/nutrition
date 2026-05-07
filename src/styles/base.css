@@ -100,6 +100,11 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+[data-nc-root][data-theme="dark"] .nc-hero,
+[data-theme="dark"] [data-nc-root] .nc-hero {
+  background: var(--color-surface);
+}
+
 .nc-hero__inner {
   display: grid;
   grid-template-columns: 1fr;
@@ -1695,7 +1700,7 @@
   /* Pad body bottom so content isn't hidden behind the peek bar +
      iOS safe-area inset. */
   .nc-body {
-    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
   }
 
   .nc-sheet {
@@ -1736,10 +1741,10 @@
   .nc-sheet__peek {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
     width: 100%;
-    padding: 12px 20px 14px;
-    height: 64px;
+    padding: 16px 24px 18px;
+    height: 76px;
     flex-shrink: 0;
     touch-action: none;
   }
@@ -1766,32 +1771,34 @@
 
   .nc-sheet__peek-cal,
   .nc-sheet__peek-pro {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--color-muted);
     white-space: nowrap;
+    letter-spacing: 0.01em;
   }
 
   .nc-sheet__peek-cal strong,
   .nc-sheet__peek-pro strong {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 800;
     color: var(--color-ink);
-    margin-right: 2px;
+    margin-right: 3px;
     font-variant-numeric: tabular-nums;
+    line-height: 1;
   }
 
   .nc-sheet__peek-count {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--color-muted);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     margin-left: auto;
   }
 
   .nc-sheet__chev {
     color: var(--color-brand);
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1;
     flex-shrink: 0;
   }
@@ -1808,6 +1815,34 @@
     border: 0;
     padding: 0;
     background: transparent;
+  }
+
+  /* Compact hero band — single row: back btn + title, no actions clutter */
+  .nc-hero__inner {
+    padding: 0 16px;
+    gap: 0;
+  }
+
+  .nc-hero__copy {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    min-height: 52px;
+    max-width: none;
+  }
+
+  .nc-hero__title {
+    font-size: 16px;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Hide secondary hero content on mobile — allergen link + share in body */
+  .nc-hero__actions,
+  .nc-hero__lede {
+    display: none;
   }
 }
 
