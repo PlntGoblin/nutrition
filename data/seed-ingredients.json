@@ -233,7 +233,7 @@
       "name": "Cheese",
       "step": 3,
       "selectionType": "multi",
-      "maxSelections": null,
+      "maxSelections": 4,
       "icon": "milk",
       "helpText": "Pick your cheese(s). Tap Double for an extra portion (+$1).",
       "required": false
