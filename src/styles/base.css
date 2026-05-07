@@ -1316,26 +1316,30 @@
 }
 
 .nc-pref-chip {
-  padding: 7px 16px;
+  padding: 9px 18px;
   border: 1.5px solid var(--color-border);
   border-radius: 20px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-ink);
-  background: transparent;
+  background: var(--color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: border-color 150ms, background 150ms, color 150ms;
+  transition: border-color 150ms, background 150ms, color 150ms, box-shadow 150ms;
 }
 
 .nc-pref-chip.is-active {
   border-color: var(--color-brand);
-  background: color-mix(in srgb, var(--color-brand) 8%, var(--color-bg));
-  color: var(--color-brand);
-  font-weight: 600;
+  background: var(--color-brand);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(200, 16, 46, 0.30);
 }
 
 .nc-pref-chip:hover:not(.is-active) {
-  border-color: color-mix(in srgb, var(--color-brand) 40%, var(--color-border));
+  border-color: var(--color-brand);
+  background: color-mix(in srgb, var(--color-brand) 6%, var(--color-surface));
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.10);
 }
 
 .nc-modal__footer {
