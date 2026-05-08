@@ -633,7 +633,7 @@
       ],
       "isAvailable": true,
       "sortOrder": 1,
-      "allowsExtra": false
+      "allowsExtra": true
     },
     {
       "id": "ing-mushrooms",
@@ -662,7 +662,7 @@
       ],
       "isAvailable": true,
       "sortOrder": 2,
-      "allowsExtra": false
+      "allowsExtra": true
     },
     {
       "id": "ing-greenpep",
@@ -691,7 +691,7 @@
       ],
       "isAvailable": true,
       "sortOrder": 3,
-      "allowsExtra": false
+      "allowsExtra": true
     },
     {
       "id": "ing-jalapeno",
@@ -720,7 +720,7 @@
       ],
       "isAvailable": true,
       "sortOrder": 4,
-      "allowsExtra": false
+      "allowsExtra": true
     },
     {
       "id": "ing-sweetpep",
@@ -747,7 +747,7 @@
       ],
       "isAvailable": true,
       "sortOrder": 5,
-      "allowsExtra": false
+      "allowsExtra": true
     },
     {
       "id": "ing-cherrypep",
@@ -775,7 +775,7 @@
       ],
       "isAvailable": true,
       "sortOrder": 6,
-      "allowsExtra": false
+      "allowsExtra": true
     },
     {
       "id": "ing-marinara",
