@@ -10,19 +10,24 @@ interface PortionStepperProps {
 const SLAW_IDS     = new Set(["port-with-slaw", "port-extra-slaw", "port-no-slaw"]);
 // Multipliers used by the standard Light / Normal / Double stepper
 const STANDARD_MULTIPLIERS = new Set([0.5, 1, 2]);
+// Veggies: Normal + Double only — no Light option (just skip the veggie if you want less)
+const VEGGIE_MULTIPLIERS   = new Set([1, 2]);
+const VEGGIE_CATEGORIES    = new Set(["cat-veggies"]);
 
 export function PortionStepper({ ingredient }: PortionStepperProps): JSX.Element | null {
   if (!ingredient.allowsExtra) return null;
   const sel = selections.value[ingredient.id];
   if (!sel) return null;
 
-  const isSlawIngredient = ingredient.id === "ing-kale-slaw-base";
+  const isSlawIngredient  = ingredient.id === "ing-kale-slaw-base";
+  const isVeggie          = VEGGIE_CATEGORIES.has(ingredient.categoryId);
+  const allowedMultipliers = isVeggie ? VEGGIE_MULTIPLIERS : STANDARD_MULTIPLIERS;
 
   const options = [...portionOptions.value]
     .filter(o =>
       isSlawIngredient
-        ? SLAW_IDS.has(o.id)                                          // bowl: only slaw options
-        : STANDARD_MULTIPLIERS.has(o.multiplier) && !SLAW_IDS.has(o.id) // others: standard, no slaw
+        ? SLAW_IDS.has(o.id)                                                  // bowl: slaw only
+        : allowedMultipliers.has(o.multiplier) && !SLAW_IDS.has(o.id)        // others: per-category set
     )
     .sort((a, b) => a.sortOrder - b.sortOrder);
   if (options.length === 0) return null;
