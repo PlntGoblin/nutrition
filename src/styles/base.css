@@ -2069,3 +2069,263 @@
 .nc-skeleton .nc-card__body .nc-skeleton__block {
   border-radius: 6px;
 }
+
+/* === Meal Tray (floating pill) ============================================ */
+
+.nc-meal-tray {
+  position: fixed;
+  bottom: 88px; /* clears BottomSheet peek (64px) on mobile */
+  left: 16px;
+  right: 16px;
+  z-index: 35;
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: var(--radius-button);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
+}
+
+.nc-meal-tray__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.nc-meal-tray__count {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  opacity: 0.65;
+}
+
+.nc-meal-tray__cal {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.nc-meal-tray__btn {
+  background: var(--color-brand);
+  color: #fff;
+  border-radius: var(--radius-button);
+  padding: 10px 18px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nc-meal-tray__btn:hover { opacity: 0.88; }
+
+@media (min-width: 720px) {
+  .nc-meal-tray {
+    left: auto;
+    right: 32px;
+    bottom: 32px;
+    width: auto;
+    min-width: 320px;
+    max-width: 480px;
+  }
+}
+
+/* === Add to Meal CTA ====================================================== */
+
+.nc-add-meal-cta {
+  padding: 24px 16px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.nc-add-meal-cta__btn {
+  background: var(--color-brand);
+  color: #fff;
+  border-radius: var(--radius-button);
+  padding: 14px 32px;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.nc-add-meal-cta__btn:hover { opacity: 0.88; }
+
+.nc-add-meal-cta__hint {
+  font-size: 13px;
+  color: var(--color-muted);
+  max-width: 320px;
+}
+
+@media (min-width: 720px) {
+  .nc-add-meal-cta {
+    padding: 32px 0 16px;
+  }
+}
+
+/* === Meal Summary Modal =================================================== */
+
+.nc-meal-modal {
+  max-width: 560px;
+}
+
+.nc-meal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Column header row */
+.nc-meal-table-head {
+  display: grid;
+  grid-template-columns: 1fr repeat(4, 48px);
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  margin-bottom: 4px;
+}
+
+.nc-meal-table-head__item {
+  text-align: left;
+}
+
+.nc-meal-table-head span:not(.nc-meal-table-head__item) {
+  text-align: right;
+}
+
+/* Individual meal item */
+.nc-meal-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nc-meal-item:last-of-type {
+  border-bottom: none;
+}
+
+.nc-meal-item__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.nc-meal-item__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.nc-meal-item__remove {
+  color: var(--color-muted);
+  font-size: 12px;
+  padding: 2px 6px;
+  opacity: 0.55;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.nc-meal-item__remove:hover {
+  opacity: 1;
+  color: var(--color-error);
+}
+
+.nc-meal-item__ings {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+  line-height: 1.45;
+}
+
+.nc-meal-item__macros {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 48px);
+  gap: 8px;
+  font-size: 13px;
+  align-items: baseline;
+}
+
+.nc-meal-item__macros strong {
+  display: block;
+  font-weight: 700;
+  font-size: 15px;
+  text-align: right;
+}
+
+.nc-meal-item__macros-cal strong {
+  text-align: left;
+  font-size: 17px;
+}
+
+.nc-meal-item__macros em {
+  display: block;
+  font-style: normal;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  text-align: right;
+}
+
+.nc-meal-item__macros-cal em {
+  text-align: left;
+}
+
+/* Grand total row */
+.nc-meal-total {
+  border-top: 2px solid var(--color-ink);
+  padding-top: 14px;
+  margin-top: 6px;
+}
+
+.nc-meal-total__label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+}
+
+/* Empty state */
+.nc-meal-empty {
+  color: var(--color-muted);
+  text-align: center;
+  padding: 32px 0;
+  font-size: 14px;
+}
+
+/* Footer buttons */
+.nc-meal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.nc-meal-footer__clear {
+  color: var(--color-muted);
+  font-size: 14px;
+  text-decoration: underline;
+  padding: 12px 0;
+}
+
+.nc-meal-footer__clear:hover { color: var(--color-error); }

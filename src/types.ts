@@ -157,3 +157,13 @@ export interface NutritionTotals {
   sugar_g: number;
   sodium_mg: number;
 }
+
+// === Meal builder ==========================================================
+
+export interface MealItem {
+  id: string;
+  formatId: string;
+  formatName: string;
+  selections: Record<string, Selection>;
+  nutrition: NutritionTotals;
+}

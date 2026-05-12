@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import { effect } from "@preact/signals";
 import { fetchMenu } from "./lib/api";
 import {
+  addToMeal,
   categories,
   clearSelections,
   formats,
@@ -21,6 +22,8 @@ import { DisclaimerFooter } from "./components/DisclaimerFooter";
 import { FormatSelector } from "./components/FormatSelector";
 import { IngredientGrid } from "./components/IngredientGrid";
 import { LoadingSkeleton } from "./components/LoadingSkeleton";
+import { MealSummary } from "./components/MealSummary";
+import { MealTray } from "./components/MealTray";
 import { NutritionPrefsModal } from "./components/NutritionPrefsModal";
 import { PresetGallery } from "./components/PresetGallery";
 import { ShareButton } from "./components/ShareButton";
@@ -110,93 +113,136 @@ export function App(_props: AppProps): JSX.Element {
       .sort((a, b) => a.step - b.step);
 
     return (
-      <div class="nc-shell">
-        <header class="nc-hero">
-          <div class="nc-hero__inner">
-            <div class="nc-hero__copy">
-              <button type="button" class="nc-back-btn" aria-label="Back to all meals" onClick={closeBuilder}>
-                ←
-              </button>
-              <h1 class="nc-hero__title">{fmt?.name ?? "Your Build"}</h1>
-              <div class="nc-hero__actions">
-                <ShareButton />
-                <a
-                  href="#nc-disclaimer"
-                  class="nc-hero__allergen-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById("nc-disclaimer")?.scrollIntoView({ behavior: "smooth" });
-                  }}
-                >
-                  Allergen Statement
-                </a>
+      <>
+        <div class="nc-shell">
+          <header class="nc-hero">
+            <div class="nc-hero__inner">
+              <div class="nc-hero__copy">
+                <button type="button" class="nc-back-btn" aria-label="Back to all meals" onClick={closeBuilder}>
+                  ←
+                </button>
+                <h1 class="nc-hero__title">{fmt?.name ?? "Your Build"}</h1>
+                <div class="nc-hero__actions">
+                  <ShareButton />
+                  <a
+                    href="#nc-disclaimer"
+                    class="nc-hero__allergen-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById("nc-disclaimer")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                  >
+                    Allergen Statement
+                  </a>
+                </div>
+              </div>
+              <div class="nc-hero__rail">
+                <TotalsPanel variant="hero" />
               </div>
             </div>
-            <div class="nc-hero__rail">
-              <TotalsPanel variant="hero" />
-            </div>
-          </div>
-        </header>
+          </header>
 
-        <main class="nc-body">
-          <AllergenWarning />
+          <main class="nc-body">
+            <AllergenWarning />
 
-          <div class="nc-body-tools">
-            <button
-              type="button"
-              class="nc-prefs-trigger"
-              onClick={() => setPrefsOpen(true)}
-            >
-              Nutrition Preferences
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
-
-          <div class="nc-sections">
-            <SizePicker />
-            {sortedCats.map((cat) => (
-              <section
-                key={cat.id}
-                id={`nc-section-${cat.id}`}
-                class="nc-section"
-                aria-labelledby={`nc-section-${cat.id}-h`}
+            <div class="nc-body-tools">
+              <button
+                type="button"
+                class="nc-prefs-trigger"
+                onClick={() => setPrefsOpen(true)}
               >
-                <header class="nc-section__header">
-                  <p class="nc-eyebrow">Step {cat.step}</p>
-                  <h2 id={`nc-section-${cat.id}-h`} class="nc-section__title">{cat.name}</h2>
-                  {cat.helpText && <p class="nc-section__help">{cat.helpText}</p>}
-                </header>
-                <IngredientGrid categoryId={cat.id} />
-              </section>
-            ))}
-          </div>
+                Nutrition Preferences
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
 
-          <div id="nc-disclaimer"><DisclaimerFooter /></div>
-        </main>
+            <div class="nc-sections">
+              <SizePicker />
+              {sortedCats.map((cat) => (
+                <section
+                  key={cat.id}
+                  id={`nc-section-${cat.id}`}
+                  class="nc-section"
+                  aria-labelledby={`nc-section-${cat.id}-h`}
+                >
+                  <header class="nc-section__header">
+                    <p class="nc-eyebrow">Step {cat.step}</p>
+                    <h2 id={`nc-section-${cat.id}-h`} class="nc-section__title">{cat.name}</h2>
+                    {cat.helpText && <p class="nc-section__help">{cat.helpText}</p>}
+                  </header>
+                  <IngredientGrid categoryId={cat.id} />
+                </section>
+              ))}
+            </div>
 
-        <BottomSheet />
-        <NutritionPrefsModal isOpen={prefsOpen} onClose={() => setPrefsOpen(false)} />
-      </div>
+            {/* Add to Meal CTA */}
+            <div class="nc-add-meal-cta">
+              <button
+                type="button"
+                class="nc-add-meal-cta__btn"
+                onClick={() => {
+                  addToMeal();
+                  clearSelections();
+                  closeBuilder();
+                }}
+              >
+                + Add to Meal
+              </button>
+              <p class="nc-add-meal-cta__hint">
+                Keep building — add sides, desserts, and more to your meal.
+              </p>
+            </div>
+
+            <div id="nc-disclaimer"><DisclaimerFooter /></div>
+          </main>
+
+          <BottomSheet />
+          <NutritionPrefsModal isOpen={prefsOpen} onClose={() => setPrefsOpen(false)} />
+        </div>
+        <MealTray />
+        <MealSummary />
+      </>
     );
   }
 
   // ── Landing view ──────────────────────────────────────────────────────────
   return (
-    <div class="nc-shell">
-      <header class="nc-hero">
-        <div class="nc-hero__inner">
-          <div class="nc-hero__copy">
-            <p class="nc-eyebrow">Calculate</p>
-            <h1 class="nc-hero__title">Nutrition</h1>
-            <p class="nc-hero__lede">
-              Build your calorie, carb and nutrition information based on your
-              selected meal below using the nutrition calculator.
-            </p>
+    <>
+      <div class="nc-shell">
+        <header class="nc-hero">
+          <div class="nc-hero__inner">
+            <div class="nc-hero__copy">
+              <p class="nc-eyebrow">Calculate</p>
+              <h1 class="nc-hero__title">Nutrition</h1>
+              <p class="nc-hero__lede">
+                Build your calorie, carb and nutrition information based on your
+                selected meal below using the nutrition calculator.
+              </p>
+              <a
+                href="#nc-disclaimer"
+                class="nc-hero__allergen-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("nc-disclaimer")?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Allergen Statement
+              </a>
+            </div>
+            <div class="nc-hero__rail">
+              <TotalsPanel variant="hero" animationDuration={0} />
+            </div>
+          </div>
+        </header>
+
+        <main class="nc-body">
+          <FormatSelector onSelect={(id) => openBuilder(id)} />
+          <div class="nc-allergen-footer">
             <a
               href="#nc-disclaimer"
-              class="nc-hero__allergen-link"
+              class="nc-allergen-footer__link"
               onClick={(e) => {
                 e.preventDefault();
                 document.getElementById("nc-disclaimer")?.scrollIntoView({ behavior: "smooth" });
@@ -205,28 +251,11 @@ export function App(_props: AppProps): JSX.Element {
               Allergen Statement
             </a>
           </div>
-          <div class="nc-hero__rail">
-            <TotalsPanel variant="hero" animationDuration={0} />
-          </div>
-        </div>
-      </header>
-
-      <main class="nc-body">
-        <FormatSelector onSelect={(id) => openBuilder(id)} />
-        <div class="nc-allergen-footer">
-          <a
-            href="#nc-disclaimer"
-            class="nc-allergen-footer__link"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("nc-disclaimer")?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            Allergen Statement
-          </a>
-        </div>
-        <div id="nc-disclaimer"><DisclaimerFooter /></div>
-      </main>
-    </div>
+          <div id="nc-disclaimer"><DisclaimerFooter /></div>
+        </main>
+      </div>
+      <MealTray />
+      <MealSummary />
+    </>
   );
 }

@@ -21,6 +21,7 @@ import type {
   DietTag,
   Ingredient,
   MealFormat,
+  MealItem,
   MenuData,
   NutritionTotals,
   PortionOption,
@@ -42,6 +43,10 @@ export const activeFilters = signal<ActiveFilters>({
 });
 export const isLoading = signal<boolean>(false);
 export const loadError = signal<Error | null>(null);
+
+// Meal builder — accumulated items across multiple builds
+export const meal = signal<MealItem[]>([]);
+export const mealSummaryOpen = signal<boolean>(false);
 
 // === Derived signals (computed) ============================================
 
@@ -66,6 +71,22 @@ export const totals = computed<NutritionTotals>(() => {
 
 export const selectionCount = computed<number>(
   () => Object.keys(selections.value).length,
+);
+
+export const mealTotals = computed<NutritionTotals>(() =>
+  meal.value.reduce(
+    (acc, item) => ({
+      calories:   acc.calories   + item.nutrition.calories,
+      protein_g:  acc.protein_g  + item.nutrition.protein_g,
+      carbs_g:    acc.carbs_g    + item.nutrition.carbs_g,
+      fat_g:      acc.fat_g      + item.nutrition.fat_g,
+      satFat_g:   acc.satFat_g   + item.nutrition.satFat_g,
+      fiber_g:    acc.fiber_g    + item.nutrition.fiber_g,
+      sugar_g:    acc.sugar_g    + item.nutrition.sugar_g,
+      sodium_mg:  acc.sodium_mg  + item.nutrition.sodium_mg,
+    }),
+    { ...EMPTY_TOTALS },
+  ),
 );
 
 /**
@@ -251,6 +272,27 @@ export function setPortion(ingredientId: string, multiplier: number): boolean {
 
 export function clearSelections(): void {
   selections.value = {};
+}
+
+export function addToMeal(): void {
+  const fmt = selectedFormat.value;
+  if (!fmt) return;
+  const item: MealItem = {
+    id: `meal-${Date.now()}`,
+    formatId: fmt.id,
+    formatName: fmt.name,
+    selections: { ...selections.value },
+    nutrition: { ...totals.value },
+  };
+  meal.value = [...meal.value, item];
+}
+
+export function removeFromMeal(id: string): void {
+  meal.value = meal.value.filter((item) => item.id !== id);
+}
+
+export function clearMeal(): void {
+  meal.value = [];
 }
 
 export function setDietFilters(diets: DietTag[]): void {
