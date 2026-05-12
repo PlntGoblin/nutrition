@@ -3,9 +3,9 @@ import { selectedFormatId, setFormat } from "../lib/store";
 import { track } from "../lib/analytics";
 
 const CHEESESTEAK_SIZES = [
-  { label: "Mini",    desc: "0.6× regular", id: "fmt-cheesesteak-mini", initial: "M", bg: "#6B6B6B", photo: "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041490/5bc3ae18-2d2e-4d63-afae-28488ff9bed2_bhbn47.webp" },
-  { label: "Regular", desc: "Regular",      id: "fmt-cheesesteak-reg",  initial: "R", bg: "#C8102E", photo: "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040860/f1194b73-e385-4bcb-b9b8-732a8720aa73_eoxt1x.webp" },
-  { label: "Large",   desc: "1.5× regular", id: "fmt-cheesesteak-lg",   initial: "L", bg: "#4A4A4A", photo: "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041491/9771bd8f-739f-47d1-95ff-edd086da59bd_bnewdy.webp" },
+  { label: "Mini",    desc: "", id: "fmt-cheesesteak-mini", initial: "M", bg: "#6B6B6B", photo: "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041490/5bc3ae18-2d2e-4d63-afae-28488ff9bed2_bhbn47.webp" },
+  { label: "Regular", desc: "", id: "fmt-cheesesteak-reg",  initial: "R", bg: "#C8102E", photo: "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778040860/f1194b73-e385-4bcb-b9b8-732a8720aa73_eoxt1x.webp" },
+  { label: "Large",   desc: "", id: "fmt-cheesesteak-lg",   initial: "L", bg: "#4A4A4A", photo: "https://res.cloudinary.com/dtvcknkm6/image/upload/v1778041491/9771bd8f-739f-47d1-95ff-edd086da59bd_bnewdy.webp" },
 ] as const;
 
 const SALAD_SIZES = [
