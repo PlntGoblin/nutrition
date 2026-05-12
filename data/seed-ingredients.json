@@ -270,12 +270,12 @@
     },
     {
       "id": "cat-salad-protein",
-      "name": "Protein",
+      "name": "Salad Type",
       "step": 2,
       "selectionType": "single",
       "maxSelections": 1,
       "icon": "drumstick",
-      "helpText": "Pick your protein (optional).",
+      "helpText": "Pick your Salad type.",
       "required": false
     },
     {
@@ -350,7 +350,7 @@
     },
     {
       "id": "cat-sides-sauce",
-      "name": "Add a Sauce",
+      "name": "Sauces on Side",
       "step": 2,
       "selectionType": "optional",
       "maxSelections": 1,

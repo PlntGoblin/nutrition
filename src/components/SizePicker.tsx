@@ -9,8 +9,8 @@ const CHEESESTEAK_SIZES = [
 ] as const;
 
 const SALAD_SIZES = [
-  { label: "Half",  desc: "Half Portion", id: "fmt-salad-half",  initial: "½", bg: "#2A7A40" },
-  { label: "Whole", desc: "Full Portion", id: "fmt-salad",       initial: "W", bg: "#2A7A40" },
+  { label: "Half",  desc: "", id: "fmt-salad-half",  initial: "½", bg: "#2A7A40" },
+  { label: "Whole", desc: "", id: "fmt-salad",       initial: "W", bg: "#2A7A40" },
 ] as const;
 
 const ALL_SIZES = [...CHEESESTEAK_SIZES, ...SALAD_SIZES];
@@ -54,7 +54,7 @@ export function SizePicker(): JSX.Element | null {
               </div>
               <div class="nc-row__info">
                 <span class="nc-row__name">{size.label}</span>
-                <span class="nc-row__allergens">{size.desc}</span>
+                {size.desc && <span class="nc-row__allergens">{size.desc}</span>}
               </div>
             </button>
           );
