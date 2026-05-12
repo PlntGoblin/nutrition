@@ -24,20 +24,22 @@ raw Airtable `Photo` attachments are never linked from the widget.
 ### `MealFormats`
 | Format | Notes |
 |---|---|
-| Cheesesteak (Regular) | Bread roll base, ~10" |
-| Cheesesteak (Large) | Bread roll base, ~12" |
+| Cheesesteak (Regular) | Bread roll base |
+| Cheesesteak (Large) | Bread roll base, 1.5× regular nutrition |
+| Cheesesteak (Mini) | Bread roll base, 0.6× regular nutrition |
+| Half Salad | Half salad nutrition basis |
+| Whole Salad | 1.5× half salad nutrition |
 | Low Carb Bowl | Cabbage-kale slaw base, no bread |
 
 ### `PortionOptions`
 | Name | Multiplier |
 |---|---|
 | None | 0 |
-| Light | 0.5 |
+| Light | 0.6 |
 | Regular | 1.0 |
 | Extra | 1.5 |
-| Double | 2.0 |
 
-(`Double Cheese for Additional $1.00` from the menu maps to Double on the cheese category.)
+Cheese is the category exception: Light cheese uses 0.5× and Extra cheese uses 2×.
 
 ### `PresetBowls` (Popular Builds)
 The three menu salads modeled as preset starting points the guest can customize:

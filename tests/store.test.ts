@@ -11,7 +11,7 @@
  *  - toggleIngredientInCategory: single-select enforcement (Protein, Base)
  *  - toggleIngredientInCategory: multi-select with maxSelections cap (Veggies, Sauces)
  *  - toggleIngredientInCategory: multi-select with null (unlimited) cap (Sides, Cheese)
- *  - setPortion: normal, Light, Double, zero → deselect
+ *  - setPortion: normal, Light, Extra, zero → deselect
  *  - clearSelections
  *  - selectedCountInCategory
  *  - allergenViolations computed signal
@@ -196,10 +196,10 @@ describe("toggleIngredientInCategory — slot-capped (Cheese, max 4 slots)", () 
     }
   });
 
-  it("double cheese costs 2 slots: Wiz×2 + American×1 + Provolone×1 = 4 slots → full", () => {
+  it("extra cheese costs 2 slots: Wiz×2 + American×1 + Provolone×1 = 4 slots → full", () => {
     const [wiz, american, provolone, mozzarella] = getCheeses();
     toggleIngredientInCategory(wiz!.id);
-    setPortion(wiz!.id, 2);           // Wiz now uses 2 slots
+    setPortion(wiz!.id, 2);           // Wiz Extra now uses 2 slots
     toggleIngredientInCategory(american!.id);
     toggleIngredientInCategory(provolone!.id);
     expect(selectedSlotsInCategory("cat-cheese")).toBe(4);
@@ -216,15 +216,15 @@ describe("toggleIngredientInCategory — slot-capped (Cheese, max 4 slots)", () 
     expect(selectedCountInCategory("cat-cheese")).toBe(2); // slot-based
   });
 
-  it("setPortion to double is blocked when it would exceed the 4-slot cap", () => {
+  it("setPortion to extra cheese is blocked when it would exceed the 4-slot cap", () => {
     const [wiz, american, provolone] = getCheeses();
     toggleIngredientInCategory(wiz!.id);
     toggleIngredientInCategory(american!.id);
     toggleIngredientInCategory(provolone!.id);
-    // 3 slots used; doubling provolone would go to 4 slots — allowed
+    // 3 slots used; setting Provolone to Extra would go to 4 slots — allowed
     expect(setPortion(provolone!.id, 2)).toBe(true);
     expect(selectedSlotsInCategory("cat-cheese")).toBe(4);
-    // Now doubling American would push to 5 — blocked
+    // Now setting American to Extra would push to 5 — blocked
     expect(setPortion(american!.id, 2)).toBe(false);
     expect(selections.value[american!.id]?.portionMultiplier).toBe(1);
   });
@@ -235,7 +235,7 @@ describe("toggleIngredientInCategory — slot-capped (Cheese, max 4 slots)", () 
     setPortion(wiz!.id, 2); // 2 slots
     toggleIngredientInCategory(american!.id); // 3 slots
     toggleIngredientInCategory(provolone!.id); // 4 slots — full
-    // Can't double american (would need 5 slots)
+    // Can't set American to Extra (would need 5 slots)
     expect(canSetPortion(american!.id, 2)).toBe(false);
     // Can't add mozzarella at all
     expect(canSetPortion(mozzarella!.id, 1)).toBe(false);
@@ -249,7 +249,7 @@ describe("toggleIngredientInCategory — slot-capped (Cheese, max 4 slots)", () 
     expect(selectedSlotsInCategory("cat-cheese")).toBe(4);
     toggleIngredientInCategory(wiz!.id); // deselect
     expect(selectedSlotsInCategory("cat-cheese")).toBe(3);
-    // Now we can re-add Wiz (or double something)
+    // Now we can re-add Wiz or set another cheese to Extra.
     expect(toggleIngredientInCategory(wiz!.id)).toBe(true);
   });
 });
@@ -286,14 +286,14 @@ describe("setPortion", () => {
     toggleIngredientInCategory("ing-steak");
   });
 
-  it("sets a Double (2×) portion multiplier", () => {
-    setPortion("ing-steak", 2);
-    expect(selections.value["ing-steak"]?.portionMultiplier).toBe(2);
+  it("sets an Extra (1.5×) portion multiplier", () => {
+    setPortion("ing-steak", 1.5);
+    expect(selections.value["ing-steak"]?.portionMultiplier).toBe(1.5);
   });
 
-  it("sets a Light (0.5×) portion multiplier", () => {
-    setPortion("ing-steak", 0.5);
-    expect(selections.value["ing-steak"]?.portionMultiplier).toBe(0.5);
+  it("sets a Light (0.6×) portion multiplier", () => {
+    setPortion("ing-steak", 0.6);
+    expect(selections.value["ing-steak"]?.portionMultiplier).toBe(0.6);
   });
 
   it("sets portion on an ingredient that was not yet selected", () => {
@@ -308,7 +308,7 @@ describe("setPortion", () => {
 
   it("does not affect other selections when changing one portion", () => {
     toggleIngredientInCategory("ing-provolone");
-    setPortion("ing-steak", 2);
+    setPortion("ing-steak", 1.5);
     expect(selections.value).toHaveProperty("ing-provolone");
     expect(selections.value["ing-provolone"]?.portionMultiplier).toBe(1);
   });
@@ -423,12 +423,12 @@ describe("totals computed", () => {
     expect(totals.value.calories).toBe(fmt.baseCalories + chicken.calories);
   });
 
-  it("doubles the ingredient contribution when Double portion is set", () => {
+  it("multiplies the ingredient contribution when Extra portion is set", () => {
     setFormat("fmt-cheesesteak-reg");
     const fmt = menu.formats.find(f => f.id === "fmt-cheesesteak-reg")!;
     const steak = menu.ingredients.find(i => i.id === "ing-steak")!;
     toggleIngredientInCategory("ing-steak");
-    setPortion("ing-steak", 2);
-    expect(totals.value.calories).toBe(fmt.baseCalories + steak.calories * 2);
+    setPortion("ing-steak", 1.5);
+    expect(totals.value.calories).toBe(fmt.baseCalories + steak.calories * 1.5);
   });
 });

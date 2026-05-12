@@ -1,5 +1,5 @@
 /**
- * Slider primitive — used by PortionStepper for None/Light/Regular/Extra/Double.
+ * Slider primitive — used by PortionStepper for None/Light/Regular/Extra.
  * Phase 0 stub.
  */
 import type { JSX } from "preact";

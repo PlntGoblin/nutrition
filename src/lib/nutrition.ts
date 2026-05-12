@@ -57,8 +57,8 @@ export function calculateTotals(
   };
 
   // Format-level size multiplier scales all ingredient contributions
-  // proportionally (Mini = 0.6×, Regular = 1.0×, Large = 1.5× for
-  // Forefathers — matches the per-size portion table in the client xlsx).
+  // proportionally (Mini = 0.6× Regular, Large = 1.5× Regular,
+  // Whole Salad = 1.5× Half Salad).
   const sizeMul = format.sizeMultiplier ?? 1;
 
   for (const sel of Object.values(selections)) {

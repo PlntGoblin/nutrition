@@ -40,7 +40,7 @@ You'll see five tables in the left sidebar:
 | `Categories` | Protein / Cheese / Veggies / Sauces — the build steps |
 | `Ingredients` | Every individual item the guest can pick |
 | `MealFormats` | Cheesesteak Regular / Cheesesteak Large / Low Carb Bowl |
-| `PortionOptions` | None / Light / Regular / Extra / Double multipliers |
+| `PortionOptions` | None / Light / Regular / Extra multipliers |
 | `PresetBowls` | Popular Builds shown on the empty state |
 
 Most of your edits will happen in **`Ingredients`**.
@@ -88,7 +88,7 @@ opening the calculator URL in a fresh browser tab (or incognito window).
 | `DietTags` | Multi-select: vegan, vegetarian, glutenfree, dairyfree, keto, paleo, lowcarb, highprotein | glutenfree, vegetarian, keto |
 | `IsAvailable` | Checkbox — must be on for the ingredient to appear | ☑ |
 | `SortOrder` | Number — lower = appears earlier in the category | 5 |
-| `AllowsExtra` | Checkbox — true if guests can pick Extra/Double portion | ☑ |
+| `AllowsExtra` | Checkbox — true if guests can pick Light/Extra portion | ☑ |
 
 3. Within 5–10 minutes the new ingredient appears for guests.
 
@@ -139,7 +139,7 @@ no re-entry work.
 ]
 ```
 
-Use `2` for Double portion, `1` for Regular, `1.5` for Extra, `0.5` for Light.
+Use `1.5` for Extra portion, `1` for Regular, and `0.6` for Light. Cheese is the exception: Extra cheese uses `2`, and Light cheese uses `0.5`.
 
 > **Where do I find ingredient IDs?** In the `Ingredients` table, the `id`
 > column shows the slug (e.g., `ing-steak`). Copy from there.

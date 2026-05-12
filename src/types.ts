@@ -70,7 +70,7 @@ export interface Ingredient {
   dietTags: DietTag[];
   isAvailable: boolean;
   sortOrder: number;
-  /** Whether this ingredient supports portion = Extra/Double. */
+  /** Whether this ingredient supports portion = Light/Extra. */
   allowsExtra: boolean;
 }
 
@@ -84,9 +84,8 @@ export interface MealFormat {
   baseSodium_mg: number;
   /**
    * Portion-size multiplier applied to every selected ingredient's nutrition
-   * (PRD §5.3 client-side math layer). For Forefathers: Mini = 0.6×, Regular
-   * = 1.0×, Large = 1.5× — pulled from the per-size portion table in the
-   * client-provided spreadsheet (Mini steak = 4.286oz vs Regular 7.143oz).
+   * (PRD §5.3 client-side math layer). For Forefathers: Mini = 0.6× Regular,
+   * Large = 1.5× Regular, and Whole Salad = 1.5× Half Salad.
    * Optional; defaults to 1.0 when absent.
    */
   sizeMultiplier?: number;
@@ -131,7 +130,7 @@ export interface MenuData {
 
 export interface Selection {
   ingredientId: string;
-  /** Multiplier applied to ingredient nutrition (e.g. 0.5 = Light, 2 = Double). */
+  /** Multiplier applied to ingredient nutrition (e.g. 0.6 = Light, 1.5 = Extra). */
   portionMultiplier: number;
 }
 

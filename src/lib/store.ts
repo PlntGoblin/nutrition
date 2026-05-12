@@ -85,10 +85,10 @@ export function isIngredientFilteredOut(ingredient: Ingredient): boolean {
 /**
  * Categories where maxSelections is enforced as total *portion slots* rather
  * than a simple distinct-ingredient count. Adding an ingredient costs 1 slot;
- * a Double portion costs 2 slots.
+ * a cheese Extra portion costs 2 slots.
  *
- * "cat-cheese" (max 4): Wiz×2 + American×1 + Provolone×1 = 4 slots → full.
- * You cannot add Mozzarella or double Provolone at that point.
+ * "cat-cheese" (max 4): Wiz Extra×2 + American×1 + Provolone×1 = 4 slots → full.
+ * You cannot add Mozzarella or set Provolone to Extra at that point.
  */
 const SLOT_CAPPED_CATEGORIES = new Set(["cat-cheese"]);
 
@@ -206,7 +206,7 @@ export function selectedSlotsInCategory(categoryId: string): number {
 /**
  * Count how many ingredients in a given category are currently selected.
  * For slot-capped categories (e.g. cheese) returns total portion slots so
- * that IngredientGrid's atLimit check respects doubled portions automatically.
+ * that IngredientGrid's atLimit check respects larger portions automatically.
  */
 export function selectedCountInCategory(categoryId: string): number {
   if (SLOT_CAPPED_CATEGORIES.has(categoryId)) return selectedSlotsInCategory(categoryId);

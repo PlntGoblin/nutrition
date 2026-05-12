@@ -39,7 +39,7 @@ Airtable (your data) → Cloudflare Worker (API) → Live Calculator Website
 | **Formats** | The meal types (Regular Cheesesteak, Salad, Fries, etc.) |
 | **Categories** | The step sections within each meal (Protein, Cheese, Veggies, etc.) |
 | **Ingredients** | Every individual item a customer can pick |
-| **Portions** | The size multipliers (Light / Normal / Double / With Slaw / No Slaw) |
+| **Portions** | The size multipliers (Light / Normal / Extra / With Slaw / No Slaw) |
 | **Presets** | Pre-built "premade" combinations shown in the gallery |
 
 For day-to-day use, you will almost always be working in **Ingredients**.
@@ -76,7 +76,7 @@ In the **Ingredients** table, click **+** to add a row and fill in these fields:
 | `Description` | One-line description shown to customers |
 | `Allergens` | Comma-separated: `gluten,dairy,soy,eggs,peanuts,treenuts,fish,shellfish,sesame` |
 | `DietTags` | Comma-separated: `glutenfree,dairyfree,keto,lowcarb,vegan,vegetarian,highprotein,paleo` |
-| `AllowsExtra` | Check if the item can be doubled (Light / Normal / Double options appear) |
+| `AllowsExtra` | Check if the item can use Light / Normal / Extra options |
 | `Photo` | Upload a photo directly here — it syncs to the website automatically overnight |
 | `PhotoCDN` | Leave blank — the system fills this in automatically from your uploaded photo |
 

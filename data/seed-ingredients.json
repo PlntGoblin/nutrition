@@ -1,5 +1,5 @@
 {
-  "_comment": "Forefathers Steaks menu data. Per-ingredient nutrition values for Steak, Chicken, Cheese Wiz, American, Provolone, Mozzarella, and Kale Slaw are computed from the client-provided spreadsheet (Forefathers.xlsx, Menu sheet, rows 33-78) — these are CONFIRMED. Other ingredients (veggies, sauces, bread base) are USDA FoodData Central estimates pending client confirmation; flagged in DECISIONS.md. Formats use sizeMultiplier (Mini 0.6×, Regular 1.0×, Large 1.5×) to scale ingredient portions per the spreadsheet's per-size portion table. Yellow-highlighted ingredients in the xlsx (Fry Sauce, Spicy Blue Cheese, Ranch, Jalapeño Cilantro Ranch, Kale Slaw, Romaine/Spring Mix, Kale/Spring Mix, Corn Relish) are batch recipes documented in the Batch Recipes tab.",
+  "_comment": "Forefathers Steaks menu data. Per-ingredient nutrition values for Steak, Chicken, Cheese Wiz, American, Provolone, Mozzarella, and Kale Slaw are computed from the client-provided spreadsheet (Forefathers.xlsx, Menu sheet, rows 33-78) — these are CONFIRMED. Other ingredients (veggies, sauces, bread base) are USDA FoodData Central estimates pending client confirmation; flagged in DECISIONS.md. Formats use sizeMultiplier (Mini 0.6×, Regular 1.0×, Large 1.5×; Whole Salad = Half Salad × 1.5) to scale ingredient portions. Yellow-highlighted ingredients in the xlsx (Fry Sauce, Spicy Blue Cheese, Ranch, Jalapeño Cilantro Ranch, Kale Slaw, Romaine/Spring Mix, Kale/Spring Mix, Corn Relish) are batch recipes documented in the Batch Recipes tab.",
   "lastUpdated": "2026-05-06T02:30:00Z",
   "formats": [
     {
@@ -103,7 +103,7 @@
       "baseCarbs_g": 0,
       "baseFat_g": 0,
       "baseSodium_mg": 0,
-      "sizeMultiplier": 1,
+      "sizeMultiplier": 0.75,
       "includedCategoryIds": [
         "cat-salad-base",
         "cat-salad-protein",
@@ -235,7 +235,7 @@
       "selectionType": "multi",
       "maxSelections": 4,
       "icon": "milk",
-      "helpText": "Pick your cheese(s). Tap Double for an extra portion (+$1).",
+      "helpText": "Pick your cheese(s). Tap Extra for an extra portion (+$1).",
       "required": false
     },
     {
@@ -2147,7 +2147,7 @@
     {
       "id": "port-light",
       "name": "Light",
-      "multiplier": 0.5,
+      "multiplier": 0.6,
       "isDefault": false,
       "sortOrder": 2
     },
@@ -2164,13 +2164,6 @@
       "multiplier": 1.5,
       "isDefault": false,
       "sortOrder": 4
-    },
-    {
-      "id": "port-double",
-      "name": "Double",
-      "multiplier": 2,
-      "isDefault": false,
-      "sortOrder": 5
     },
     {
       "id": "port-with-slaw",

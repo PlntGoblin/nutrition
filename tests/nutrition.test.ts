@@ -4,7 +4,7 @@
  * Covers the four cases mandated by PRD §9 Phase 1 task 7:
  *   1. Empty bowl returns base calories only
  *   2. Adding chicken adds correct macros
- *   3. Portion=Double doubles that ingredient's contribution
+ *   3. Portion=Extra multiplies that ingredient's contribution
  *   4. Multiple ingredients sum correctly
  *
  * Plus two resilience cases that align with PRD §17.1 (silent recovery):
@@ -55,15 +55,15 @@ describe("calculateTotals", () => {
     expect(totals.sodium_mg).toBe(cheesesteakReg.baseSodium_mg + chicken.sodium_mg);
   });
 
-  it("portion=Double doubles that ingredient's contribution (and only that one)", () => {
+  it("portion=Extra multiplies that ingredient's contribution by 1.5 (and only that one)", () => {
     const single = calculateTotals(cheesesteakReg, sel(steak.id, 1), ingredients);
-    const doubled = calculateTotals(cheesesteakReg, sel(steak.id, 2), ingredients);
-    // Format base contributes once in both; the steak contribution doubles.
-    expect(doubled.calories - cheesesteakReg.baseCalories).toBe(
-      (single.calories - cheesesteakReg.baseCalories) * 2,
+    const extra = calculateTotals(cheesesteakReg, sel(steak.id, 1.5), ingredients);
+    // Format base contributes once in both; the steak contribution scales.
+    expect(extra.calories - cheesesteakReg.baseCalories).toBe(
+      (single.calories - cheesesteakReg.baseCalories) * 1.5,
     );
-    expect(doubled.protein_g - cheesesteakReg.baseProtein_g).toBe(
-      (single.protein_g - cheesesteakReg.baseProtein_g) * 2,
+    expect(extra.protein_g - cheesesteakReg.baseProtein_g).toBe(
+      (single.protein_g - cheesesteakReg.baseProtein_g) * 1.5,
     );
   });
 
@@ -133,5 +133,17 @@ describe("calculateTotals", () => {
     const largeContribution = largeTotals.calories - large.baseCalories;
     const regContribution = regTotals.calories - cheesesteakReg.baseCalories;
     expect(largeContribution).toBeCloseTo(regContribution * 1.5, 5);
+  });
+
+  it("Whole salad scales ingredient nutrition to 1.5× the half salad", () => {
+    const half = formats.find((f) => f.id === "fmt-salad-half")!;
+    const whole = formats.find((f) => f.id === "fmt-salad")!;
+    expect(half.sizeMultiplier).toBe(0.5);
+    expect(whole.sizeMultiplier).toBe(0.75);
+    const halfTotals = calculateTotals(half, sel(chicken.id), ingredients);
+    const wholeTotals = calculateTotals(whole, sel(chicken.id), ingredients);
+    const halfContribution = halfTotals.calories - half.baseCalories;
+    const wholeContribution = wholeTotals.calories - whole.baseCalories;
+    expect(wholeContribution).toBeCloseTo(halfContribution * 1.5, 5);
   });
 });
