@@ -9,6 +9,12 @@ interface PortionStepperProps {
 
 // IDs that belong exclusively to the Low Carb Bowl slaw toggle
 const SLAW_IDS     = new Set(["port-with-slaw", "port-extra-slaw", "port-no-slaw"]);
+const STANDARD_PORTION_IDS = new Set(["port-light", "port-regular", "port-extra"]);
+const STANDARD_PORTION_MULTIPLIERS: Record<string, number> = {
+  "port-light": 0.6,
+  "port-regular": 1,
+  "port-extra": 1.5,
+};
 // Cheese keeps its older portion math while sharing the client-facing
 // Light / Normal / Extra labels used by the rest of the menu.
 const CHEESE_CATEGORY_ID = "cat-cheese";
@@ -18,8 +24,9 @@ const CHEESE_PORTION_MULTIPLIERS: Record<string, number> = {
 };
 
 function optionForIngredient(option: PortionOption, ingredient: Ingredient): PortionOption {
-  if (ingredient.categoryId !== CHEESE_CATEGORY_ID) return option;
-  const multiplier = CHEESE_PORTION_MULTIPLIERS[option.id];
+  const multiplier = ingredient.categoryId === CHEESE_CATEGORY_ID
+    ? CHEESE_PORTION_MULTIPLIERS[option.id]
+    : STANDARD_PORTION_MULTIPLIERS[option.id];
   return multiplier === undefined ? option : { ...option, multiplier };
 }
 
@@ -34,7 +41,7 @@ export function PortionStepper({ ingredient }: PortionStepperProps): JSX.Element
     .filter(o =>
       isSlawIngredient
         ? SLAW_IDS.has(o.id)                                                  // bowl: slaw only
-        : !SLAW_IDS.has(o.id) && o.multiplier > 0                             // others: Light / Normal / Extra
+        : STANDARD_PORTION_IDS.has(o.id)                                      // others: Light / Normal / Extra
     )
     .map(o => optionForIngredient(o, ingredient))
     .sort((a, b) => a.sortOrder - b.sortOrder);
