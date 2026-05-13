@@ -140,6 +140,21 @@ export function App(_props: AppProps): JSX.Element {
                 <TotalsPanel variant="hero" />
               </div>
             </div>
+
+            {/* Mobile-only Add to Meal strip — pinned in sticky header */}
+            <div class="nc-hero__mobile-cta">
+              <button
+                type="button"
+                class="nc-hero__mobile-cta-btn"
+                onClick={() => {
+                  addToMeal();
+                  clearSelections();
+                  closeBuilder();
+                }}
+              >
+                + Add to Meal
+              </button>
+            </div>
           </header>
 
           <main class="nc-body">
