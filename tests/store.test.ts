@@ -11,9 +11,13 @@
  *  - toggleIngredientInCategory: single-select enforcement (Protein, Base)
  *  - toggleIngredientInCategory: multi-select with maxSelections cap (Veggies, Sauces)
  *  - toggleIngredientInCategory: multi-select with null (unlimited) cap (Sides, Cheese)
+ *  - toggleIngredientInCategory: No Cheese exclusivity logic
  *  - setPortion: normal, Light, Extra, zero → deselect
  *  - clearSelections
  *  - selectedCountInCategory
+ *  - isReadyToAdd: format-specific gating (cheesesteak, bowl, salad, sides)
+ *  - addToMeal / removeFromMeal / clearMeal
+ *  - mealTotals computed signal
  *  - allergenViolations computed signal
  *  - totals computed signal (smoke test — detailed math in nutrition.test.ts)
  */
@@ -25,6 +29,9 @@ import {
   activeFilters,
   allergenViolations,
   totals,
+  meal,
+  mealTotals,
+  isReadyToAdd,
   setMenu,
   setFormat,
   toggleIngredientInCategory,
@@ -33,6 +40,9 @@ import {
   selectedCountInCategory,
   selectedSlotsInCategory,
   canSetPortion,
+  addToMeal,
+  removeFromMeal,
+  clearMeal,
 } from "../src/lib/store";
 import seed from "../data/seed-ingredients.json";
 import type { MenuData } from "../src/types";
@@ -41,10 +51,11 @@ const menu = seed as unknown as MenuData;
 
 /** Reset all signals to a clean state before each test. */
 beforeEach(() => {
-  menuData.value        = null;
-  selections.value      = {};
+  menuData.value         = null;
+  selections.value       = {};
   selectedFormatId.value = null;
-  activeFilters.value   = { diets: [], excludeAllergens: [] };
+  activeFilters.value    = { diets: [], excludeAllergens: [] };
+  meal.value             = [];
 });
 
 // ── setMenu / setFormat ────────────────────────────────────────────────────
@@ -187,13 +198,14 @@ describe("toggleIngredientInCategory — slot-capped (Cheese, max 4 slots)", () 
     expect(selectedSlotsInCategory("cat-cheese")).toBe(4);
   });
 
-  it("blocks a 5th distinct cheese when all 4 slots are taken", () => {
-    const allCheeses = menu.ingredients.filter(i => i.categoryId === "cat-cheese" && i.isAvailable);
-    allCheeses.slice(0, 4).forEach(c => toggleIngredientInCategory(c.id));
-    const fifth = allCheeses[4];
-    if (fifth) {
-      expect(toggleIngredientInCategory(fifth.id)).toBe(false);
-    }
+  it("all 4 real cheeses at normal portion fills all 4 slots — upgrading any to Extra is then blocked", () => {
+    // getCheeses() excludes ing-no-cheese, so we have exactly 4 real cheeses.
+    const cheeses = getCheeses();
+    cheeses.forEach(c => toggleIngredientInCategory(c.id));
+    expect(selectedSlotsInCategory("cat-cheese")).toBe(4);
+    // Upgrading any cheese to Extra would push from 4 → 5 slots — blocked.
+    expect(setPortion(cheeses[0]!.id, 2)).toBe(false);
+    expect(selections.value[cheeses[0]!.id]?.portionMultiplier).toBe(1);
   });
 
   it("extra cheese costs 2 slots: Wiz×2 + American×1 + Provolone×1 = 4 slots → full", () => {
@@ -395,6 +407,300 @@ describe("allergenViolations", () => {
     expect(allergenViolations.value.length).toBeGreaterThan(0);
     selections.value = {};
     expect(allergenViolations.value).toHaveLength(0);
+  });
+});
+
+// ── No Cheese exclusivity ──────────────────────────────────────────────────
+
+describe("toggleIngredientInCategory — No Cheese exclusivity", () => {
+  beforeEach(() => setMenu(menu));
+
+  it("selecting No Cheese clears all real cheeses and returns true", () => {
+    toggleIngredientInCategory("ing-provolone");
+    toggleIngredientInCategory("ing-american");
+    expect(toggleIngredientInCategory("ing-no-cheese")).toBe(true);
+    // Real cheeses gone, No Cheese is in
+    expect(selections.value).not.toHaveProperty("ing-provolone");
+    expect(selections.value).not.toHaveProperty("ing-american");
+    expect(selections.value).toHaveProperty("ing-no-cheese");
+  });
+
+  it("selecting No Cheese when no other cheeses are active just selects it", () => {
+    expect(toggleIngredientInCategory("ing-no-cheese")).toBe(true);
+    expect(selections.value["ing-no-cheese"]?.portionMultiplier).toBe(1);
+  });
+
+  it("selecting a real cheese while No Cheese is active removes No Cheese first", () => {
+    toggleIngredientInCategory("ing-no-cheese");
+    expect(selections.value).toHaveProperty("ing-no-cheese");
+    // Now add a real cheese — No Cheese should be dropped
+    toggleIngredientInCategory("ing-provolone");
+    expect(selections.value).not.toHaveProperty("ing-no-cheese");
+    expect(selections.value).toHaveProperty("ing-provolone");
+  });
+
+  it("replacing No Cheese with a real cheese does not consume a slot from No Cheese", () => {
+    toggleIngredientInCategory("ing-no-cheese");
+    toggleIngredientInCategory("ing-wiz");       // removes No Cheese, adds Wiz (1 slot)
+    toggleIngredientInCategory("ing-american");  // 2 slots
+    toggleIngredientInCategory("ing-provolone"); // 3 slots
+    toggleIngredientInCategory("ing-mozzarella"); // 4 slots
+    // All 4 slots used — cap is exactly met, not exceeded
+    expect(selectedSlotsInCategory("cat-cheese")).toBe(4);
+  });
+
+  it("No Cheese does not count toward the slot cap when removed by real-cheese selection", () => {
+    toggleIngredientInCategory("ing-no-cheese");
+    // Select a real cheese → No Cheese wiped before slot check runs
+    expect(toggleIngredientInCategory("ing-wiz")).toBe(true);
+    expect(selectedSlotsInCategory("cat-cheese")).toBe(1);
+  });
+});
+
+// ── isReadyToAdd ──────────────────────────────────────────────────────────
+
+describe("isReadyToAdd", () => {
+  beforeEach(() => setMenu(menu));
+
+  it("returns false when no format is selected", () => {
+    selectedFormatId.value = null;
+    expect(isReadyToAdd.value).toBe(false);
+  });
+
+  it("returns false when menuData is null", () => {
+    menuData.value = null;
+    selectedFormatId.value = "fmt-cheesesteak-reg";
+    expect(isReadyToAdd.value).toBe(false);
+  });
+
+  describe("cheesesteak + bowl formats (require bread base AND protein)", () => {
+    it.each(["fmt-cheesesteak-mini", "fmt-cheesesteak-reg", "fmt-cheesesteak-lg", "fmt-bowl"])(
+      "%s: returns false with no selections",
+      (formatId) => {
+        setFormat(formatId);
+        expect(isReadyToAdd.value).toBe(false);
+      },
+    );
+
+    it("returns false when only bread base is selected (no protein)", () => {
+      setFormat("fmt-cheesesteak-reg");
+      toggleIngredientInCategory("ing-hoagie-roll"); // cat-cheesesteak-base
+      expect(isReadyToAdd.value).toBe(false);
+    });
+
+    it("returns false when only protein is selected (no bread base)", () => {
+      setFormat("fmt-cheesesteak-reg");
+      toggleIngredientInCategory("ing-steak"); // cat-protein
+      expect(isReadyToAdd.value).toBe(false);
+    });
+
+    it("returns true once both bread base and protein are selected", () => {
+      setFormat("fmt-cheesesteak-reg");
+      toggleIngredientInCategory("ing-hoagie-roll");
+      toggleIngredientInCategory("ing-steak");
+      expect(isReadyToAdd.value).toBe(true);
+    });
+
+    it("remains true after adding extra ingredients on top", () => {
+      setFormat("fmt-bowl");
+      toggleIngredientInCategory("ing-hoagie-roll");
+      toggleIngredientInCategory("ing-chicken");
+      toggleIngredientInCategory("ing-provolone");
+      toggleIngredientInCategory("ing-onions");
+      expect(isReadyToAdd.value).toBe(true);
+    });
+  });
+
+  describe("salad formats (require greens AND salad type)", () => {
+    it.each(["fmt-salad-half", "fmt-salad"])(
+      "%s: returns false with no selections",
+      (formatId) => {
+        setFormat(formatId);
+        expect(isReadyToAdd.value).toBe(false);
+      },
+    );
+
+    it("returns false when only greens are selected (no salad type)", () => {
+      setFormat("fmt-salad");
+      toggleIngredientInCategory("ing-salad-romaine"); // cat-salad-base
+      expect(isReadyToAdd.value).toBe(false);
+    });
+
+    it("returns false when only salad type is selected (no greens)", () => {
+      setFormat("fmt-salad");
+      toggleIngredientInCategory("ing-salad-steak"); // cat-salad-protein
+      expect(isReadyToAdd.value).toBe(false);
+    });
+
+    it("returns true once both greens and salad type are selected", () => {
+      setFormat("fmt-salad");
+      toggleIngredientInCategory("ing-salad-romaine");
+      toggleIngredientInCategory("ing-salad-chicken");
+      expect(isReadyToAdd.value).toBe(true);
+    });
+
+    it("half salad also gates correctly (greens + type required)", () => {
+      setFormat("fmt-salad-half");
+      toggleIngredientInCategory("ing-salad-kale");
+      toggleIngredientInCategory("ing-salad-steak");
+      expect(isReadyToAdd.value).toBe(true);
+    });
+  });
+
+  describe("sides / other formats (require at least one selection)", () => {
+    it("returns false for fmt-sides with no selections", () => {
+      setFormat("fmt-sides");
+      expect(isReadyToAdd.value).toBe(false);
+    });
+
+    it("returns true for fmt-sides after any single selection", () => {
+      setFormat("fmt-sides");
+      toggleIngredientInCategory("ing-sides-fries");
+      expect(isReadyToAdd.value).toBe(true);
+    });
+  });
+});
+
+// ── Meal management ────────────────────────────────────────────────────────
+
+describe("addToMeal", () => {
+  beforeEach(() => {
+    setMenu(menu);
+    setFormat("fmt-cheesesteak-reg");
+  });
+
+  it("appends a MealItem to the meal signal", () => {
+    toggleIngredientInCategory("ing-hoagie-roll");
+    toggleIngredientInCategory("ing-steak");
+    addToMeal();
+    expect(meal.value).toHaveLength(1);
+    expect(meal.value[0]?.formatId).toBe("fmt-cheesesteak-reg");
+  });
+
+  it("captures a snapshot of selections at add time (later changes don't mutate old items)", () => {
+    toggleIngredientInCategory("ing-steak");
+    addToMeal();
+    const firstItem = meal.value[0]!;
+    // Change selections — the first meal item should be unaffected.
+    clearSelections();
+    toggleIngredientInCategory("ing-chicken");
+    expect(firstItem.selections).toHaveProperty("ing-steak");
+    expect(firstItem.selections).not.toHaveProperty("ing-chicken");
+  });
+
+  it("captures a snapshot of nutrition totals at add time", () => {
+    toggleIngredientInCategory("ing-steak");
+    const snapshot = totals.value.calories;
+    addToMeal();
+    // Clear and change format — item nutrition is frozen.
+    clearSelections();
+    setFormat("fmt-bowl");
+    expect(meal.value[0]?.nutrition.calories).toBe(snapshot);
+  });
+
+  it("generates a unique id for each item added", () => {
+    addToMeal();
+    addToMeal();
+    const ids = meal.value.map(i => i.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("is a no-op when no format is selected", () => {
+    selectedFormatId.value = null;
+    addToMeal();
+    expect(meal.value).toHaveLength(0);
+  });
+});
+
+describe("removeFromMeal", () => {
+  beforeEach(() => {
+    setMenu(menu);
+    setFormat("fmt-cheesesteak-reg");
+    addToMeal(); // item 1
+    addToMeal(); // item 2
+  });
+
+  it("removes the item with the matching id", () => {
+    const idToRemove = meal.value[0]!.id;
+    removeFromMeal(idToRemove);
+    expect(meal.value).toHaveLength(1);
+    expect(meal.value.find(i => i.id === idToRemove)).toBeUndefined();
+  });
+
+  it("is a no-op for an unknown id (does not throw or clear other items)", () => {
+    removeFromMeal("meal-does-not-exist");
+    expect(meal.value).toHaveLength(2);
+  });
+});
+
+describe("clearMeal", () => {
+  beforeEach(() => {
+    setMenu(menu);
+    setFormat("fmt-cheesesteak-reg");
+    addToMeal();
+    addToMeal();
+  });
+
+  it("empties all meal items", () => {
+    clearMeal();
+    expect(meal.value).toHaveLength(0);
+  });
+
+  it("is a no-op when the meal is already empty", () => {
+    clearMeal();
+    expect(() => clearMeal()).not.toThrow();
+    expect(meal.value).toHaveLength(0);
+  });
+});
+
+describe("mealTotals computed", () => {
+  beforeEach(() => setMenu(menu));
+
+  it("returns zero totals when meal is empty", () => {
+    expect(mealTotals.value.calories).toBe(0);
+    expect(mealTotals.value.protein_g).toBe(0);
+  });
+
+  it("sums calories across all meal items", () => {
+    // Build item 1: cheesesteak-reg + steak
+    setFormat("fmt-cheesesteak-reg");
+    toggleIngredientInCategory("ing-steak");
+    const item1Cal = totals.value.calories;
+    addToMeal();
+
+    // Build item 2: bowl + chicken
+    clearSelections();
+    setFormat("fmt-bowl");
+    toggleIngredientInCategory("ing-chicken");
+    const item2Cal = totals.value.calories;
+    addToMeal();
+
+    expect(mealTotals.value.calories).toBeCloseTo(item1Cal + item2Cal, 5);
+  });
+
+  it("sums all macro fields (protein, carbs, fat, sodium) correctly", () => {
+    setFormat("fmt-cheesesteak-reg");
+    toggleIngredientInCategory("ing-steak");
+    addToMeal();
+    clearSelections();
+    toggleIngredientInCategory("ing-chicken");
+    addToMeal();
+
+    const [a, b] = meal.value as [typeof meal.value[0], typeof meal.value[0]];
+    expect(mealTotals.value.protein_g).toBeCloseTo(a.nutrition.protein_g + b.nutrition.protein_g, 5);
+    expect(mealTotals.value.fat_g).toBeCloseTo(a.nutrition.fat_g + b.nutrition.fat_g, 5);
+    expect(mealTotals.value.sodium_mg).toBeCloseTo(a.nutrition.sodium_mg + b.nutrition.sodium_mg, 5);
+  });
+
+  it("updates reactively when an item is removed", () => {
+    setFormat("fmt-cheesesteak-reg");
+    toggleIngredientInCategory("ing-steak");
+    addToMeal();
+    const calAfterOne = mealTotals.value.calories;
+    addToMeal(); // same build, adds again
+    expect(mealTotals.value.calories).toBeCloseTo(calAfterOne * 2, 5);
+    removeFromMeal(meal.value[0]!.id);
+    expect(mealTotals.value.calories).toBeCloseTo(calAfterOne, 5);
   });
 });
 

@@ -48,6 +48,10 @@ export const loadError = signal<Error | null>(null);
 export const meal = signal<MealItem[]>([]);
 export const mealSummaryOpen = signal<boolean>(false);
 
+// Monotonically increasing counter used to generate collision-free meal item
+// IDs — Date.now() alone collides when two items are added in the same ms.
+let _mealIdSeq = 0;
+
 // === Derived signals (computed) ============================================
 
 export const formats = computed<MealFormat[]>(() => menuData.value?.formats ?? []);
@@ -353,7 +357,7 @@ export function addToMeal(): void {
   const fmt = selectedFormat.value;
   if (!fmt) return;
   const item: MealItem = {
-    id: `meal-${Date.now()}`,
+    id: `meal-${Date.now()}-${++_mealIdSeq}`,
     formatId: fmt.id,
     formatName: fmt.name,
     selections: { ...selections.value },
