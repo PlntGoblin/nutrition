@@ -1,6 +1,6 @@
 {
   "_comment": "Forefathers Steaks menu data. Per-ingredient nutrition values for Steak, Chicken, Cheese Wiz, American, Provolone, Mozzarella, and Kale Slaw are computed from the client-provided spreadsheet (Forefathers.xlsx, Menu sheet, rows 33-78) — these are CONFIRMED. Other ingredients (veggies, sauces, bread base) are USDA FoodData Central estimates pending client confirmation; flagged in DECISIONS.md. Formats use sizeMultiplier (Mini 0.6×, Regular 1.0×, Large 1.5×; Whole Salad = Half Salad × 1.5) to scale ingredient portions. Yellow-highlighted ingredients in the xlsx (Fry Sauce, Spicy Blue Cheese, Ranch, Jalapeño Cilantro Ranch, Kale Slaw, Romaine/Spring Mix, Kale/Spring Mix, Corn Relish) are batch recipes documented in the Batch Recipes tab.",
-  "lastUpdated": "2026-05-06T02:30:00Z",
+  "lastUpdated": "2026-05-13T22:45:00Z",
   "formats": [
     {
       "id": "fmt-cheesesteak-mini",
@@ -2046,7 +2046,7 @@
       "dietTags": [],
       "isAvailable": true,
       "allowsExtra": false,
-      "sortOrder": 1,
+      "sortOrder": 4,
       "servingSize": "2 oz"
     },
     {
@@ -2067,7 +2067,7 @@
       "dietTags": [],
       "isAvailable": true,
       "allowsExtra": false,
-      "sortOrder": 2,
+      "sortOrder": 5,
       "servingSize": "2 oz"
     },
     {
@@ -2088,7 +2088,7 @@
       "dietTags": [],
       "isAvailable": true,
       "allowsExtra": false,
-      "sortOrder": 3,
+      "sortOrder": 6,
       "servingSize": "2 oz"
     },
     {
@@ -2109,19 +2109,19 @@
       "dietTags": [],
       "isAvailable": true,
       "allowsExtra": false,
-      "sortOrder": 4,
+      "sortOrder": 1,
       "servingSize": "2 oz"
     },
     {
       "id": "ing-sides-cheezewiz",
-      "name": "Add Cheese Wiz",
+      "name": "Cheese Wiz",
       "calories": 240,
       "protein_g": 6,
       "carbs_g": 8,
       "fat_g": 20,
       "sodium_mg": 620,
       "categoryId": "cat-sides-sauce",
-      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Add%20Cheese%20Wiz",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Cheese+Wiz",
       "description": "",
       "satFat_g": 0,
       "fiber_g": 0,
@@ -2132,7 +2132,63 @@
       "dietTags": [],
       "isAvailable": true,
       "allowsExtra": false,
-      "sortOrder": 5,
+      "sortOrder": 3,
+      "servingSize": "2 oz"
+    },
+    {
+      "id": "ing-sides-cilantroranch",
+      "name": "Jalapeño Cilantro Ranch",
+      "calories": 150,
+      "protein_g": 0,
+      "carbs_g": 3,
+      "fat_g": 15,
+      "satFat_g": 2,
+      "fiber_g": 0,
+      "sugar_g": 2,
+      "sodium_mg": 270,
+      "categoryId": "cat-sides-sauce",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Cilantro+Ranch",
+      "description": "Ranch with jalapeño + cilantro.",
+      "allergens": [
+        "dairy",
+        "eggs"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian"
+      ],
+      "isAvailable": true,
+      "allowsExtra": false,
+      "sortOrder": 2,
+      "servingSize": "2 oz"
+    },
+    {
+      "id": "ing-sides-bluecheese",
+      "name": "Spicy Blue Cheese",
+      "calories": 176,
+      "protein_g": 2,
+      "carbs_g": 2,
+      "fat_g": 18,
+      "satFat_g": 3,
+      "fiber_g": 0,
+      "sugar_g": 0,
+      "sodium_mg": 460,
+      "categoryId": "cat-sides-sauce",
+      "photoCDN": "https://placehold.co/400x400/e8e0d8/8b7355?text=Spicy+Blue+Cheese",
+      "description": "House blue cheese with buffalo kick.",
+      "allergens": [
+        "dairy",
+        "eggs"
+      ],
+      "dietTags": [
+        "glutenfree",
+        "vegetarian",
+        "keto",
+        "lowcarb"
+      ],
+      "isAvailable": true,
+      "allowsExtra": false,
+      "sortOrder": 7,
       "servingSize": "2 oz"
     }
   ],

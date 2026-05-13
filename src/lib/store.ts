@@ -73,6 +73,58 @@ export const selectionCount = computed<number>(
   () => Object.keys(selections.value).length,
 );
 
+/**
+ * Formats that require both a bread base AND a protein before "Add to Meal"
+ * is enabled.
+ */
+const FORMATS_REQUIRING_BASE_AND_PROTEIN = new Set([
+  "fmt-cheesesteak-mini",
+  "fmt-cheesesteak-reg",
+  "fmt-cheesesteak-lg",
+  "fmt-bowl",
+]);
+
+/**
+ * Salad formats require greens (cat-salad-base) AND a salad type
+ * (cat-salad-protein) before "Add to Meal" is enabled.
+ */
+const FORMATS_REQUIRING_GREENS_AND_SALAD_TYPE = new Set([
+  "fmt-salad-half",
+  "fmt-salad",
+]);
+
+export const isReadyToAdd = computed<boolean>(() => {
+  const fmtId = selectedFormatId.value;
+  if (!fmtId) return false;
+
+  const data = menuData.value;
+  if (!data) return false;
+  const sels = selections.value;
+
+  if (FORMATS_REQUIRING_BASE_AND_PROTEIN.has(fmtId)) {
+    const hasBase = Object.keys(sels).some(id =>
+      data.ingredients.find(i => i.id === id)?.categoryId === "cat-cheesesteak-base",
+    );
+    const hasProtein = Object.keys(sels).some(id =>
+      data.ingredients.find(i => i.id === id)?.categoryId === "cat-protein",
+    );
+    return hasBase && hasProtein;
+  }
+
+  if (FORMATS_REQUIRING_GREENS_AND_SALAD_TYPE.has(fmtId)) {
+    const hasGreens = Object.keys(sels).some(id =>
+      data.ingredients.find(i => i.id === id)?.categoryId === "cat-salad-base",
+    );
+    const hasSaladType = Object.keys(sels).some(id =>
+      data.ingredients.find(i => i.id === id)?.categoryId === "cat-salad-protein",
+    );
+    return hasGreens && hasSaladType;
+  }
+
+  // Sides, desserts, tenders, fries — show once at least one item is selected
+  return Object.keys(sels).length > 0;
+});
+
 export const mealTotals = computed<NutritionTotals>(() =>
   meal.value.reduce(
     (acc, item) => ({
@@ -173,6 +225,29 @@ export function toggleIngredientInCategory(ingredientId: string): boolean {
   if (isSelected) {
     deselectIngredient(ingredientId);
     return true;
+  }
+
+  // "No Cheese" exclusivity: selecting it clears all other cheeses; selecting
+  // any real cheese while "No Cheese" is active first removes "No Cheese".
+  const NO_CHEESE_ID = "ing-no-cheese";
+  if (ing.categoryId === "cat-cheese") {
+    if (ingredientId === NO_CHEESE_ID) {
+      // Wipe every other cheese selection, then set No Cheese
+      const next: Record<string, Selection> = {};
+      for (const [id, sel] of Object.entries(selections.value)) {
+        const otherIng = data.ingredients.find((i) => i.id === id);
+        if (otherIng?.categoryId !== "cat-cheese") next[id] = sel;
+      }
+      next[NO_CHEESE_ID] = { ingredientId: NO_CHEESE_ID, portionMultiplier: 1 };
+      selections.value = next;
+      return true;
+    } else if (NO_CHEESE_ID in selections.value) {
+      // Selecting a real cheese while No Cheese is active — drop No Cheese first
+      const next = { ...selections.value };
+      delete next[NO_CHEESE_ID];
+      selections.value = next;
+      // fall through to normal slot-cap / maxSelections logic below
+    }
   }
 
   if (category.selectionType === "single") {

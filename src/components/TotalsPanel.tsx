@@ -1,6 +1,6 @@
 import type { JSX } from "preact";
 import { useState } from "preact/hooks";
-import { selectionCount, totals } from "../lib/store";
+import { isReadyToAdd, selectionCount, totals } from "../lib/store";
 import { useAnimatedNumber } from "../lib/use-animated-number";
 import { MacroRing } from "./MacroRing";
 import { DailyValueBar } from "./DailyValueBar";
@@ -12,26 +12,40 @@ function fmt(n: number): string {
 interface TotalsPanelProps {
   variant?: "hero" | "full";
   animationDuration?: number;
+  onAddToBag?: () => void;
+  alwaysExpanded?: boolean;
 }
 
-export function TotalsPanel({ variant = "hero", animationDuration = 400 }: TotalsPanelProps): JSX.Element {
+function macroPct(kcal: number, total: number): string {
+  if (total <= 0) return "0%";
+  return Math.round((kcal / total) * 100) + "%";
+}
+
+export function TotalsPanel({ variant = "hero", animationDuration = 400, onAddToBag, alwaysExpanded = false }: TotalsPanelProps): JSX.Element {
   const t = totals.value;
   const count = selectionCount.value;
   const animatedCal = useAnimatedNumber(t.calories, animationDuration);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(alwaysExpanded);
 
   if (variant === "hero") {
+    const fatPct  = macroPct(t.fat_g * 9,     t.calories);
+    const proPct  = macroPct(t.protein_g * 4,  t.calories);
+    const carbPct = macroPct(t.carbs_g * 4,    t.calories);
+    const calFromFat = Math.round(t.fat_g * 9);
+
     return (
       <div class="nc-hero-totals" aria-label="Live nutrition totals">
-        <button
-          type="button"
-          class={`nc-hero-totals__expand-btn${expanded ? " is-open" : ""}`}
-          aria-expanded={expanded}
-          aria-label={expanded ? "Collapse nutrition details" : "Expand nutrition details"}
-          onClick={() => setExpanded(e => !e)}
-        >
-          {expanded ? "×" : "+"}
-        </button>
+        {!alwaysExpanded && (
+          <button
+            type="button"
+            class={`nc-hero-totals__expand-btn${expanded ? " is-open" : ""}`}
+            aria-expanded={expanded}
+            aria-label={expanded ? "Collapse nutrition details" : "Expand nutrition details"}
+            onClick={() => setExpanded(e => !e)}
+          >
+            {expanded ? "×" : "+"}
+          </button>
+        )}
         <div class="nc-hero-totals__row">
           <div class="nc-hero-totals__cal">
             <span
@@ -59,47 +73,77 @@ export function TotalsPanel({ variant = "hero", animationDuration = 400 }: Total
           </ul>
         </div>
 
+        {/* ADD TO BAG in collapsed state — gated by format-specific readiness */}
+        {!expanded && onAddToBag && isReadyToAdd.value && (
+          <button type="button" class="nc-bd-add-btn nc-bd-add-btn--collapsed" onClick={onAddToBag}>
+            Add to Meal
+          </button>
+        )}
+
         {expanded && (
-          <dl class="nc-hero-totals__breakdown">
-            <div class="nc-hero-bd__row">
-              <dt>Total Calories</dt>
-              <dd>{Math.round(t.calories)}</dd>
-            </div>
-            <div class="nc-hero-bd__row">
-              <dt><span class="nc-hero-bd__dot nc-hero-bd__dot--fat" />Total Fat</dt>
-              <dd class="nc-hero-bd__val--fat">{fmt(t.fat_g)}g</dd>
-            </div>
-            {t.satFat_g > 0 && (
-              <div class="nc-hero-bd__row nc-hero-bd__row--sub">
-                <dt>Saturated Fat</dt>
-                <dd>{fmt(t.satFat_g)}g</dd>
+          <div class="nc-hero-totals__breakdown">
+            <dl class="nc-bd-rows">
+              {/* Calories */}
+              <div class="nc-bd-row">
+                <dt><span class="nc-hero-bd__dot nc-bd-dot--cal" />Total Calories</dt>
+                <dd>{Math.round(t.calories)}<span class="nc-bd-unit">cal</span></dd>
               </div>
-            )}
-            <div class="nc-hero-bd__row">
-              <dt><span class="nc-hero-bd__dot nc-hero-bd__dot--pro" />Protein</dt>
-              <dd class="nc-hero-bd__val--pro">{fmt(t.protein_g)}g</dd>
-            </div>
-            <div class="nc-hero-bd__row">
-              <dt><span class="nc-hero-bd__dot nc-hero-bd__dot--carb" />Carbohydrates</dt>
-              <dd class="nc-hero-bd__val--carb">{fmt(t.carbs_g)}g</dd>
-            </div>
-            {t.fiber_g > 0 && (
-              <div class="nc-hero-bd__row nc-hero-bd__row--sub">
-                <dt>Dietary Fiber</dt>
-                <dd>{fmt(t.fiber_g)}g</dd>
+
+              {/* Fat */}
+              <div class="nc-bd-row">
+                <dt><span class="nc-hero-bd__dot nc-hero-bd__dot--fat" />Total Fat</dt>
+                <dd class="nc-hero-bd__val--fat">{fmt(t.fat_g)}g</dd>
               </div>
-            )}
-            {t.sugar_g > 0 && (
-              <div class="nc-hero-bd__row nc-hero-bd__row--sub">
-                <dt>Sugar</dt>
-                <dd>{fmt(t.sugar_g)}g</dd>
+              {calFromFat > 0 && (
+                <div class="nc-bd-row nc-bd-row--sub">
+                  <dt>Calories from Fat</dt>
+                  <dd>{calFromFat}<span class="nc-bd-unit">cal</span></dd>
+                </div>
+              )}
+              {t.satFat_g > 0 && (
+                <div class="nc-bd-row nc-bd-row--sub">
+                  <dt>Saturated Fat</dt>
+                  <dd>{fmt(t.satFat_g)}g</dd>
+                </div>
+              )}
+
+              {/* Protein */}
+              <div class="nc-bd-row">
+                <dt><span class="nc-hero-bd__dot nc-hero-bd__dot--pro" />Protein</dt>
+                <dd class="nc-hero-bd__val--pro">{fmt(t.protein_g)}g</dd>
               </div>
+
+              {/* Carbs */}
+              <div class="nc-bd-row">
+                <dt><span class="nc-hero-bd__dot nc-hero-bd__dot--carb" />Carbohydrates</dt>
+                <dd class="nc-hero-bd__val--carb">{fmt(t.carbs_g)}g</dd>
+              </div>
+              {t.fiber_g > 0 && (
+                <div class="nc-bd-row nc-bd-row--sub">
+                  <dt>Dietary Fiber</dt>
+                  <dd>{fmt(t.fiber_g)}g</dd>
+                </div>
+              )}
+              {t.sugar_g > 0 && (
+                <div class="nc-bd-row nc-bd-row--sub">
+                  <dt>Sugar</dt>
+                  <dd>{fmt(t.sugar_g)}g</dd>
+                </div>
+              )}
+
+              {/* Sodium */}
+              <div class="nc-bd-row">
+                <dt>Sodium</dt>
+                <dd>{Math.round(t.sodium_mg)}<span class="nc-bd-unit">mg</span></dd>
+              </div>
+            </dl>
+
+            {onAddToBag && isReadyToAdd.value && (
+              <button type="button" class="nc-bd-add-btn nc-bd-add-btn--expanded" onClick={onAddToBag}>
+                Add to Meal
+              </button>
             )}
-            <div class="nc-hero-bd__row">
-              <dt>Sodium</dt>
-              <dd>{Math.round(t.sodium_mg)}mg</dd>
-            </div>
-          </dl>
+          </div>
         )}
       </div>
     );

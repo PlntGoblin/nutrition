@@ -81,6 +81,7 @@
   min-height: 100%;
 }
 
+
 .nc-eyebrow {
   font-family: var(--font-body);
   text-transform: uppercase;
@@ -100,6 +101,7 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+
 [data-nc-root][data-theme="dark"] .nc-hero,
 [data-theme="dark"] [data-nc-root] .nc-hero {
   background: var(--color-surface);
@@ -112,14 +114,15 @@
   padding: 10px 24px;
   max-width: 1200px;
   margin: 0 auto;
-  align-items: center;
+  align-items: start;
 }
 
 @media (min-width: 720px) {
   .nc-hero__inner {
     grid-template-columns: 1fr 1px auto;
-    padding: 12px 40px;
+    padding: 20px 40px 6px;
     gap: 36px;
+    align-items: start;
   }
   .nc-hero__inner::before {
     content: "";
@@ -315,65 +318,182 @@
 
 /* Full breakdown panel */
 .nc-hero-totals__breakdown {
-  margin-top: 20px;
-  padding-top: 16px;
+  margin-top: 16px;
   border-top: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
-  gap: 0;
-  min-width: 280px;
+  min-width: 300px;
 }
 
-.nc-hero-bd__row {
+/* ── Breakdown header: big cal + macro % ── */
+.nc-bd-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 0 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+.nc-bd-header__cal {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.nc-bd-header__cal-num {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-family: var(--font-display, inherit);
+}
+.nc-bd-header__cal-unit {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+.nc-bd-header__pcts {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nc-bd-header__pcts li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.nc-bd-header__pct {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.nc-bd-header__pct--fat  { color: var(--color-brand); }
+.nc-bd-header__pct--pro  { color: #2A9D55; }
+.nc-bd-header__pct--carb { color: #C97A1A; }
+.nc-bd-header__pct-label {
+  font-size: 12px;
+  color: var(--color-muted);
+  font-weight: 500;
+}
+
+/* ── Breakdown rows ── */
+.nc-bd-rows {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+.nc-bd-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+  padding: 10px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
   font-size: 13px;
   color: var(--color-ink);
 }
-.nc-hero-bd__row dt {
+.nc-bd-row dt {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   font-size: 11px;
 }
-.nc-hero-bd__row dd {
+.nc-bd-row dd {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
   font-variant-numeric: tabular-nums;
 }
-.nc-hero-bd__row--sub {
-  padding-left: 20px;
+.nc-bd-unit {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-muted);
+  margin-left: 1px;
 }
-.nc-hero-bd__row--sub dt {
+.nc-bd-row--sub {
+  padding-left: 22px;
+}
+.nc-bd-row--sub dt {
   font-weight: 400;
   text-transform: none;
   letter-spacing: 0;
   font-size: 12px;
   color: var(--color-muted);
 }
-.nc-hero-bd__row--sub dd {
+.nc-bd-row--sub dd {
   font-weight: 400;
   font-size: 13px;
   color: var(--color-muted);
 }
+
+/* ── Dot indicators ── */
 .nc-hero-bd__dot {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   flex-shrink: 0;
 }
+.nc-bd-dot--cal        { background: var(--color-ink); }
 .nc-hero-bd__dot--fat  { background: var(--color-brand); }
 .nc-hero-bd__dot--pro  { background: #2A9D55; }
 .nc-hero-bd__dot--carb { background: #C97A1A; }
 .nc-hero-bd__val--fat  { color: var(--color-brand); }
 .nc-hero-bd__val--pro  { color: #2A9D55; }
 .nc-hero-bd__val--carb { color: #C97A1A; }
+
+/* ── Add to Bag button inside breakdown ── */
+.nc-bd-add-btn {
+  margin-top: 16px;
+  width: 100%;
+  background: var(--color-brand) !important;
+  color: #fff !important;
+  border-radius: 6px;
+  padding: 14px 24px !important;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center !important;
+  transition: opacity 150ms;
+  cursor: pointer;
+}
+.nc-bd-add-btn:hover { opacity: 0.85; }
+
+/* Expanded state: half-width, right-aligned */
+.nc-bd-add-btn--expanded {
+  width: 50%;
+  align-self: flex-end;
+}
+
+/* Collapsed ADD TO BAG: visible in the desktop rail, hidden on mobile */
+.nc-bd-add-btn--collapsed {
+  display: none;
+}
+@media (min-width: 720px) {
+  .nc-bd-add-btn--collapsed {
+    display: block;
+    width: auto;
+    align-self: flex-end;
+    margin-top: 16px;
+    padding: 6px 24px !important;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-align: center !important;
+    background: var(--color-brand) !important;
+    color: #fff !important;
+    border-radius: 6px !important;
+    opacity: 1;
+  }
+  .nc-bd-add-btn--collapsed:hover {
+    opacity: 0.85;
+  }
+}
 
 /* === Filter chips ========================================================= */
 
@@ -2136,12 +2256,73 @@
   }
 }
 
-/* Add to Meal strip — second row inside sticky hero, both mobile + desktop */
+/* Add to Meal strip — second row inside sticky hero */
 .nc-hero__mobile-cta {
   display: flex;
   padding: 0 40px 14px;
 }
 
+/* Add to Meal — compact pill in the header row (mobile only) */
+.nc-hero__inline-add {
+  display: none; /* hidden on desktop — TotalsPanel handles it there */
+}
+
+@media (max-width: 719px) {
+  .nc-hero__inline-add {
+    display: block;
+    background: var(--color-brand) !important;
+    color: #fff !important;
+    padding: 4px 7px !important;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-align: center !important;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    line-height: 1.3;
+  }
+
+  /* Tighten macros to share the row with the button */
+  .nc-hero-totals__macros {
+    gap: 6px;
+  }
+
+  .nc-hero-totals__macro-num {
+    font-size: 12px;
+  }
+
+  .nc-hero-totals__macro-label {
+    font-size: 9px;
+  }
+
+  .nc-hero-totals__cal-num {
+    font-size: 20px;
+    min-width: 2ch;
+  }
+
+  /* Hide the TotalsPanel add buttons on mobile — header button is the sole one */
+  .nc-bd-add-btn--collapsed,
+  .nc-bd-add-btn--expanded {
+    display: none !important;
+  }
+}
+
+/* MealTray anchored inside sticky header on mobile */
+@media (max-width: 719px) {
+  .nc-hero .nc-meal-tray {
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    border-radius: 0;
+    box-shadow: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* Filled pill — mobile only */
 .nc-hero__mobile-cta-btn {
   background: var(--color-brand);
   color: #fff;
@@ -2153,24 +2334,58 @@
   text-align: center;
   transition: opacity 150ms;
   white-space: nowrap;
+  display: none; /* shown only on mobile via override below */
 }
 
-.nc-hero__mobile-cta-btn:hover { opacity: 0.88; }
+/* Split pill — desktop only */
+.nc-hero__cta-pill {
+  display: none; /* shown only on desktop via override below */
+  align-items: center;
+  border: 2px solid var(--color-brand);
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 150ms;
+  padding: 0;
+}
+.nc-hero__cta-pill:hover {
+  background: color-mix(in srgb, var(--color-brand) 8%, transparent);
+}
+.nc-hero__cta-pill-label {
+  padding: 10px 22px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-brand);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
 
+/* Mobile: show filled pill, hide split pill */
 @media (max-width: 719px) {
   .nc-hero__mobile-cta {
     padding: 8px 16px 12px;
   }
-
   .nc-hero__mobile-cta-btn {
+    display: block;
     flex: 1;
-    font-size: 15px;
+  }
+  .nc-hero__cta-pill {
+    display: none !important;
   }
 }
 
-/* Bottom-of-page CTA hidden everywhere — button lives in the header now */
-.nc-add-meal-cta {
-  display: none;
+/* Desktop: hide filled pill, show split pill right-aligned */
+@media (min-width: 720px) {
+  .nc-hero__mobile-cta {
+    justify-content: flex-end;
+    padding: 0 40px 8px;
+  }
+  .nc-hero__mobile-cta-btn {
+    display: none !important;
+  }
+  .nc-hero__cta-pill {
+    display: flex;
+  }
 }
 
 /* === Add to Meal CTA ====================================================== */
@@ -2211,10 +2426,19 @@
   }
 }
 
+/* Bottom-of-page CTA hidden everywhere — button lives in the header now */
+.nc-add-meal-cta { display: none !important; }
+
 /* === Meal Summary Modal =================================================== */
 
 .nc-meal-modal {
   max-width: 560px;
+  background: var(--color-surface);
+}
+
+.nc-meal-modal .nc-modal__header,
+.nc-meal-modal .nc-modal__footer {
+  background: var(--color-surface);
 }
 
 .nc-meal-body {
@@ -2255,6 +2479,18 @@
   border-bottom: none;
 }
 
+.nc-meal-item {
+  cursor: pointer;
+  user-select: none;
+}
+.nc-meal-item:hover {
+  background: color-mix(in srgb, var(--color-ink) 5%, transparent);
+  border-radius: 8px;
+  margin-left: -12px;
+  margin-right: -12px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
 .nc-meal-item__head {
   display: flex;
   justify-content: space-between;
@@ -2263,11 +2499,24 @@
   margin-bottom: 4px;
 }
 
+.nc-meal-item__head-left {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.35;
+}
+
+.nc-meal-item__head-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .nc-meal-item__name {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 16px;
-  line-height: 1.2;
+  line-height: 1.35;
 }
 
 .nc-meal-item__remove {
@@ -2287,8 +2536,8 @@
 .nc-meal-item__ings {
   font-size: 12px;
   color: var(--color-muted);
-  margin-bottom: 8px;
-  line-height: 1.45;
+  line-height: 1.35;
+  /* inline — flows right after the bold name on the same line */
 }
 
 .nc-meal-item__macros {
@@ -2350,6 +2599,27 @@
   font-size: 14px;
 }
 
+/* Nutrition breakdown inside expanded meal item */
+.nc-meal-breakdown {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}
+.nc-meal-bd__row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  font-size: 12px;
+}
+.nc-meal-bd__row dt { font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: 11px; }
+.nc-meal-bd__row dd { font-weight: 600; font-variant-numeric: tabular-nums; }
+.nc-meal-bd__row--sub { padding-left: 16px; }
+.nc-meal-bd__row--sub dt { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--color-muted); }
+.nc-meal-bd__row--sub dd { font-weight: 400; color: var(--color-muted); }
+
 /* Footer buttons */
 .nc-meal-footer {
   display: flex;
@@ -2358,11 +2628,34 @@
   gap: 12px;
 }
 
-.nc-meal-footer__clear {
-  color: var(--color-muted);
-  font-size: 14px;
-  text-decoration: underline;
-  padding: 12px 0;
+.nc-meal-footer__start-over {
+  flex: 1;
+  background: #555555 !important;
+  color: #fff !important;
+  padding: 10px 14px !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center !important;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: opacity 150ms;
 }
+.nc-meal-footer__start-over:hover { opacity: 0.82; }
 
-.nc-meal-footer__clear:hover { color: var(--color-error); }
+.nc-meal-footer__add-another {
+  flex: 1;
+  background: var(--color-brand) !important;
+  color: #fff !important;
+  padding: 10px 14px !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center !important;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: opacity 150ms;
+}
+.nc-meal-footer__add-another:hover { opacity: 0.85; }

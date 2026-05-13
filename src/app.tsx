@@ -8,6 +8,7 @@ import {
   clearSelections,
   formats,
   isLoading,
+  isReadyToAdd,
   loadError,
   menuData,
   selectedFormatId,
@@ -48,7 +49,10 @@ export function App(_props: AppProps): JSX.Element {
 
   const closeBuilder = () => {
     setBuilderOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Use setTimeout so the scroll fires after Preact re-renders the landing
+    // view — otherwise the smooth animation races with the DOM swap and the
+    // browser ends up at the bottom of the new page.
+    setTimeout(() => window.scrollTo({ top: 0 }), 0);
   };
 
 
@@ -112,6 +116,8 @@ export function App(_props: AppProps): JSX.Element {
       .filter(cat => included.has(cat.id))
       .sort((a, b) => a.step - b.step);
 
+    const addToBag = () => { addToMeal(); clearSelections(); closeBuilder(); };
+
     return (
       <>
         <div class="nc-shell">
@@ -136,25 +142,19 @@ export function App(_props: AppProps): JSX.Element {
                   </a>
                 </div>
               </div>
+              {isReadyToAdd.value && (
+                <button type="button" class="nc-hero__inline-add" onClick={addToBag}>
+                  Add to Meal
+                </button>
+              )}
               <div class="nc-hero__rail">
-                <TotalsPanel variant="hero" />
+                <TotalsPanel
+                  variant="hero"
+                  onAddToBag={addToBag}
+                />
               </div>
             </div>
-
-            {/* Mobile-only Add to Meal strip — pinned in sticky header */}
-            <div class="nc-hero__mobile-cta">
-              <button
-                type="button"
-                class="nc-hero__mobile-cta-btn"
-                onClick={() => {
-                  addToMeal();
-                  clearSelections();
-                  closeBuilder();
-                }}
-              >
-                + Add to Meal
-              </button>
-            </div>
+            <MealTray />
           </header>
 
           <main class="nc-body">
@@ -192,31 +192,12 @@ export function App(_props: AppProps): JSX.Element {
               ))}
             </div>
 
-            {/* Add to Meal CTA */}
-            <div class="nc-add-meal-cta">
-              <button
-                type="button"
-                class="nc-add-meal-cta__btn"
-                onClick={() => {
-                  addToMeal();
-                  clearSelections();
-                  closeBuilder();
-                }}
-              >
-                + Add to Meal
-              </button>
-              <p class="nc-add-meal-cta__hint">
-                Keep building — add sides, desserts, and more to your meal.
-              </p>
-            </div>
-
             <div id="nc-disclaimer"><DisclaimerFooter /></div>
           </main>
 
           <BottomSheet />
           <NutritionPrefsModal isOpen={prefsOpen} onClose={() => setPrefsOpen(false)} />
         </div>
-        <MealTray />
         <MealSummary />
       </>
     );
@@ -250,6 +231,7 @@ export function App(_props: AppProps): JSX.Element {
               <TotalsPanel variant="hero" animationDuration={0} />
             </div>
           </div>
+          <MealTray />
         </header>
 
         <main class="nc-body">
@@ -269,7 +251,6 @@ export function App(_props: AppProps): JSX.Element {
           <div id="nc-disclaimer"><DisclaimerFooter /></div>
         </main>
       </div>
-      <MealTray />
       <MealSummary />
     </>
   );
