@@ -2136,36 +2136,41 @@
   }
 }
 
-/* Mobile Add to Meal strip — lives inside sticky hero, hidden on desktop */
+/* Add to Meal strip — second row inside sticky hero, both mobile + desktop */
 .nc-hero__mobile-cta {
-  display: none;
+  display: flex;
+  padding: 0 40px 14px;
 }
+
+.nc-hero__mobile-cta-btn {
+  background: var(--color-brand);
+  color: #fff;
+  border-radius: var(--radius-chip);
+  padding: 11px 36px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  text-align: center;
+  transition: opacity 150ms;
+  white-space: nowrap;
+}
+
+.nc-hero__mobile-cta-btn:hover { opacity: 0.88; }
 
 @media (max-width: 719px) {
   .nc-hero__mobile-cta {
-    display: flex;
     padding: 8px 16px 12px;
   }
 
   .nc-hero__mobile-cta-btn {
     flex: 1;
-    background: var(--color-brand);
-    color: #fff;
-    border-radius: var(--radius-chip);
-    padding: 11px 24px;
-    font-weight: 700;
     font-size: 15px;
-    letter-spacing: 0.02em;
-    text-align: center;
-    transition: opacity 150ms;
   }
+}
 
-  .nc-hero__mobile-cta-btn:hover { opacity: 0.88; }
-
-  /* Hide the bottom-of-page CTA on mobile — button is in the header now */
-  .nc-add-meal-cta {
-    display: none;
-  }
+/* Bottom-of-page CTA hidden everywhere — button lives in the header now */
+.nc-add-meal-cta {
+  display: none;
 }
 
 /* === Add to Meal CTA ====================================================== */
