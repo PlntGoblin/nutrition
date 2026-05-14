@@ -12,6 +12,9 @@ import { PortionStepper } from "./PortionStepper";
 interface Props {
   ingredient: Ingredient;
   blocked?: boolean;
+  /** Format-level size multiplier (Mini=0.6, Reg=1, Large=1.5, Half Salad=0.5, etc.).
+   *  Applied to displayed calories and macros so card values match the running total. */
+  sizeMul?: number;
 }
 
 const ALLERGEN_LABELS: Record<AllergenTag, string> = {
@@ -36,7 +39,7 @@ function explainFilterMismatch(ingredient: Ingredient): string {
   return "Doesn't match active filters";
 }
 
-export function IngredientCard({ ingredient, blocked = false }: Props): JSX.Element {
+export function IngredientCard({ ingredient, blocked = false, sizeMul = 1 }: Props): JSX.Element {
   const isSelected  = ingredient.id in selections.value;
   const isFiltered  = isIngredientFilteredOut(ingredient);
   const tooltip     = isFiltered ? explainFilterMismatch(ingredient) : undefined;
@@ -89,14 +92,15 @@ export function IngredientCard({ ingredient, blocked = false }: Props): JSX.Elem
         {isSelected && <PortionStepper ingredient={ingredient} />}
       </div>
 
-      {/* Shaded nutrition block */}
-      <div class="nc-row__nutrition" aria-label={`${ingredient.calories} calories`}>
+      {/* Shaded nutrition block — values scaled by the format's sizeMultiplier so
+          they match what the totals panel will actually add to the running count. */}
+      <div class="nc-row__nutrition" aria-label={`${Math.round(ingredient.calories * sizeMul)} calories`}>
         <span class="nc-row__cal">
-          {ingredient.calories}<span class="nc-row__cal-unit"> cal</span>
+          {Math.round(ingredient.calories * sizeMul)}<span class="nc-row__cal-unit"> cal</span>
         </span>
-        <span class="nc-row__fat"  aria-hidden="true">{Math.round(ingredient.fat_g)}g</span>
-        <span class="nc-row__pro"  aria-hidden="true">{Math.round(ingredient.protein_g)}g</span>
-        <span class="nc-row__carb" aria-hidden="true">{Math.round(ingredient.carbs_g)}g</span>
+        <span class="nc-row__fat"  aria-hidden="true">{Math.round(ingredient.fat_g * sizeMul)}g</span>
+        <span class="nc-row__pro"  aria-hidden="true">{Math.round(ingredient.protein_g * sizeMul)}g</span>
+        <span class="nc-row__carb" aria-hidden="true">{Math.round(ingredient.carbs_g * sizeMul)}g</span>
       </div>
     </button>
   );

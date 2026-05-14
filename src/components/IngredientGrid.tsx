@@ -3,6 +3,7 @@ import {
   categories,
   ingredients,
   selectedCountInCategory,
+  selectedFormat,
   selections,
 } from "../lib/store";
 import { IngredientCard } from "./IngredientCard";
@@ -19,6 +20,11 @@ export function IngredientGrid({ categoryId }: Props): JSX.Element {
     category?.selectionType === "multi" &&
     category.maxSelections != null &&
     selectedCountInCategory(categoryId) >= category.maxSelections;
+
+  // Apply the same size multiplier the totals panel uses so every card's
+  // displayed calories/macros match what actually lands in the running total.
+  // Falls back to 1 for formats with no multiplier (sides, desserts, etc.).
+  const sizeMul = selectedFormat.value?.sizeMultiplier ?? 1;
 
   return (
     <div class="nc-list" role="list">
@@ -37,7 +43,7 @@ export function IngredientGrid({ categoryId }: Props): JSX.Element {
 
       {items.map(ing => (
         <div role="listitem" key={ing.id}>
-          <IngredientCard ingredient={ing} blocked={atLimit} />
+          <IngredientCard ingredient={ing} blocked={atLimit} sizeMul={sizeMul} />
         </div>
       ))}
     </div>
