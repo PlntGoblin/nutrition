@@ -135,15 +135,19 @@ describe("calculateTotals", () => {
     expect(largeContribution).toBeCloseTo(regContribution * 1.5, 5);
   });
 
-  it("Whole salad scales ingredient nutrition to 1.5× the half salad", () => {
+  it("Whole salad (1.0×) shows full ingredient calories; half salad (0.6×) shows 60%", () => {
     const half = formats.find((f) => f.id === "fmt-salad-half")!;
     const whole = formats.find((f) => f.id === "fmt-salad")!;
-    expect(half.sizeMultiplier).toBe(0.5);
-    expect(whole.sizeMultiplier).toBe(0.75);
+    expect(half.sizeMultiplier).toBe(0.6);
+    expect(whole.sizeMultiplier).toBe(1.0);
     const halfTotals = calculateTotals(half, sel(chicken.id), ingredients);
     const wholeTotals = calculateTotals(whole, sel(chicken.id), ingredients);
     const halfContribution = halfTotals.calories - half.baseCalories;
     const wholeContribution = wholeTotals.calories - whole.baseCalories;
-    expect(wholeContribution).toBeCloseTo(halfContribution * 1.5, 5);
+    // Whole = 1.0× the ingredient; half = 0.6× → whole is 1/0.6 ≈ 1.667× the half
+    expect(wholeContribution).toBeCloseTo(halfContribution / 0.6, 5);
+    // Sanity: whole salad shows 100% of ingredient calories, half shows 60%
+    expect(wholeContribution).toBeCloseTo(chicken.calories * 1.0, 5);
+    expect(halfContribution).toBeCloseTo(chicken.calories * 0.6, 5);
   });
 });
