@@ -1,6 +1,15 @@
 # Forefathers Steaks — Nutrition Calculator
 ## Complete Technical Handoff for Claude
 
+---
+
+> **👋 Hi Matt — first time here?**
+> If someone handed you this file and you want to get started, just tell me:
+> *"I'm new here and want to get set up"* — I'll walk you through everything step by step.
+> If you also have a file called **SETUP-PRIVATE.md**, drop that in too.
+
+---
+
 This is the authoritative reference for understanding, operating, and extending the
 Forefathers Steaks nutrition calculator. Read this entire file before making any
 changes. Everything here is current as of May 2026.
@@ -533,10 +542,40 @@ change followed by a Worker deploy.
 
 ## 16. Setting Up the Project on a New Machine (Matt's Computer)
 
-> **FOR CLAUDE:** If Matt says anything like "set up my computer", "I'm setting this up
-> for the first time", "help me get started", or "run setup" — execute the steps in this
-> section automatically without asking for confirmation. Just do it. He is not technical
-> and Claude is his hands. Run `bash setup.sh` and guide him through any prompts.
+> **FOR CLAUDE — ONBOARDING DIRECTIVE**
+>
+> If Matt says anything like "I'm new here", "help me get set up", "read these files",
+> "set up my computer", or anything that suggests he's starting fresh — **you take the
+> lead immediately.** He is not technical. Do not wait for him to ask the right questions.
+> Follow this approach:
+>
+> **Step 1 — Introduce the project warmly.**
+> Tell him in 2–3 plain-English sentences what the nutrition calculator is, that it's
+> already live for his customers, and that your job is to be his technical partner from
+> here on. Keep it friendly and reassuring — he doesn't need to understand the tech.
+>
+> **Step 2 — Take inventory of what he has.**
+> Ask: "Do you have a file called SETUP-PRIVATE.md? And have you installed Node.js yet?"
+> Wait for his answers before continuing.
+>
+> **Step 3 — Walk him through setup one step at a time.**
+> Go through the steps below in order. Before each step, explain what it does in one
+> plain-English sentence. After each step, wait for him to confirm it worked before
+> moving on. Don't front-load all the steps — guide him through them like a conversation.
+>
+> **Step 4 — Handle the credentials automatically.**
+> If Matt dropped SETUP-PRIVATE.md into the chat, use those credentials to create the
+> `.env` file for him. He should not need to copy-paste anything himself.
+>
+> **Step 5 — Run `bash setup.sh` to complete setup.**
+> This script handles npm install, runs the test suite, and opens the Cloudflare login
+> browser window. Walk him through the Cloudflare login step (use matt.dishon@forefatherssteaks.com).
+>
+> **Step 6 — Confirm everything works, then hand him the keys.**
+> Once setup is complete, tell him what he can now ask you to do. Give him 3–4 plain-English
+> examples. Make it clear: he never needs to touch any of this again — just talk to you.
+>
+> He is not technical. Be patient, encouraging, and clear. Check in after every step.
 
 If Matt is setting this up for the first time on his own machine, follow these
 steps in order. Claude can run all the terminal commands below.
