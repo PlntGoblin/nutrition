@@ -7,6 +7,24 @@ changes. Everything here is current as of May 2026.
 
 ---
 
+## 0. Who This Project Belongs To
+
+**Owner:** Matt Dishon — matt.dishon@forefatherssteaks.com
+**Built by:** Dan Argaez (original developer, handed off May 2026)
+**Repository:** https://github.com/PlntGoblin/nutrition
+
+Matt has full admin access to every system this project uses:
+- **Airtable** — all menu data lives here (invite sent to matt.dishon@forefatherssteaks.com)
+- **Cloudinary** — photo CDN, admin access granted May 2026
+- **Cloudflare** — hosts the Worker (API) and Pages (widget)
+- **GitHub** — source code repository
+
+If you are Claude helping Matt: you are the primary technical resource for this
+project going forward. This file tells you everything you need. Start here every
+session.
+
+---
+
 ## 1. What This Project Is
 
 An embeddable web widget that lets Forefathers Steaks customers build their meal
@@ -59,14 +77,22 @@ CLOUDINARY_API_SECRET=<secret>
 ```
 
 The actual values are in the `.env` file at the project root (not committed to git).
-If you need them, ask the project owner — they have the original `.env` on their machine.
 
 Worker secrets are also stored in Cloudflare — they were set via `wrangler secret put`.
 If the `.env` is ever lost, the Worker still runs because Cloudflare holds its own copy.
 
-The Cloudflare account login is the owner's email. The Wrangler CLI is
-already authenticated on the development machine; just run wrangler commands from
-the project root.
+### Service Logins (all under Matt's ownership)
+
+| Service | How to log in | What it's for |
+|---|---|---|
+| **Airtable** | airtable.com → matt.dishon@forefatherssteaks.com | All menu data |
+| **Cloudinary** | console.cloudinary.com → matt.dishon@forefatherssteaks.com | Ingredient photos CDN (admin access granted May 2026) |
+| **Cloudflare** | dash.cloudflare.com | Hosts the Worker (API) and Pages (widget) |
+| **GitHub** | github.com/PlntGoblin/nutrition | Source code |
+
+**Cloudinary media library direct link:**
+`https://console.cloudinary.com/app/c-5bfeddf601a5bce26697a72d5a38e4/assets/media_library`
+All ingredient photos are stored here under the account Matt now has admin access to.
 
 ---
 
@@ -215,10 +241,11 @@ next request to the Worker fetches fresh from Airtable.
 ### Add a new sauce or topping to an existing category
 → Add a row in Airtable Ingredients with the correct `CategoryId` and `SortOrder`.
 
-### Add a photo for an ingredient
-→ Upload to the `Photo` attachment field in Airtable. It syncs overnight via cron.
-For immediate effect, add a hardcoded entry in the `PHOTO_OVERRIDES` map in
-`worker/src/index.ts`, then deploy the worker (see Section 8).
+### Add or update a photo for an ingredient
+See **Section 18** for the full photo guide. Short version:
+- **Easiest / next-day:** Upload to the `Photo` field in Airtable → syncs overnight
+- **Immediate:** Upload to Cloudinary directly, copy the URL, paste into `PhotoCDN`
+  field in Airtable, bust KV cache
 
 ### Add a new meal format (e.g. Wraps)
 This requires code changes. Steps:
@@ -541,3 +568,102 @@ Table IDs for the PATCH URL:
 - Ingredients: `tblG6VyMQAPuJx98c`
 - Portions: `tbl3aHmdsRy6kd3Zm`
 - Presets: `tblbwezA0NUlhpp9J`
+
+---
+
+## 18. Photo Management — Complete Guide for Matt
+
+Matt has **admin access** to the Cloudinary account at:
+`https://console.cloudinary.com/app/c-5bfeddf601a5bce26697a72d5a38e4/assets/media_library`
+
+Log in with **matt.dishon@forefatherssteaks.com**.
+
+All ingredient photos displayed in the nutrition calculator live in this Cloudinary
+media library. The calculator reads photo URLs from the `PhotoCDN` field in Airtable.
+
+---
+
+### Method A — Overnight (Easiest, No Technical Steps)
+
+This is the recommended method for adding new photos or swapping existing ones.
+
+1. Go to **airtable.com** → open the **Forefathers** base → **Ingredients** table
+2. Find the ingredient you want to add a photo for (search by name)
+3. Click into that ingredient's row to open it
+4. Find the **Photo** field (attachment field — looks like a paperclip)
+5. Click it and upload your image file (JPG or PNG, square crop, at least 400×400px)
+6. That's it — the system does the rest automatically overnight
+
+**What happens behind the scenes:** Every night at 3am, the Cloudflare Worker runs a
+job that scans every ingredient's `Photo` attachment in Airtable, uploads the image to
+Cloudinary, and writes the resulting `PhotoCDN` URL back to Airtable. The next time
+the calculator loads after that, it shows the new photo.
+
+---
+
+### Method B — Immediate (Same Day, A Few More Steps)
+
+Use this when you need the photo live right now, not tomorrow.
+
+**Step 1 — Upload to Cloudinary**
+1. Go to `https://console.cloudinary.com/app/c-5bfeddf601a5bce26697a72d5a38e4/assets/media_library`
+2. Log in as matt.dishon@forefatherssteaks.com
+3. Click **Upload** (top right)
+4. Upload your photo (JPG or PNG, square, at least 400×400px)
+5. Once uploaded, click on the photo to open it
+6. Find the **URL** or **Copy URL** option — copy the full `https://res.cloudinary.com/...` URL
+
+**Step 2 — Paste the URL into Airtable**
+1. Go to **airtable.com** → **Ingredients** table
+2. Find the ingredient
+3. Click into the **PhotoCDN** field (this is the one the website reads directly)
+4. Paste the Cloudinary URL you copied
+5. Click out — Airtable saves automatically
+
+**Step 3 — Clear the cache so the website picks it up**
+
+Ask Claude to run:
+```bash
+npx wrangler kv key delete --binding=MENU_CACHE --remote menu-v1
+```
+Or if you're comfortable with a terminal, run that command from the project folder.
+
+**Step 4 — Reload the calculator**
+Wait about 10 seconds, then open the calculator. The new photo should appear.
+
+---
+
+### Photo Tips
+
+**Best photo format:**
+- Square crop (1:1 ratio) — the calculator displays photos in a circle
+- At least 400×400px — larger is fine, Cloudinary handles resizing
+- JPG or PNG — either works
+- Clean background or food-focused — the photo shows at about 48×48px on screen,
+  so simple and clear reads better than busy backgrounds
+
+**Naming doesn't matter** — Cloudinary assigns its own URL regardless of filename.
+
+**What if the photo isn't showing after the cache clear?**
+Check the `PhotoCDN` field in Airtable for that ingredient — make sure it has a
+URL that starts with `https://res.cloudinary.com/`. If it's blank, the photo upload
+didn't complete. Re-do Method B Step 1–2.
+
+**What if you want to remove a photo?**
+Clear the `PhotoCDN` field in Airtable. The ingredient card will show a colored
+initial circle (first letter of the ingredient name) instead. Bust the cache.
+
+---
+
+### Current Photo Status
+
+Some ingredients use placeholder initials (no real photo yet). To see which ones,
+look in the Airtable **Ingredients** table for rows where `PhotoCDN` is blank or
+doesn't contain `res.cloudinary.com`. Those are the candidates for new photos.
+
+Priority items to photograph (as of handoff):
+- Salad toppings (corn relish, mozzarella jalapeño, tortilla strips)
+- All dressings (ranch, buffalo, BBQ, blue cheese, cilantro ranch)
+- Sauces on Side (fry sauce, jalapeño cilantro ranch, cheese whiz, spicy blue cheese,
+  buffalo, ranch, ketchup)
+- Desserts (once menu items are confirmed)
