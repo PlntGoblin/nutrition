@@ -87,7 +87,7 @@ If the `.env` is ever lost, the Worker still runs because Cloudflare holds its o
 |---|---|---|
 | **Airtable** | airtable.com → matt.dishon@forefatherssteaks.com | All menu data |
 | **Cloudinary** | console.cloudinary.com → matt.dishon@forefatherssteaks.com | Ingredient photos CDN (admin access granted May 2026) |
-| **Cloudflare** | dash.cloudflare.com | Hosts the Worker (API) and Pages (widget) |
+| **Cloudflare** | dash.cloudflare.com → accept invite email → matt.dishon@forefatherssteaks.com | Hosts the Worker (API) and Pages (widget) — **Super Administrator** access granted May 2026 |
 | **GitHub** | github.com/PlntGoblin/nutrition | Source code |
 
 **Cloudinary media library direct link:**
@@ -242,7 +242,7 @@ next request to the Worker fetches fresh from Airtable.
 → Add a row in Airtable Ingredients with the correct `CategoryId` and `SortOrder`.
 
 ### Add or update a photo for an ingredient
-See **Section 18** for the full photo guide. Short version:
+See **Section 19** for the full photo guide. Short version:
 - **Easiest / next-day:** Upload to the `Photo` field in Airtable → syncs overnight
 - **Immediate:** Upload to Cloudinary directly, copy the URL, paste into `PhotoCDN`
   field in Airtable, bust KV cache
@@ -457,7 +457,82 @@ slot-cap logic. The slot cap is 4 total portion-slots, not 4 distinct cheeses.
 
 ---
 
-## 15. If Something Is Broken
+## 15. Cloudflare Access — What Matt Can Do
+
+Matt received an invite email from Cloudflare in May 2026 and has been granted
+**Super Administrator** access to Dan.argaez@gmail.com's Cloudflare account.
+This is the highest access level — Matt can do everything in the account.
+
+**To log in:** Accept the invite email → go to dash.cloudflare.com →
+sign in with matt.dishon@forefatherssteaks.com.
+
+### What Matt can do directly in the Cloudflare dashboard (no code needed)
+
+| Task | Where in dashboard |
+|---|---|
+| View the live nutrition calculator URL | Pages → forefathers-nutrition |
+| See all deployments and deployment history | Pages → forefathers-nutrition → Deployments |
+| View Worker logs (for debugging API issues) | Workers & Pages → forefathers-nutrition-api → Logs |
+| Delete the KV cache manually | Workers & Pages → KV → MENU_CACHE → View → delete `menu-v1` |
+| Check Worker analytics (requests, errors) | Workers & Pages → forefathers-nutrition-api → Metrics |
+| Set a custom domain for the calculator | Pages → forefathers-nutrition → Custom domains |
+| Manage billing | Billing (left sidebar) |
+
+### Connecting Wrangler CLI to Matt's machine
+
+The Wrangler CLI is the terminal tool Claude uses to deploy the Worker and widget,
+and to bust the KV cache from the command line. It needs to be authenticated once
+on Matt's computer before Claude can use it.
+
+**One-time setup — run this once:**
+```bash
+npx wrangler login
+```
+This opens a browser window → log in with matt.dishon@forefatherssteaks.com →
+authorize Wrangler → done. From that point on, all `wrangler` commands run as Matt.
+
+**Once authenticated, Claude can run any of these on Matt's machine:**
+```bash
+# Deploy the widget (after code changes)
+npx wrangler pages deploy dist --project-name forefathers-nutrition
+
+# Deploy the Worker (after Worker code changes)
+cd worker && npx wrangler deploy
+
+# Bust the KV cache (force Airtable refresh immediately)
+npx wrangler kv key delete --binding=MENU_CACHE --remote menu-v1
+
+# Check what's in the KV cache
+npx wrangler kv key get --binding=MENU_CACHE --remote menu-v1
+
+# View live Worker logs
+npx wrangler tail forefathers-nutrition-api
+```
+
+### How to set a custom domain for the calculator
+
+Currently the calculator lives at `forefathers-nutrition.pages.dev`. To put it
+on a proper domain like `nutrition.forefatherssteaks.com`:
+
+1. Go to **dash.cloudflare.com**
+2. Click **Workers & Pages** → **forefathers-nutrition**
+3. Click the **Custom domains** tab
+4. Click **Set up a custom domain**
+5. Enter the subdomain (e.g. `nutrition.forefatherssteaks.com`)
+6. Cloudflare will ask you to add a DNS record — if `forefatherssteaks.com` is
+   already on Cloudflare, it adds it automatically. If it's with another registrar,
+   you'll need to add a CNAME record pointing to `forefathers-nutrition.pages.dev`
+7. SSL/HTTPS is handled automatically by Cloudflare — no extra setup needed
+
+**Important after setting a custom domain:** The Worker has a CORS allowlist that
+controls which websites can call the nutrition API. The new domain needs to be added
+to the allowlist in `worker/src/index.ts`. Ask Claude to do this — it's a one-line
+change followed by a Worker deploy.
+
+---
+
+## 16. If Something Is Broken
+
 
 ### Widget shows loading spinner forever
 → The Worker may be down or returning an error. Check:
@@ -490,7 +565,7 @@ base + protein. For salad: need greens + protein. For sides: need any selection.
 
 ---
 
-## 16. Key IDs Reference
+## 17. Key IDs Reference
 
 ### Format IDs
 | ID | Meal |
@@ -536,7 +611,7 @@ base + protein. For salad: need greens + protein. For sides: need any selection.
 
 ---
 
-## 17. Airtable Direct API (for urgent updates without the UI)
+## 18. Airtable Direct API (for urgent updates without the UI)
 
 If you need to update a value programmatically (e.g. the owner calls and needs an
 ingredient changed immediately and Airtable is being slow), you can PATCH directly:
@@ -571,7 +646,7 @@ Table IDs for the PATCH URL:
 
 ---
 
-## 18. Photo Management — Complete Guide for Matt
+## 19. Photo Management — Complete Guide for Matt
 
 Matt has **admin access** to the Cloudinary account at:
 `https://console.cloudinary.com/app/c-5bfeddf601a5bce26697a72d5a38e4/assets/media_library`
