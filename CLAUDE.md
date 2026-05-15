@@ -533,6 +533,11 @@ change followed by a Worker deploy.
 
 ## 16. Setting Up the Project on a New Machine (Matt's Computer)
 
+> **FOR CLAUDE:** If Matt says anything like "set up my computer", "I'm setting this up
+> for the first time", "help me get started", or "run setup" — execute the steps in this
+> section automatically without asking for confirmation. Just do it. He is not technical
+> and Claude is his hands. Run `bash setup.sh` and guide him through any prompts.
+
 If Matt is setting this up for the first time on his own machine, follow these
 steps in order. Claude can run all the terminal commands below.
 
