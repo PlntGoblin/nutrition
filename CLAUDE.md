@@ -242,7 +242,7 @@ next request to the Worker fetches fresh from Airtable.
 → Add a row in Airtable Ingredients with the correct `CategoryId` and `SortOrder`.
 
 ### Add or update a photo for an ingredient
-See **Section 19** for the full photo guide. Short version:
+See **Section 20** for the full photo guide. Short version:
 - **Easiest / next-day:** Upload to the `Photo` field in Airtable → syncs overnight
 - **Immediate:** Upload to Cloudinary directly, copy the URL, paste into `PhotoCDN`
   field in Airtable, bust KV cache
@@ -531,7 +531,71 @@ change followed by a Worker deploy.
 
 ---
 
-## 16. If Something Is Broken
+## 16. Setting Up the Project on a New Machine (Matt's Computer)
+
+If Matt is setting this up for the first time on his own machine, follow these
+steps in order. Claude can run all the terminal commands below.
+
+### Step 1 — Get the code
+```bash
+git clone https://github.com/PlntGoblin/nutrition.git
+cd nutrition
+```
+
+### Step 2 — Install dependencies
+```bash
+npm install
+```
+
+### Step 3 — Create the .env file
+Create a file called `.env` in the project root and paste in the credentials.
+Dan has sent the filled-out `.env` contents to Matt directly via a secure channel.
+It should look like this structure (values provided by Dan):
+
+```
+AIRTABLE_TOKEN=...
+AIRTABLE_BASE_ID=appdjvKFDbVf0hnp0
+AIRTABLE_TABLE_FORMATS=tblKCF0wa38b12apB
+AIRTABLE_TABLE_CATEGORIES=tblw764rCIRjuJ582
+AIRTABLE_TABLE_INGREDIENTS=tblG6VyMQAPuJx98c
+AIRTABLE_TABLE_PORTIONS=tbl3aHmdsRy6kd3Zm
+AIRTABLE_TABLE_PRESETS=tblbwezA0NUlhpp9J
+CLOUDINARY_CLOUD_NAME=dtvcknkm6
+CLOUDINARY_API_KEY=225698465717121
+CLOUDINARY_API_SECRET=...
+```
+
+### Step 4 — Connect Cloudflare (one-time only)
+```bash
+npx wrangler login
+```
+This opens a browser. Log in with **matt.dishon@forefatherssteaks.com**
+(use the Cloudflare invite email to set up the account first if not done yet).
+Once authorized, close the browser — Wrangler saves the credentials locally.
+
+### Step 5 — Verify everything works
+```bash
+npm test
+```
+All 106 tests should pass. If they do, the setup is complete.
+
+### Step 6 — Optional: run the calculator locally
+```bash
+npm run dev
+```
+Opens a local preview at `http://localhost:5173` so Matt can test changes
+before deploying.
+
+### That's it — Claude can now:
+- Run `npm run build` to build the widget
+- Run `npx wrangler pages deploy dist --project-name forefathers-nutrition` to deploy
+- Run `npx wrangler kv key delete --binding=MENU_CACHE --remote menu-v1` to bust the cache
+- Run `cd worker && npx wrangler deploy` to deploy Worker changes
+- Run `npm test` to verify nothing is broken
+
+---
+
+## 17. If Something Is Broken
 
 
 ### Widget shows loading spinner forever
@@ -565,7 +629,7 @@ base + protein. For salad: need greens + protein. For sides: need any selection.
 
 ---
 
-## 17. Key IDs Reference
+## 18. Key IDs Reference
 
 ### Format IDs
 | ID | Meal |
@@ -611,7 +675,7 @@ base + protein. For salad: need greens + protein. For sides: need any selection.
 
 ---
 
-## 18. Airtable Direct API (for urgent updates without the UI)
+## 19. Airtable Direct API (for urgent updates without the UI)
 
 If you need to update a value programmatically (e.g. the owner calls and needs an
 ingredient changed immediately and Airtable is being slow), you can PATCH directly:
@@ -646,7 +710,7 @@ Table IDs for the PATCH URL:
 
 ---
 
-## 19. Photo Management — Complete Guide for Matt
+## 20. Photo Management — Complete Guide for Matt
 
 Matt has **admin access** to the Cloudinary account at:
 `https://console.cloudinary.com/app/c-5bfeddf601a5bce26697a72d5a38e4/assets/media_library`
